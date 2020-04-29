@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<RunSettings>
+  <!-- Configurations that affect the Test Framework -->
+  <RunConfiguration>
+    <!-- Path relative to solution directory -->
+    <ResultsDirectory>.\TestResults</ResultsDirectory>
+    <!-- [x86] | x64    - You can also change it from menu Test, Test Settings, Default Processor Architecture -->
+    <TargetPlatform>ARM</TargetPlatform>
+    <!-- Framework35 | [Framework40] | Framework45 -->
+    <TargetFrameworkVersion>Framework45</TargetFrameworkVersion>
+  </RunConfiguration>
+
+  <TestRunParameters>
+    <Parameter name="LogLevel" value="Debug" />
+    <Parameter name="LogName" value="WebTest" />
+    <Parameter name="BaseUrl" value="https://www.google.com" />
+    <Parameter name="DriverServerLocation" value="/usr/bin" />
+    <Parameter name="Timeout" value="10" />
+    <Parameter name="OutputFileDirectory" value="\TestResults\" />
+    <Parameter name="OutputFileScreenshotsDirectory" value="\TestResults\ScreenshotsDirectory\" />
+    <Parameter name="LoginWaitTime" value="1" />
+    <Parameter name="NavigateToBasePage" value="false" />
+    <Parameter name="ForceKillProcess" value="true" />
+    <Parameter name="Headless" value="false" />
+    <Parameter name="BrowserType" value="firefox" />
+    <Parameter name="BrowserProfile" value="default" />
+    <Parameter name="EnableDetailedLogging" value="false" />
+  </TestRunParameters>
+  <!-- MSTest adapter -->
+  <MSTest>
+    <MapInconclusiveToFailed>True</MapInconclusiveToFailed>
+    <CaptureTraceOutput>false</CaptureTraceOutput>
+    <DeleteDeploymentDirectoryAfterTestRunIsComplete>False</DeleteDeploymentDirectoryAfterTestRunIsComplete>
+    <DeploymentEnabled>False</DeploymentEnabled>
+  </MSTest>
+</RunSettings>
