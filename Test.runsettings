@@ -6,9 +6,9 @@
     <!-- Path relative to solution directory -->
     <ResultsDirectory>.\TestResults</ResultsDirectory>
     <!-- [x86] | x64    - You can also change it from menu Test, Test Settings, Default Processor Architecture -->
-    <TargetPlatform>ARM</TargetPlatform>
+    <!--<TargetPlatform>ARM</TargetPlatform>-->
     <!-- Framework35 | [Framework40] | Framework45 -->
-    <TargetFrameworkVersion>Framework45</TargetFrameworkVersion>
+    <!--<TargetFrameworkVersion>Framework45</TargetFrameworkVersion>-->
   </RunConfiguration>
 
   <TestRunParameters>
@@ -23,9 +23,11 @@
     <Parameter name="NavigateToBasePage" value="false" />
     <Parameter name="ForceKillProcess" value="true" />
     <Parameter name="Headless" value="false" />
-    <Parameter name="BrowserType" value="firefox" />
+    <Parameter name="BrowserType" value="chrome" />
     <Parameter name="BrowserProfile" value="default" />
     <Parameter name="EnableDetailedLogging" value="false" />
+    <Parameter name="UseSeleniumGrid" value="true" />
+    <Parameter name="SeleniumGridUrl" value="http://20.193.47.4:4444/wd/hub" />
   </TestRunParameters>
   <!-- MSTest adapter -->
   <MSTest>

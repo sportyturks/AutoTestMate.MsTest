@@ -33,7 +33,9 @@
         public const string BrowserOsWindows = "Windows";
         public const string BrowserOsLinux = "Linux";
 
-		public const string UseSeleniumGrid = "UseSeleniumGrid";
+		public const string UseSeleniumGridKey = "UseSeleniumGrid";
+		public const string SeleniumGridUrlKey = "SeleniumGridUrl";
+		public const string DefaultSeleniumUrl = "http://localhost:4444/wd/hub";
 
 		#endregion
 	}
