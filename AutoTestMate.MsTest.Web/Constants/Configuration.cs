@@ -33,6 +33,8 @@
         public const string BrowserOsWindows = "Windows";
         public const string BrowserOsLinux = "Linux";
 
+		public const string UseSeleniumGrid = "UseSeleniumGrid";
+
 		#endregion
 	}
 }
