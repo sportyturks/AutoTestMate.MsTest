@@ -88,16 +88,25 @@ namespace AutoTestMate.MsTest.Web.Core
             {
                 Container.Register(Component.For<IProcess>().ImplementedBy<WinOsProcess>().LifestyleSingleton());
             }
+
+			if (string.Equals(ConfigurationReader.GetConfigurationValue(Configuration.UseSeleniumGridKey).ToLower(), Infrastructure.Constants.Generic.TrueValue))
+			{
+				Container.Register(Component.For<IFactory<IDriverCleanup>>().ImplementedBy<SeleniumGridDriverCleanupFactory>().LifestyleSingleton())
+					.Register(Component.For<IFactory<DriverOptions>>().ImplementedBy<BrowserOptionsFactory>().LifestyleSingleton())
+					.Register(Component.For<IFactory<IWebDriver>>().ImplementedBy<SeleniumGridDriverFactory>().LifestyleSingleton());
+			}
+			else
+			{
+				Container.Register(Component.For<IFactory<IDriverCleanup>>().ImplementedBy<BrowserCleanupFactory>().LifestyleSingleton())
+					.Register(Component.For<IFactory<DriverOptions>>().ImplementedBy<BrowserOptionsFactory>().LifestyleSingleton())
+					.Register(Component.For<IFactory<IWebDriver>>().ImplementedBy<BrowserFactory>().LifestyleSingleton());
+			}
 		}
 
-        public override void InitialiseIoc()
+		public override void InitialiseIoc()
 		{
 			base.InitialiseIoc();
-            
-			Container.Register(Component.For<IFactory<IDriverCleanup>>().ImplementedBy<BrowserCleanupFactory>().LifestyleSingleton())
-                .Register(Component.For<IFactory<DriverOptions>>().ImplementedBy<BrowserOptionsFactory>().LifestyleSingleton())
-				.Register(Component.For<IFactory<IWebDriver>>().ImplementedBy<BrowserFactory>().LifestyleSingleton());
-        }
+		}
 
         public override void OnTestMethodInitialise(TestContext testContext = null)
 		{
@@ -106,7 +115,7 @@ namespace AutoTestMate.MsTest.Web.Core
 			try
 			{
 				InitialiseTestContext(testContext);
-				StartWebDriver();				
+				StartWebDriver();
 			}
 			catch (System.Exception exp)
 			{
