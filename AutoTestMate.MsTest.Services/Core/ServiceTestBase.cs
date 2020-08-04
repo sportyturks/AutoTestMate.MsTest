@@ -15,7 +15,7 @@ namespace AutoTestMate.MsTest.Services.Core
             try
             {
                 TestManager = ServiceTestManager.Instance();
-                TestManager.OnTestMethodInitialise(TestContext);
+                TestManager.OnTestMethodInitialise(TestMethod,TestContext);
                 CustomAttributesInitialise();
             }
             catch (Exception ex)

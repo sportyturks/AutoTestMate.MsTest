@@ -108,7 +108,7 @@ namespace AutoTestMate.MsTest.Web.Core
 			base.InitialiseIoc();
 		}
 
-        public override void OnTestMethodInitialise(TestContext testContext = null)
+        public override void OnTestMethodInitialise(string testMethod, TestContext testContext = null)
 		{
 			if (IsInitialised) throw new ApplicationException(Exceptions.ExceptionMsgSingletonAlreadyInitialised);
 

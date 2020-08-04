@@ -8,13 +8,12 @@ namespace AutoTestMate.MsTest.Infrastructure.IntegrationTests
     public class ConfigurationReaderTests : TestBase
     { 
         [TestMethod]
-        [ExcelOdbcTestData(FileLocation = @".\Data", FileName = "NurseryRhymesBook.xls", RowKey = "8", SheetName = "TableThree")]
         public void GetAppConfigConfigurationValues()
         {
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("RowKey") == "8");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldSeven") == "Climbed");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldEight") == "Up");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldNine") == "The");
+            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("BrowserType") == "Chrome");
+            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("ForceKillProcess") == "true");
+            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("Headless") == "false");
+            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("BrowserOs") == "Windows");
         }
 
         [TestMethod]

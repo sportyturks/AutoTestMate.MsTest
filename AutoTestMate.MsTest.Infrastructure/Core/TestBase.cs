@@ -12,7 +12,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 			try
 			{
 				TestManager = Core.TestManager.Instance();
-				TestManager.OnTestMethodInitialise(TestContext);
+				TestManager.OnTestMethodInitialise(TestMethod, TestContext);
 				CustomAttributesInitialise();
 			}
 			catch (Exception ex)
@@ -71,5 +71,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 		public virtual IConfigurationReader ConfigurationReader => TestManager.ConfigurationReader;
 
 		public virtual ILoggingUtility LoggingUtility => TestManager.LoggingUtility;
+
+		public string TestMethod => TestContext.TestName;
 	}
 }

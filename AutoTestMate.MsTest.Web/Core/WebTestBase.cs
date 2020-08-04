@@ -14,7 +14,7 @@ namespace AutoTestMate.MsTest.Web.Core
 			try
 			{
 				TestManager = WebTestManager.Instance();
-				TestManager.OnTestMethodInitialise(TestContext);
+				TestManager.OnTestMethodInitialise(TestMethod,TestContext);
 				CustomAttributesInitialise();
 			}
 			catch (System.Exception ex)

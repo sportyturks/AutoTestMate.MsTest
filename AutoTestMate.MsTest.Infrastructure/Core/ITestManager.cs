@@ -12,7 +12,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 		ILoggingUtility LoggingUtility { get; }
 		void OnInitialiseAssemblyDependencies(TestContext testContext = null);
 		void OnDisposeAssemblyDependencies();
-        void OnTestMethodInitialise(TestContext testContext = null);
+        void OnTestMethodInitialise(string testMethod, TestContext testContext = null);
 		void OnTestCleanup();
 		void InitialiseIoc();
 		void InitialiseTestContext(TestContext testContext = null);

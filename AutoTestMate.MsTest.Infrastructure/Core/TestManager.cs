@@ -40,6 +40,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 		public ILoggingUtility LoggingUtility => Container.Resolve<ILoggingUtility>();
 		public IConfigurationReader ConfigurationReader => Container.Resolve<IConfigurationReader>();
         public IConfiguration AppConfiguration => Container.Resolve<IConfiguration>();
+        public ITestMethodManager TestMethodManager => Container.Resolve<ITestMethodManager>(); 
         public TestContext TestContext => Container.Resolve<TestContext>();
 
 		#endregion
@@ -58,11 +59,11 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
             Container.Dispose();
         }
 
-        public virtual void OnTestMethodInitialise(TestContext testContext = null)
+        public virtual void OnTestMethodInitialise(string testMethod, TestContext testContext = null)
         {
-            if (IsInitialised) throw new ApplicationException(Exceptions.Exception.ExceptionMsgSingletonAlreadyInitialised);
+	        TestMethodManager.CheckTestAlreadyInitialised(testMethod);
 
-            try
+	        try
             {
                 InitialiseTestContext(testContext);
                 IsInitialised = true;
