@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace AutoTestMate.MsTest.Infrastructure.Core
+namespace AutoTestMate.MsTest.Infrastructure.Core.MethodManager
 {
     public interface ITestInitialiseService
     {
@@ -10,5 +10,6 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
         void CheckTestAlreadyInitialised(string testMethod);
         bool TryGetValue(string testMethod, out bool isInitialised);
         void Dispose(string testMethod);
+        void Dispose();
     }
 }

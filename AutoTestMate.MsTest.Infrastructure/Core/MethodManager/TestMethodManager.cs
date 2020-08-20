@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AutoTestMate.MsTest.Infrastructure.Core
+namespace AutoTestMate.MsTest.Infrastructure.Core.MethodManager
 {
     public class TestMethodManager : ITestMethodManager
     {

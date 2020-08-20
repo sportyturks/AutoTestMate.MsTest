@@ -18,6 +18,8 @@
     <Compile Remove="Helpers\MQ\**" />
     <EmbeddedResource Remove="Helpers\MQ\**" />
     <None Remove="Helpers\MQ\**" />
+    <Compile Remove="Core\AttributeTestBase.cs" />
+    <Compile Remove="Attributes\ExcelOdbcTestDataAttribute.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using DocumentFormat.OpenXml.Wordprocessing;
 
-namespace AutoTestMate.MsTest.Infrastructure.Core
+namespace AutoTestMate.MsTest.Infrastructure.Core.MethodManager
 {
     public class TestInitialiseService : ITestInitialiseService, IDisposable
     {

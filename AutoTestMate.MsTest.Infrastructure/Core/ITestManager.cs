@@ -13,13 +13,12 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 		void OnInitialiseAssemblyDependencies(TestContext testContext = null);
 		void OnDisposeAssemblyDependencies();
         void OnTestMethodInitialise(string testMethod, TestContext testContext = null);
-		void OnTestCleanup();
+		void OnTestCleanup(string testMethod);
 		void InitialiseIoc();
 		void InitialiseTestContext(TestContext testContext = null);
 		void InitialiseTestContextDependencies();
-        void Dispose();
-        void DisposeInternal();
-		void UpdateConfigurationReader(IConfigurationReader configurationReader);
+        void Dispose(string testMethod);
+        void UpdateConfigurationReader(string testMethod, IConfigurationReader configurationReader);
 		void SetTextContext(TestContext testContext);
 	}
 }

@@ -125,16 +125,16 @@ namespace AutoTestMate.MsTest.Web.Core
 			}
 		}
 
-		public override void Dispose()
+		public override void Dispose(string testMethod)
 		{
-			DisposeInternal();
+			DisposeInternal(testMethod);
 		}
 
 		#endregion
 
 		#region Private Methods
 
-		public override void DisposeInternal()
+		public override void DisposeInternal(string testMethod)
 		{
 			try
 			{

@@ -61,17 +61,17 @@ namespace AutoTestMate.MsTest.Infrastructure.Attributes
         #endregion
 
         #region Methods
-        public void BeforeTest(TestContext testContext, ITestManager testManager)
+        public void BeforeTest(string testMethod, TestContext testContext, ITestManager testManager)
         {
             Exception exp = null;
 
             try
             {
-                testManager.SetTextContext(testContext);
+                //testManager.SetTextContext(testContext);
                 var configurationReader = testManager.ConfigurationReader;
                 var dt = ReadFile();
                 UpdateConfigurationReader(dt, configurationReader);
-                testManager.UpdateConfigurationReader(configurationReader);
+                testManager.UpdateConfigurationReader(testMethod, configurationReader);
             }
             catch (Exception ex)
             {
@@ -83,9 +83,9 @@ namespace AutoTestMate.MsTest.Infrastructure.Attributes
                 throw exp;
             }
         }
-        public void AfterTest(ITestManager testManager)
+        public void AfterTest(string testMethod, ITestManager testManager)
         {
-            testManager.UpdateConfigurationReader(null);
+            testManager.UpdateConfigurationReader(testMethod, null);
         }
 
         private DataTable ReadFile()

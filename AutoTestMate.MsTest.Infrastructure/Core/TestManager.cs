@@ -1,11 +1,12 @@
 ﻿using System;
+using AutoTestMate.MsTest.Infrastructure.Core.MethodManager;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutoTestMate.MsTest.Infrastructure.Core
 {
-	public class TestManager : ITestManager, IDisposable
+	public class TestManager : ITestManager
 	{
 		#region Private Variables
 
@@ -35,8 +36,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 				return _uniqueInstance;
 			}
 		}
-		public bool IsInitialised { get; set; }
-        public WindsorContainer Container { get; set; }
+		public WindsorContainer Container { get; set; }
 		public ILoggingUtility LoggingUtility => Container.Resolve<ILoggingUtility>();
 		public IConfigurationReader ConfigurationReader => Container.Resolve<IConfigurationReader>();
         public IConfiguration AppConfiguration => Container.Resolve<IConfiguration>();
@@ -55,49 +55,59 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
         }
         public virtual void OnDisposeAssemblyDependencies()
         {
-            Dispose();
+            Dispose(null);
             Container.Dispose();
         }
 
         public virtual void OnTestMethodInitialise(string testMethod, TestContext testContext = null)
         {
-	        TestMethodManager.CheckTestAlreadyInitialised(testMethod);
+	        TestMethodManager.TestInitialiseService.CheckTestAlreadyInitialised(testMethod);
 
 	        try
             {
-                InitialiseTestContext(testContext);
-                IsInitialised = true;
+                InitialiseTestContext(testMethod, testContext);
+                TestMethodManager.TestInitialiseService.Initialise(testMethod);
             }
             catch (Exception exp)
             {
                 LoggingUtility.Error(exp.Message);
-                Dispose();
+                Dispose(testMethod);
                 throw;
             }
         }
 
-        public virtual void OnTestCleanup()
+        public virtual void OnTestCleanup(string testMethod)
         {
-            Dispose();
+            Dispose(testMethod);
         }
 
         public virtual void InitialiseTestContext(TestContext testContext = null)
         {
             if (testContext == null) return;
 
-            Container.Register(Component.For<TestContext>().Instance(testContext).OverridesExistingRegistration());
-			Container.Register(Component.For<IConfigurationReader>().ImplementedBy<ConfigurationReader>().OverridesExistingRegistration());
-		}
+            Container.Register(Component.For<TestContext>().Instance(testContext).OverridesExistingRegistration())
+	            .Register(Component.For<IConfigurationReader>().ImplementedBy<ConfigurationReader>().OverridesExistingRegistration())
+	            .Register(Component.For<ITestInitialiseService>().ImplementedBy<TestInitialiseService>().LifestyleSingleton())
+	            .Register(Component.For<IConfigurationService>().ImplementedBy<ConfigurationService>().LifestyleSingleton())
+	            .Register(Component.For<ITestMethodManager>().ImplementedBy<TestMethodManager>().LifestyleSingleton())
+	            .Register(Component.For<ITestManager>().Instance(this).OverridesExistingRegistration().LifeStyle.Singleton);
+        }
+        
+        public virtual void InitialiseTestContext(string testMethod, TestContext testContext = null)
+        {
+	        if (testContext == null) return;
+	        
+	        TestMethodManager.ConfigurationService.AddOrUpdate(testMethod, ConfigurationReader);
+        }
 
 		public virtual void InitialiseIoc()
         {
             var container = new WindsorContainer();
 
             container.Register(Component.For<ILoggingUtility>().ImplementedBy<TestLogger>().LifestyleSingleton())
-                .Register(Component.For<IConfigurationReader>().ImplementedBy<ConfigurationReader>())
-                .Register(Component.For<IConfiguration>().ImplementedBy<AppConfiguration>().LifestyleSingleton())
-                .Register(Component.For<IMemoryCache>().ImplementedBy<MemoryCache>().LifestyleSingleton())
-                .Register(Component.For<ITestManager>().Instance(this).OverridesExistingRegistration().LifeStyle.Singleton);
+	            .Register(Component.For<IConfigurationReader>().ImplementedBy<ConfigurationReader>())
+	            .Register(Component.For<IConfiguration>().ImplementedBy<AppConfiguration>().LifestyleSingleton())
+	            .Register(Component.For<IMemoryCache>().ImplementedBy<MemoryCache>().LifestyleSingleton());
 
             Container = container;
         }
@@ -105,24 +115,32 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
         {
 
         }
-	    public virtual void UpdateConfigurationReader(IConfigurationReader configurationReader)
+	    public virtual void UpdateConfigurationReader(string testMethod, IConfigurationReader configurationReader)
 		{
 			if (configurationReader != null)
 			{
-				Container.Register(Component.For<IConfigurationReader>().Instance(configurationReader).OverridesExistingRegistration());
+				TestMethodManager.ConfigurationService.AddOrUpdate(testMethod, configurationReader);
 			}
 			else //Ensure ConfigurationReader is resolved from existing container dependencies 
 			{
-				Container.Register(Component.For<IConfigurationReader>().ImplementedBy<ConfigurationReader>().OverridesExistingRegistration());
+				var updateConfigurationReader = new ConfigurationReader(TestContext, AppConfiguration);
+				TestMethodManager.ConfigurationService.AddOrUpdate(testMethod, updateConfigurationReader);
 			}
 		}
-		public virtual void Dispose()
+		public virtual void Dispose(string testMethod)
         {
-            DisposeInternal();
+            DisposeInternal(testMethod);
         }
-        public virtual void DisposeInternal()
+        public virtual void DisposeInternal(string testMethod)
 		{
-			IsInitialised = false;
+			TestMethodManager.TestInitialiseService.Dispose(testMethod);
+			TestMethodManager.ConfigurationService.Dispose(testMethod);
+
+			if (string.IsNullOrWhiteSpace(testMethod))
+			{
+				TestMethodManager.TestInitialiseService.Dispose();
+				TestMethodManager.ConfigurationService.Dispose();
+			}
 		}
 
         public void SetTextContext(TestContext testContext)

@@ -14,7 +14,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Attributes
         public ITestManager TestManager { get; set; }
 		public TestContext TestContext { get; set; }
 
-		public virtual void CustomAttributesInitialise()
+		public virtual void CustomAttributesInitialise(string testMethod)
         {
             // Get instance of the attribute.
             IEnumerable<IAuthenticationAttribute> classAttributes = Attribute.GetCustomAttributes(GetType(), true).OfType<IAuthenticationAttribute>().ToList();
@@ -23,7 +23,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Attributes
             _actionTestDataAttributes = method.GetCustomAttributes(typeof(ITestDataAttribute), true).OfType<ITestDataAttribute>();
             foreach (var tesdataAttribute in _actionTestDataAttributes)
             {
-                tesdataAttribute.BeforeTest(TestContext, TestManager);
+                tesdataAttribute.BeforeTest(testMethod, TestContext, TestManager);
             }
 
             if (classAttributes.Any())
@@ -32,7 +32,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Attributes
                 {
                     if (!AttributeLifeCycleHelper.ClassAttributeInitialized(GetType(), authenticationAttribute.GetType()))
                     {
-                        authenticationAttribute.BeforeTest(TestContext, TestManager);
+                        authenticationAttribute.BeforeTest(testMethod, TestContext, TestManager);
                         AttributeLifeCycleHelper.InitializeClassAttribute(GetType(), authenticationAttribute.GetType());
                     }
                 }
@@ -42,21 +42,21 @@ namespace AutoTestMate.MsTest.Infrastructure.Attributes
                 _actionAuthenticationAttributes = method.GetCustomAttributes(typeof(IAuthenticationAttribute), true).OfType<IAuthenticationAttribute>();
                 foreach (var authenticationAttribute in _actionAuthenticationAttributes)
                 {
-                    authenticationAttribute.BeforeTest(TestContext, TestManager);
+                    authenticationAttribute.BeforeTest(testMethod, TestContext, TestManager);
                 }
             }
         }
 
-        public virtual void CustomAttributesCleanup()
+        public virtual void CustomAttributesCleanup(string testMethod)
         { 
             foreach (var authenticationAttribute in _actionAuthenticationAttributes)
             {
-                authenticationAttribute.AfterTest(TestManager);
+                authenticationAttribute.AfterTest(testMethod, TestManager);
             }
 
             foreach (var tesdataAttribute in _actionTestDataAttributes)
             {
-                tesdataAttribute.AfterTest(TestManager);
+                tesdataAttribute.AfterTest(testMethod, TestManager);
             }
         }
     }
