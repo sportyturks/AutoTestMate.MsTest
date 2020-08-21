@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using AutoTestMate.MsTest.Services.Core;
+using AutoTestMate.MsTest.Web.Core.MethodManager;
 using AutoTestMate.MsTest.Web.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
@@ -98,21 +99,23 @@ namespace AutoTestMate.MsTest.Web.Core
 		//	{
 		//		((WebTestManager) TestManager).WebTestMethodManager.WebDriverService.TryGetValue(TestMethod,
 		//			out IWebDriver webDriver);
-				
+
 		//		return webDriver;
 		//	}
 		//}
-		
+
 		//public WebDriverWait WebDriverWait
 		//{
 		//	get
 		//	{
 		//		((WebTestManager) TestManager).WebTestMethodManager.WebDriverService.TryGetValue(TestMethod,
 		//			out WebDriverWait webDriverWait);
-				
+
 		//		return webDriverWait;
 		//	}
 		//}
+
+        public IWebTestMethodManager WebTestMethodManager => ((WebTestManager) TestManager).WebTestMethodManager;
 
 		public override HttpClient HttpClient => ((WebTestManager)TestManager).HttpClient;
     }

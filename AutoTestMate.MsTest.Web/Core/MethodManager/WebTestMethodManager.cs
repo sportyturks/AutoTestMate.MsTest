@@ -7,11 +7,13 @@ namespace AutoTestMate.MsTest.Web.Core.MethodManager
 {
     public class WebTestMethodManager : TestMethodManager, IWebTestMethodManager
     {
-        public WebTestMethodManager(TestContext testContext, IConfiguration appConfiguration, IConfigurationService configurationService, ITestInitialiseService testInitialiseService, IWebDriverService webDriverService): base (testContext, appConfiguration, configurationService, testInitialiseService)
+        public WebTestMethodManager(ILoggingUtility loggingUtility, TestContext testContext, IConfiguration appConfiguration, IConfigurationService configurationService, ITestInitialiseService testInitialiseService, IWebDriverService webDriverService): base (testContext, appConfiguration, configurationService, testInitialiseService)
         {
             WebDriverService = webDriverService;
+            LoggingUtility = loggingUtility;
         }
 
         public IWebDriverService WebDriverService { get; set; }
+        public ILoggingUtility LoggingUtility { get; set; }
     }
 }

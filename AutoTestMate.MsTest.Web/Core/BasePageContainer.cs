@@ -6,7 +6,7 @@ using OpenQA.Selenium;
 namespace AutoTestMate.MsTest.Web.Core
 {
     [ExcludeFromCodeCoverage]
-    public abstract class BasePage
+    public abstract class BasePageContainer
     {
         private readonly IWebDriver _driver;
         private readonly IConfigurationReader _configurationReader;
@@ -15,8 +15,9 @@ namespace AutoTestMate.MsTest.Web.Core
         /// <summary>
         /// Constructor of Base Page
         /// </summary>
-        protected BasePage(string testMethod, IWebTestMethodManager webTestMethodManager)
+        protected BasePageContainer(IWebTestMethodManager webTestMethodManager)
         {
+            var testMethod = webTestMethodManager.TestContext.TestName;
             webTestMethodManager.WebDriverService.TryGetValue(testMethod, out IWebDriver driver);
             webTestMethodManager.ConfigurationService.TryGetValue(testMethod, out IConfigurationReader configurationReader);
             
