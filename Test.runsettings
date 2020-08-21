@@ -6,9 +6,9 @@
     <!-- Path relative to solution directory -->
     <ResultsDirectory>.\TestResults</ResultsDirectory>
     <!-- [x86] | x64    - You can also change it from menu Test, Test Settings, Default Processor Architecture -->
-    <!--<TargetPlatform>ARM</TargetPlatform>-->
+    <!--<TargetPlatform>x86</TargetPlatform>-->
     <!-- Framework35 | [Framework40] | Framework45 -->
-    <!--<TargetFrameworkVersion>Framework45</TargetFrameworkVersion>-->
+    <TargetFrameworkVersion>Framework45</TargetFrameworkVersion>
   </RunConfiguration>
 
   <TestRunParameters>

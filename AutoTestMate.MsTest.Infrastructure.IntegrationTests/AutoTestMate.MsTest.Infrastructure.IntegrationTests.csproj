@@ -45,4 +45,8 @@
     <ProjectReference Include="..\AutoTestMate.MsTest.Web\AutoTestMate.MsTest.Web.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="ExcelOdbcTestDataTests.cs" />
+  </ItemGroup>
+
 </Project>

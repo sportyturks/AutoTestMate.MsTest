@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using AutoTestMate.MsTest.Infrastructure.Core;
+using AutoTestMate.MsTest.Web.Core;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Internal;
@@ -245,7 +246,7 @@ namespace AutoTestMate.MsTest.Web.Extensions
 			}
 			catch (System.Exception exp)
 			{
-				var loggingUtility = TestManager.Instance().LoggingUtility;
+				var loggingUtility = WebTestManager.Instance().LoggingUtility;
 				loggingUtility.Warning(exp.Message + exp.StackTrace);
 				return false;
 			}

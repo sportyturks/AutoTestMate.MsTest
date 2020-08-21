@@ -17,7 +17,7 @@ namespace AutoTestMate.MsTest.Infrastructure.IntegrationTests
         }
 
         [TestMethod]
-        [ExcelOdbcTestData(FileLocation = @".\Data", FileName = "NurseryRhymesBook.xls", RowKey = "8", SheetName = "TableThree")]
+        [ExcelClosedTestData(FileLocation = @"./Data", FileName = "NurseryRhymesBook.xlsx", RowKey = "8", SheetName = "TableThree")]
         public void GetTestSettingConfigurationValues()
         {
             Assert.IsTrue(ConfigurationReader.GetConfigurationValue("RowKey") == "8");
@@ -28,7 +28,7 @@ namespace AutoTestMate.MsTest.Infrastructure.IntegrationTests
 
 
         [TestMethod]
-        [ExcelOdbcTestData(FileLocation = @".\Data", FileName = "NurseryRhymesBook.xls", RowKey = "8", SheetName = "TableThree")]
+        [ExcelClosedTestData(FileLocation = @"./Data", FileName = "NurseryRhymesBook.xlsx", RowKey = "8", SheetName = "TableThree")]
         public void GetExcelConfigurationValues()
         {
             Assert.IsTrue(ConfigurationReader.GetConfigurationValue("RowKey") == "8");
@@ -38,7 +38,7 @@ namespace AutoTestMate.MsTest.Infrastructure.IntegrationTests
         }
 
         [TestMethod]
-        [ExcelOdbcTestData(FileLocation = @".\Data", FileName = "NurseryRhymesBook.xls", RowKey = "8", SheetName = "TableThree")]
+        [ExcelClosedTestData(FileLocation = @"./Data", FileName = "NurseryRhymesBook.xlsx", RowKey = "8", SheetName = "TableThree")]
         public void SetConfigurationValues()
         {
             Assert.IsTrue(ConfigurationReader.GetConfigurationValue("RowKey") == "8");
@@ -49,7 +49,7 @@ namespace AutoTestMate.MsTest.Infrastructure.IntegrationTests
 
 
         [TestMethod]
-        [ExcelOdbcTestData(FileLocation = @".\Data", FileName = "NurseryRhymesBook.xls", RowKey = "8", SheetName = "TableThree")]
+        [ExcelClosedTestData(FileLocation = @"./Data", FileName = "NurseryRhymesBook.xlsx", RowKey = "8", SheetName = "TableThree")]
         public void UpdateConfigurationValues()
         {
             Assert.IsTrue(ConfigurationReader.GetConfigurationValue("RowKey") == "8");
@@ -59,7 +59,7 @@ namespace AutoTestMate.MsTest.Infrastructure.IntegrationTests
         }
 
         [TestMethod]
-        [ExcelOdbcTestData(FileLocation = @".\Data", FileName = "NurseryRhymesBook.xls", RowKey = "8", SheetName = "TableThree")]
+        [ExcelClosedTestData(FileLocation = @"./Data", FileName = "NurseryRhymesBook.xlsx", RowKey = "8", SheetName = "TableThree")]
         public void EnsureExceptionThrownForMandatoryConfigurationValues()
         {
             Assert.IsTrue(ConfigurationReader.GetConfigurationValue("RowKey") == "8");
