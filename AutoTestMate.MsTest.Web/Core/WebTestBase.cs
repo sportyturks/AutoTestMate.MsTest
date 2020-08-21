@@ -17,24 +17,28 @@ namespace AutoTestMate.MsTest.Web.Core
 			try
 			{
 				TestManager = WebTestManager.Instance();
-				TestManager.OnTestMethodInitialise(TestMethod,TestContext);
-				CustomAttributesInitialise(TestMethod);
+				TestManager.OnTestMethodInitialise(testMethod, TestContext);
+				CustomAttributesInitialise(testMethod);
 			}
 			catch (System.Exception ex)
-			{
+            {
+                var webTestManager = ((WebTestManager) TestManager);
+
 				if (LoggingUtility == null || ConfigurationReader == null) throw;
 
 				LoggingUtility.Error(Constants.Exceptions.ExceptionMsgSetupError + ex.Message);
 				
-				if (((WebTestManager)TestManager).IsDriverNull(testMethod)) throw;
+				if (webTestManager.IsDriverNull(testMethod)) throw;
+
+                webTestManager.WebTestMethodManager.WebDriverService.TryGetValue(testMethod, out IWebDriver driver);
 
 				var outputScreenshotsDirectory = ConfigurationReader.GetConfigurationValue("OutputScreenshotsDirectory");
 
 				var outputPath = !string.IsNullOrWhiteSpace(outputScreenshotsDirectory)
 					? outputScreenshotsDirectory
 					: $"{TestContext.TestRunResultsDirectory}\\Screenshots";
-				
-				Driver.ScreenShotSaveFile(outputPath, testMethod);
+
+                driver.ScreenShotSaveFile(outputPath, testMethod);
 
 				throw;
 			}
@@ -47,6 +51,8 @@ namespace AutoTestMate.MsTest.Web.Core
 			
 			try
 			{
+                var webTestManager = ((WebTestManager)TestManager);
+
 				CustomAttributesCleanup(testMethod);
 
 				if (TestContext.CurrentTestOutcome != UnitTestOutcome.Passed)
@@ -57,11 +63,13 @@ namespace AutoTestMate.MsTest.Web.Core
 
 					var outputPath = !string.IsNullOrWhiteSpace(ConfigurationReader.GetConfigurationValue(Constants.Configuration.ConfigKeyOutputFileScreenshotsDirectory)) ? $"{ConfigurationReader.GetConfigurationValue(Constants.Configuration.ConfigKeyOutputFileScreenshotsDirectory)}" : $"{TestContext.TestRunResultsDirectory}{Constants.Configuration.ScreenshotsDirectory}";
 
-					if (((WebTestManager)TestManager).IsDriverNull(testMethod)) return;
+					if (webTestManager.IsDriverNull(testMethod)) return;
 
 					TestContext.WriteLine($"Attempting to capture screenshot to: {outputPath}");
 
-					var captureScreenShot = Driver.ScreenShotSaveFile(outputPath, testMethod);
+                    webTestManager.WebTestMethodManager.WebDriverService.TryGetValue(testMethod, out IWebDriver driver);
+
+					var captureScreenShot = driver.ScreenShotSaveFile(outputPath, testMethod);
 
 					if (string.IsNullOrWhiteSpace(captureScreenShot)) return;
 
@@ -84,27 +92,27 @@ namespace AutoTestMate.MsTest.Web.Core
 			}
 		}
 
-		public IWebDriver Driver
-		{
-			get
-			{
-				((WebTestManager) TestManager).WebTestMethodManager.WebDriverService.TryGetValue(TestMethod,
-					out IWebDriver webDriver);
+		//public IWebDriver Driver
+		//{
+		//	get
+		//	{
+		//		((WebTestManager) TestManager).WebTestMethodManager.WebDriverService.TryGetValue(TestMethod,
+		//			out IWebDriver webDriver);
 				
-				return webDriver;
-			}
-		}
+		//		return webDriver;
+		//	}
+		//}
 		
-		public WebDriverWait WebDriverWait
-		{
-			get
-			{
-				((WebTestManager) TestManager).WebTestMethodManager.WebDriverService.TryGetValue(TestMethod,
-					out WebDriverWait webDriverWait);
+		//public WebDriverWait WebDriverWait
+		//{
+		//	get
+		//	{
+		//		((WebTestManager) TestManager).WebTestMethodManager.WebDriverService.TryGetValue(TestMethod,
+		//			out WebDriverWait webDriverWait);
 				
-				return webDriverWait;
-			}
-		}
+		//		return webDriverWait;
+		//	}
+		//}
 
 		public override HttpClient HttpClient => ((WebTestManager)TestManager).HttpClient;
     }

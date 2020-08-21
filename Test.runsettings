@@ -15,7 +15,7 @@
     <Parameter name="LogLevel" value="Debug" />
     <Parameter name="LogName" value="WebTest" />
     <Parameter name="BaseUrl" value="https://www.google.com" />
-    <Parameter name="DriverServerLocation" value="/usr/bin" />
+    <Parameter name="DriverServerLocation" value="C:\Developer\GitHub\AutoTestMate.MsTest.Samples\AutoTestMate.Samples.Web.Tests\bin\Debug\netcoreapp3.1" />
     <Parameter name="Timeout" value="10" />
     <Parameter name="OutputFileDirectory" value="\TestResults\" />
     <Parameter name="OutputFileScreenshotsDirectory" value="\TestResults\ScreenshotsDirectory\" />
@@ -26,7 +26,7 @@
     <Parameter name="BrowserType" value="chrome" />
     <Parameter name="BrowserProfile" value="default" />
     <Parameter name="EnableDetailedLogging" value="false" />
-    <Parameter name="UseSeleniumGrid" value="true" />
+    <Parameter name="UseSeleniumGrid" value="false" />
     <Parameter name="SeleniumGridUrl" value="http://20.193.47.4:4444/wd/hub" />
   </TestRunParameters>
   <!-- MSTest adapter -->

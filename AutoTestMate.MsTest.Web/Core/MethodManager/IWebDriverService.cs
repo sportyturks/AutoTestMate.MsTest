@@ -11,7 +11,7 @@ namespace AutoTestMate.MsTest.Web.Core.MethodManager
         ConcurrentDictionary<string, IWebDriver> WebDrivers { get; set; }
         ConcurrentDictionary<string, WebDriverWait> WebDriverWaitList { get; set; }
         ITestInitialiseService TestInitialiseService { get; set; }
-        IFactory<DriverCleanup> DriverCleanup { get; set; }
+        IFactory<IDriverCleanup> DriverCleanup { get; set; }
         IConfigurationReader ConfigurationReader { get; set; }
         IFactory<IWebDriver> WebDriverFactory { get; set; }
         ILoggingUtility LoggingUtility { get; set; }

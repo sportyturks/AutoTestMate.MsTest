@@ -10,16 +10,21 @@ namespace AutoTestMate.MsTest.Web.Core.MethodManager
 {
     public class WebDriverService : IWebDriverService, IDisposable
     {
-        public WebDriverService(ILoggingUtility loggingUtility, IFactory<IDriverCleanup> driverCleanup,
-            IFactory<IWebDriver> webDriverFactory, IConfigurationReader configurationReader, ITestInitialiseService testInitialiseService)
+        public WebDriverService(ILoggingUtility loggingUtility, IFactory<IDriverCleanup> driverCleanup, IFactory<IWebDriver> webDriverFactory, IConfigurationReader configurationReader, ITestInitialiseService testInitialiseService)
         {
-            
+            WebDriverWaitList = new ConcurrentDictionary<string, WebDriverWait>();
+            WebDrivers = new ConcurrentDictionary<string, IWebDriver>();
+            DriverCleanup = driverCleanup;
+            WebDriverFactory = webDriverFactory;
+            ConfigurationReader = configurationReader;
+            TestInitialiseService = testInitialiseService;
+            LoggingUtility = loggingUtility;
         }
         
         public ConcurrentDictionary<string, IWebDriver> WebDrivers { get; set; }
         public ConcurrentDictionary<string, WebDriverWait> WebDriverWaitList { get; set; }
         public ITestInitialiseService TestInitialiseService { get; set; }
-        public IFactory<DriverCleanup> DriverCleanup { get; set; }
+        public IFactory<IDriverCleanup> DriverCleanup { get; set; }
         public IConfigurationReader ConfigurationReader { get; set; }
         public IFactory<IWebDriver> WebDriverFactory { get; set; }
         public ILoggingUtility LoggingUtility { get; set; }
