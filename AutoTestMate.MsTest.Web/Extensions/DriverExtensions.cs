@@ -50,8 +50,9 @@ namespace AutoTestMate.MsTest.Web.Extensions
 		/// <param name="func">The function to be satisfied</param>
 		public static void Wait(this IWebDriver driver, Func<IWebDriver, IWebElement> func)
 		{
-			WebTestManager.Instance().BrowserWait
-				.Until(func);
+			var testManager = WebTestManager.Instance().WebTestMethodManager;
+			testManager.WebDriverService.TryGetValue(testManager.TestContext.TestName, out WebDriverWait webDriverWait);
+			webDriverWait.Until(func);
 		}
 
 		public static void Wait(this IWebDriver driver, By by, int limit)
@@ -62,8 +63,9 @@ namespace AutoTestMate.MsTest.Web.Extensions
 
 		public static void Wait(this IWebDriver driver, By by)
 		{
-			WebTestManager.Instance().BrowserWait
-				.Until(d => d.FindElement(by));
+			var testManager = WebTestManager.Instance().WebTestMethodManager;
+			testManager.WebDriverService.TryGetValue(testManager.TestContext.TestName, out WebDriverWait webDriverWait);
+			webDriverWait.Until(d => d.FindElement(by));
 		}
 
 		public static bool TryWait(this IWebDriver driver, By by, int limit)
@@ -84,8 +86,9 @@ namespace AutoTestMate.MsTest.Web.Extensions
 		{
 			try
 			{
-				WebTestManager.Instance().BrowserWait
-					.Until(d => d.FindElement(by));
+				var testManager = WebTestManager.Instance().WebTestMethodManager;
+				testManager.WebDriverService.TryGetValue(testManager.TestContext.TestName, out WebDriverWait webDriverWait);
+				webDriverWait.Until(d => d.FindElement(by));
 				return true;
 			}
 			catch
@@ -102,8 +105,9 @@ namespace AutoTestMate.MsTest.Web.Extensions
 
 		public static void Wait(this IWebDriver driver, Func<IWebDriver, bool> func)
 		{
-			WebTestManager.Instance().BrowserWait
-				.Until(func);
+			var testManager = WebTestManager.Instance().WebTestMethodManager;
+			testManager.WebDriverService.TryGetValue(testManager.TestContext.TestName, out WebDriverWait webDriverWait);
+			webDriverWait.Until(func);
 		}
 
 		public static void Wait(this IWebDriver driver, Func<IWebDriver, ReadOnlyCollection<IWebElement>> func,
@@ -115,8 +119,9 @@ namespace AutoTestMate.MsTest.Web.Extensions
 
 		public static void Wait(this IWebDriver driver, Func<IWebDriver, ReadOnlyCollection<IWebElement>> func)
 		{
-			WebTestManager.Instance().BrowserWait
-				.Until(func);
+			var testManager = WebTestManager.Instance().WebTestMethodManager;
+			testManager.WebDriverService.TryGetValue(testManager.TestContext.TestName, out WebDriverWait webDriverWait);
+			webDriverWait.Until(func);
 		}
 
 		public static void CloseAlert(this IWebDriver driver, ILoggingUtility loggingUtility)
@@ -192,7 +197,9 @@ namespace AutoTestMate.MsTest.Web.Extensions
 			//https://stackoverflow.com/questions/6852732/selenium-webdriver-how-to-close-browser-popup
 			javascript.ExecuteScript("window.onbeforeunload = function(e){};");
 
-			WebTestManager.Instance().BrowserWait.Until((d) =>
+			var testManager = WebTestManager.Instance().WebTestMethodManager;
+			testManager.WebDriverService.TryGetValue(testManager.TestContext.TestName, out WebDriverWait webDriverWait);
+			webDriverWait.Until((d) =>
 			{
 				try
 				{
