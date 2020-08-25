@@ -22,7 +22,7 @@ namespace AutoTestMate.MsTest.Web.Core
 			}
 			catch (System.Exception ex)
             {
-				if (LoggingUtility == null || ConfigurationReader == null) throw;
+				if (LoggingUtility == null || TestManager.ConfigurationReader == null) throw;
 
 				LoggingUtility.Error(Constants.Exceptions.ExceptionMsgSetupError + ex.Message);
 
@@ -31,7 +31,7 @@ namespace AutoTestMate.MsTest.Web.Core
 
 				if (webTestMethod?.WebDriver == null) throw;
 				
-				var outputScreenshotsDirectory = ConfigurationReader.GetConfigurationValue("OutputScreenshotsDirectory");
+				var outputScreenshotsDirectory = TestManager.ConfigurationReader.GetConfigurationValue("OutputScreenshotsDirectory");
 
 				var outputPath = !string.IsNullOrWhiteSpace(outputScreenshotsDirectory) ? outputScreenshotsDirectory : $"{TestContext.TestRunResultsDirectory}\\Screenshots";
 
@@ -57,9 +57,9 @@ namespace AutoTestMate.MsTest.Web.Core
 				{
 					TestContext.WriteLine(Infrastructure.Constants.Generic.TestErrorMessage);
 
-					if (LoggingUtility == null || ConfigurationReader == null) return;
+					if (LoggingUtility == null || TestManager.ConfigurationReader == null) return;
 
-					var outputPath = !string.IsNullOrWhiteSpace(ConfigurationReader.GetConfigurationValue(Constants.Configuration.ConfigKeyOutputFileScreenshotsDirectory)) ? $"{ConfigurationReader.GetConfigurationValue(Constants.Configuration.ConfigKeyOutputFileScreenshotsDirectory)}" : $"{TestContext.TestRunResultsDirectory}{Constants.Configuration.ScreenshotsDirectory}";
+					var outputPath = !string.IsNullOrWhiteSpace(TestManager.ConfigurationReader.GetConfigurationValue(Constants.Configuration.ConfigKeyOutputFileScreenshotsDirectory)) ? $"{TestManager.ConfigurationReader.GetConfigurationValue(Constants.Configuration.ConfigKeyOutputFileScreenshotsDirectory)}" : $"{TestContext.TestRunResultsDirectory}{Constants.Configuration.ScreenshotsDirectory}";
 
 					if (webTestMethod?.WebDriver == null) return;
 

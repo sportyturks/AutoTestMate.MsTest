@@ -8,14 +8,17 @@
     <!-- [x86] | x64    - You can also change it from menu Test, Test Settings, Default Processor Architecture -->
     <!--<TargetPlatform>x86</TargetPlatform>-->
     <!-- Framework35 | [Framework40] | Framework45 -->
+    <!-- Framework35 | [Framework40] | Framework45 -->
     <TargetFrameworkVersion>Framework45</TargetFrameworkVersion>
+    <DisableParallelization>false</DisableParallelization>
+    <MaxCpuCount>6</MaxCpuCount>
   </RunConfiguration>
 
   <TestRunParameters>
     <Parameter name="LogLevel" value="Debug" />
     <Parameter name="LogName" value="WebTest" />
     <Parameter name="BaseUrl" value="https://www.google.com" />
-    <Parameter name="DriverServerLocation" value="C:\Developer\GitHub\AutoTestMate.MsTest.Samples\AutoTestMate.Samples.Web.Tests\bin\Debug\netcoreapp3.1" />
+    <Parameter name="DriverServerLocation" value="C:\Developer\SeleniumDrivers" />
     <Parameter name="Timeout" value="10" />
     <Parameter name="OutputFileDirectory" value="\TestResults\" />
     <Parameter name="OutputFileScreenshotsDirectory" value="\TestResults\ScreenshotsDirectory\" />
@@ -23,14 +26,20 @@
     <Parameter name="NavigateToBasePage" value="false" />
     <Parameter name="ForceKillProcess" value="true" />
     <Parameter name="Headless" value="false" />
-    <Parameter name="BrowserType" value="chrome" />
+    <Parameter name="BrowserType" value="Chrome" />
     <Parameter name="BrowserProfile" value="default" />
     <Parameter name="EnableDetailedLogging" value="false" />
-    <Parameter name="UseSeleniumGrid" value="false" />
-    <Parameter name="SeleniumGridUrl" value="http://20.193.47.4:4444/wd/hub" />
+    <Parameter name="UseSeleniumGrid" value="true" />
+    <Parameter name="SeleniumGridUrl" value="http://localhost:4444/wd/hub" />
   </TestRunParameters>
   <!-- MSTest adapter -->
+  <!-- MSTest adapter -->
+
   <MSTest>
+    <Parallelize>
+      <Workers>3</Workers>
+      <Scope>MethodLevel</Scope>
+    </Parallelize>
     <MapInconclusiveToFailed>True</MapInconclusiveToFailed>
     <CaptureTraceOutput>false</CaptureTraceOutput>
     <DeleteDeploymentDirectoryAfterTestRunIsComplete>False</DeleteDeploymentDirectoryAfterTestRunIsComplete>
