@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AutoTestMate.MsTest.Infrastructure.IntegrationTests
 {
     [TestClass]
-    public class ExcelClosedTestDataTests : WebTestBase
+    public class ExcelClosedTestDataTests : TestBase
     {
         [TestMethod]
         [ExcelClosedTestData(FileLocation = @"./Data", FileName = "NurseryRhymesBook.xlsx", RowKey = "8", SheetName = "TableThree")]

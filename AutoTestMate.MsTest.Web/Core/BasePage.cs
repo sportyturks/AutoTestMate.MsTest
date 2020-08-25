@@ -19,8 +19,7 @@ namespace AutoTestMate.MsTest.Web.Core
         protected BasePage(string testMethod, ITestMethodManager testMethodManager)
         {
             var webTestMethodManager = (WebTestMethodManager)testMethodManager;
-            webTestMethodManager.TestMethods.TryGetValue(testMethod, out ITestMethodBase testMethodBase);
-            var webTestMethod = (WebTestMethod)testMethodBase;
+            var webTestMethod = (WebTestMethod)webTestMethodManager.TryGetValue(testMethod);
 
             _driver = webTestMethod?.WebDriver;
             _configurationReader = webTestMethod?.ConfigurationReader;

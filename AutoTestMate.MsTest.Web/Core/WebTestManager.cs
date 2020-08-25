@@ -1,5 +1,5 @@
 ﻿using System;
-using AutoTestMate.MsTest.Infrastructure.Attributes;
+using System.Diagnostics.CodeAnalysis;
 using AutoTestMate.MsTest.Infrastructure.Core;
 using AutoTestMate.MsTest.Infrastructure.Core.MethodManager;
 using AutoTestMate.MsTest.Services.Core;
@@ -9,11 +9,11 @@ using AutoTestMate.MsTest.Web.Core.MethodManager;
 using Castle.MicroKernel.Registration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 
 namespace AutoTestMate.MsTest.Web.Core
 {
-	public class WebTestManager : ServiceTestManager
+	[SuppressMessage("ReSharper", "UnusedMember.Global")]
+    public class WebTestManager : ServiceTestManager
 	{
 		#region Private Variables
 
@@ -38,7 +38,7 @@ namespace AutoTestMate.MsTest.Web.Core
 			}
 		}
 
-		public static bool IsManagerNull()
+        public static bool IsManagerNull()
 		{
 			lock (SyncLock)
 			{
@@ -47,7 +47,8 @@ namespace AutoTestMate.MsTest.Web.Core
 		}
 		
 		public WebTestMethodManager WebTestMethodManager => (WebTestMethodManager)Container.Resolve<ITestMethodManager>();
-    	public bool IsDriverNull(string testMethod)
+
+        public bool IsDriverNull(string testMethod)
         {
 	        WebTestMethodManager.TestMethods.TryGetValue(testMethod, out ITestMethodBase testMethodBase);
 			var webTestMethod = (WebTestMethod) testMethodBase;
@@ -56,29 +57,6 @@ namespace AutoTestMate.MsTest.Web.Core
 	        if (!driverExists) return false;
 
 	        return webTestMethod.WebDriver == null;
-        }
-
-		public IWebDriver Browser(string testMethod)
-		{
-			if (IsDriverNull(testMethod))
-			{
-				throw new NullReferenceException("Test method not correctly initialised");
-			}
-
-            WebTestMethodManager.TestMethods.TryGetValue(testMethod, out ITestMethodBase testMethodBase);
-            var webTestMethod = (WebTestMethod)testMethodBase;
-
-            return webTestMethod?.WebDriver;
-		}
-
-        public IConfigurationReader ConfigurationReaderTestMethod(string testMethod)
-        {
-            if (IsDriverNull(testMethod))
-            {
-                throw new NullReferenceException("Test method not correctly initialised");
-            }
-
-            return TestMethodManager.TryGetValue(testMethod).ConfigurationReader;
         }
 
         #endregion
@@ -127,10 +105,7 @@ namespace AutoTestMate.MsTest.Web.Core
 
 			try
 			{
-				InitialiseTestContext(testMethod, testContext);
                 TestMethodManager.Add(testMethod);
-				//WebTestMethodManager.TestInitialiseService.Initialise(testMethod);
-				//WebTestMethodManager.WebDriverService.StartWebDriver(testMethod);
 			}
 			catch (System.Exception exp)
 			{
@@ -158,81 +133,5 @@ namespace AutoTestMate.MsTest.Web.Core
 		}
 
 		#endregion
-		
-		#region Recent Changes With No Parallel Execution
-		
-		//public bool IsDriverNull => !Container.Kernel.HasComponent(typeof(IWebDriver)) || Container.Resolve<IWebDriver>() == null;
-		/*public WebDriverWait BrowserWait
-      		{
-      			get
-      			{
-                      if (IsDriverNull)
-                      {
-                          throw new NullReferenceException(Exceptions.ExceptionMsgWebBrowserWaitInstanceNotInitialised);
-                      }
-      
-      				return Container.Resolve<WebDriverWait>();
-      			}
-      			set => Container.Register(Component.For<WebDriverWait>().Instance(value).OverridesExistingRegistration().LifestyleSingleton());
-      		}*/  
-		
-		/*public IWebDriver Browser
-		{
-			get
-			{
-				if (IsDriverNull)
-                {
-                    throw new NullReferenceException(Exceptions.ExceptionMsgWebBrowserWaitInstanceNotInitialised);
-				}
-
-				return  Container.Resolve<IWebDriver>();
-			}
-			private set => Container.Register(Component.For<IWebDriver>().Instance(value).OverridesExistingRegistration().LifestyleSingleton());
-		}*/
-		
-		/*public void StartWebDriver()
-		{
-			var browserDriverCleanupFactory = Container.Resolve<IFactory<IDriverCleanup>>();
-			var browserFactory = Container.Resolve<IFactory<IWebDriver>>();
-
-			var driverCleanup = browserDriverCleanupFactory.Create();
-			driverCleanup.Initialise();
-			Container.Register(Component.For<IDriverCleanup>().Instance(driverCleanup).OverridesExistingRegistration().LifestyleSingleton());
-
-			Browser = browserFactory.Create();
-			//Browser.Manage().Timeouts().ImplicitWait = TimeSpan.FromMinutes(string.IsNullOrWhiteSpace(UiConfigurationReader.LoginWaitTime) ? 1 : Convert.ToInt32(UiConfigurationReader.LoginWaitTime));
-
-			var browserWait = new WebDriverWait(Browser, TimeSpan.FromMinutes(string.IsNullOrWhiteSpace(ConfigurationReader.GetConfigurationValue(Configuration.LoginWaitTimeKey)) ? 1 : Convert.ToInt32(ConfigurationReader.GetConfigurationValue(Configuration.LoginWaitTimeKey))));
-			BrowserWait = browserWait;
-
-			IsInitialised = true;
-		}*/
-				/*public override void DisposeInternal(string testMethod)
-		{
-			try
-			{
-				if (IsInitialised && !IsDriverNull)
-				{
-					Browser?.Quit();
-				}
-			}
-			catch (System.Exception exp)
-			{
-				LoggingUtility.Error(exp.Message);
-			}
-			finally
-			{
-				if (IsInitialised)
-				{
-					Browser?.Dispose();
-					var driverCleanup = Container.Resolve<IDriverCleanup>();
-					driverCleanup?.Dispose();
-				}
-
-				IsInitialised = false;
-			}
-		}*/
-		
-		#endregion
-	}
+    }
 }

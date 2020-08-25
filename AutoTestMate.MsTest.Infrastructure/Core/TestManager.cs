@@ -65,7 +65,6 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 
 	        try
             {
-                InitialiseTestContext(testMethod, testContext);
                 TestMethodManager.Add(testMethod);
             }
             catch (Exception exp)
@@ -87,20 +86,10 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 
             Container.Register(Component.For<TestContext>().Instance(testContext).OverridesExistingRegistration())
 	            .Register(Component.For<IConfigurationReader>().ImplementedBy<ConfigurationReader>().OverridesExistingRegistration())
-	            .Register(Component.For<ITestInitialiseService>().ImplementedBy<TestInitialiseService>().LifestyleSingleton())
-	            .Register(Component.For<IConfigurationService>().ImplementedBy<ConfigurationService>().LifestyleSingleton())
 	            .Register(Component.For<ITestMethodManager>().ImplementedBy<TestMethodManager>().LifestyleSingleton())
 	            .Register(Component.For<ITestManager>().Instance(this).OverridesExistingRegistration().LifeStyle.Singleton);
         }
         
-        public virtual void InitialiseTestContext(string testMethod, TestContext testContext = null)
-        {
-	        if (testContext == null) return;
-	        
-			//TODO: Possibly not required
-	        //TestMethodManager.ConfigurationService.AddOrUpdate(testMethod, ConfigurationReader);
-        }
-
 		public virtual void InitialiseIoc()
         {
             var container = new WindsorContainer();

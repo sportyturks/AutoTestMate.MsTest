@@ -1,16 +1,12 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using AutoTestMate.MsTest.Infrastructure.Core;
+﻿using AutoTestMate.MsTest.Infrastructure.Core;
 using AutoTestMate.MsTest.Infrastructure.Core.MethodManager;
-using DocumentFormat.OpenXml.Drawing.Diagrams;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutoTestMate.MsTest.Web.Core.MethodManager
 {
     public class WebTestMethodManager : TestMethodManager, IWebTestMethodManager
     {
-        public WebTestMethodManager(ILoggingUtility loggingUtility, TestContext testContext, IConfiguration appConfiguration, IConfigurationService configurationService, IFactory<IDriverCleanup> driverCleanup, IWebDriverService webDriverService): base (testContext, appConfiguration, loggingUtility)
+        public WebTestMethodManager(ILoggingUtility loggingUtility, TestContext testContext, IConfiguration appConfiguration, IFactory<IDriverCleanup> driverCleanup, IWebDriverService webDriverService): base (testContext, appConfiguration, loggingUtility)
         {
             WebDriverService = webDriverService;
             LoggingUtility = loggingUtility;

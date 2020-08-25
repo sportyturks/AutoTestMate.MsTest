@@ -11,13 +11,13 @@ namespace AutoTestMate.MsTest.Infrastructure.IntegrationTests
         [AssemblyInitialize]
         public static void Initialise(TestContext testContext)
         {
-            WebTestManager.Instance().OnInitialiseAssemblyDependencies(testContext);
+            TestManager.Instance().OnInitialiseAssemblyDependencies(testContext);
         }
 
         [AssemblyCleanup]
         public static void Cleanup()
         {
-            WebTestManager.Instance().OnDisposeAssemblyDependencies();
+            TestManager.Instance().OnDisposeAssemblyDependencies();
         }
     }
 }
