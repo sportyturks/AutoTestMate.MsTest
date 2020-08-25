@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AutoTestMate.MsTest.Infrastructure.IntegrationTests
 {
     [TestClass]
-    public class ConfigurationReaderTests : TestBase
+    public class ConfigurationReaderTests : WebTestBase
     { 
         [TestMethod]
         public void GetAppConfigConfigurationValues()
