@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using AutoTestMate.MsTest.Infrastructure.Attributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -74,10 +75,15 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
             throw exp;
 		}
 
-		public virtual IConfigurationReader ConfigurationReader => TestManager.ConfigurationReader;
+		public virtual IConfigurationReader ConfigurationReader => TestManager.TestMethodManager.TryGetValue(TestMethod).ConfigurationReader;
 
-		public virtual ILoggingUtility LoggingUtility => TestManager.LoggingUtility;
+        public virtual ILoggingUtility LoggingUtility => TestManager.LoggingUtility;
 
 		public string TestMethod => TestContext.TestName;
+
+        public virtual IConfigurationReader GetConfigurationReader([CallerMemberName] string testName = null)
+        {
+            return TestManager.TestMethodManager.TryGetValue(testName).ConfigurationReader;
+        }
 	}
 }

@@ -67,8 +67,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Attributes
 
             try
             {
-                //testManager.SetTextContext(testContext);
-                var configurationReader = testManager.ConfigurationReader;
+                var configurationReader = new ConfigurationReader(testManager.TestContext, testManager.AppConfiguration);
                 var dt = ReadFile();
                 UpdateConfigurationReader(dt, configurationReader);
                 testManager.UpdateConfigurationReader(testMethod, configurationReader);
