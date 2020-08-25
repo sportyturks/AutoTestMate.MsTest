@@ -12,7 +12,7 @@ namespace AutoTestMate.MsTest.Infrastructure.IntegrationTests
         public void GetAppConfigConfigurationValues()
         {
             var configurationReader = GetConfigurationReader();
-            Assert.IsTrue(configurationReader.GetConfigurationValue("BrowserType") == "chrome");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("BrowserType") == "Chrome");
             Assert.IsTrue(configurationReader.GetConfigurationValue("ForceKillProcess") == "true");
             Assert.IsTrue(configurationReader.GetConfigurationValue("Headless") == "false");
             Assert.IsTrue(configurationReader.GetConfigurationValue("BrowserOs") == "Windows");
@@ -94,7 +94,7 @@ namespace AutoTestMate.MsTest.Infrastructure.IntegrationTests
         {
             var configurationReader = GetConfigurationReader();
             Assert.IsNotNull(configurationReader);
-            Assert.IsTrue(configurationReader.GetConfigurationValue("BrowserType") == "chrome");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("BrowserType") == "Chrome");
             Assert.IsTrue(configurationReader.GetConfigurationValue("RowKey") == "5");
             Assert.IsTrue(configurationReader.GetConfigurationValue("FieldFour") == "Sheep");
             Assert.IsTrue(configurationReader.GetConfigurationValue("FieldFive") == "Have");
@@ -107,7 +107,7 @@ namespace AutoTestMate.MsTest.Infrastructure.IntegrationTests
         {
             var configurationReader = GetConfigurationReader();
             Assert.IsNotNull(configurationReader);
-            Assert.IsTrue(configurationReader.GetConfigurationValue("BrowserType") == "chrome");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("BrowserType") == "Chrome");
             Assert.IsTrue(configurationReader.GetConfigurationValue("RowKey") == "8");
             Assert.IsTrue(configurationReader.GetConfigurationValue("FieldSeven") == "Climbed");
             Assert.IsTrue(configurationReader.GetConfigurationValue("FieldEight") == "Up");
