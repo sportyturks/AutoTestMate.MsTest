@@ -61,12 +61,12 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 
         public virtual void OnTestMethodInitialise(string testMethod, TestContext testContext = null)
         {
-	        TestMethodManager.TestInitialiseService.CheckTestAlreadyInitialised(testMethod);
+	        TestMethodManager.CheckTestAlreadyInitialised(testMethod);
 
 	        try
             {
                 InitialiseTestContext(testMethod, testContext);
-                TestMethodManager.TestInitialiseService.Initialise(testMethod);
+                TestMethodManager.Add(testMethod);
             }
             catch (Exception exp)
             {
@@ -97,7 +97,8 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
         {
 	        if (testContext == null) return;
 	        
-	        TestMethodManager.ConfigurationService.AddOrUpdate(testMethod, ConfigurationReader);
+			//TODO: Possibly not required
+	        //TestMethodManager.ConfigurationService.AddOrUpdate(testMethod, ConfigurationReader);
         }
 
 		public virtual void InitialiseIoc()
@@ -119,12 +120,12 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 		{
 			if (configurationReader != null)
 			{
-				TestMethodManager.ConfigurationService.AddOrUpdate(testMethod, configurationReader);
+				TestMethodManager.UpdateConfigurationReader(testMethod, configurationReader);
 			}
-			else //Ensure ConfigurationReader is resolved from existing container dependencies 
+			else //TODO: check to see if this can be removed, possibly no longer required
 			{
-				var updateConfigurationReader = new ConfigurationReader(TestContext, AppConfiguration);
-				TestMethodManager.ConfigurationService.AddOrUpdate(testMethod, updateConfigurationReader);
+				var updateConfigurationReader = new ConfigurationReader(TestContext, AppConfiguration); 
+				TestMethodManager.UpdateConfigurationReader(testMethod, updateConfigurationReader);
 			}
 		}
 		public virtual void Dispose(string testMethod)
@@ -133,13 +134,12 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
         }
         public virtual void DisposeInternal(string testMethod)
 		{
-			TestMethodManager.TestInitialiseService.Dispose(testMethod);
-			TestMethodManager.ConfigurationService.Dispose(testMethod);
+			TestMethodManager.Dispose(testMethod);
 
-			if (string.IsNullOrWhiteSpace(testMethod))
+            if (string.IsNullOrWhiteSpace(testMethod))
 			{
-				TestMethodManager.TestInitialiseService.Dispose();
-				TestMethodManager.ConfigurationService.Dispose();
+				TestMethodManager.Dispose();
+
 			}
 		}
 

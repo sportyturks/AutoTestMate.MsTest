@@ -1,16 +1,17 @@
 using AutoTestMate.MsTest.Infrastructure.Attributes;
 using AutoTestMate.MsTest.Infrastructure.Core;
+using AutoTestMate.MsTest.Web.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutoTestMate.MsTest.Infrastructure.IntegrationTests
 {
     [TestClass]
-    public class ConfigurationReaderTests : TestBase
+    public class ConfigurationReaderTests : WebTestBase
     { 
         [TestMethod]
         public void GetAppConfigConfigurationValues()
         {
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("BrowserType") == "Chrome");
+            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("BrowserType") == "chrome");
             Assert.IsTrue(ConfigurationReader.GetConfigurationValue("ForceKillProcess") == "true");
             Assert.IsTrue(ConfigurationReader.GetConfigurationValue("Headless") == "false");
             Assert.IsTrue(ConfigurationReader.GetConfigurationValue("BrowserOs") == "Windows");

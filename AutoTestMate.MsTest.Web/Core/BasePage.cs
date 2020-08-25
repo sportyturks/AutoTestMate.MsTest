@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using AutoTestMate.MsTest.Infrastructure.Core;
+using AutoTestMate.MsTest.Infrastructure.Core.MethodManager;
 using AutoTestMate.MsTest.Web.Core.MethodManager;
 using OpenQA.Selenium;
 
@@ -15,13 +16,14 @@ namespace AutoTestMate.MsTest.Web.Core
         /// <summary>
         /// Constructor of Base Page
         /// </summary>
-        protected BasePage(string testMethod, IWebTestMethodManager webTestMethodManager)
+        protected BasePage(string testMethod, ITestMethodManager testMethodManager)
         {
-            webTestMethodManager.WebDriverService.TryGetValue(testMethod, out IWebDriver driver);
-            webTestMethodManager.ConfigurationService.TryGetValue(testMethod, out IConfigurationReader configurationReader);
-            
-            _driver = driver;
-            _configurationReader = configurationReader;
+            var webTestMethodManager = (WebTestMethodManager)testMethodManager;
+            webTestMethodManager.TestMethods.TryGetValue(testMethod, out ITestMethodBase testMethodBase);
+            var webTestMethod = (WebTestMethod)testMethodBase;
+
+            _driver = webTestMethod?.WebDriver;
+            _configurationReader = webTestMethod?.ConfigurationReader;
             _loggingUtility = webTestMethodManager.LoggingUtility;
         }
 

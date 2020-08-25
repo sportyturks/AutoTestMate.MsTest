@@ -46,14 +46,16 @@ namespace AutoTestMate.MsTest.Web.Core
 			}
 		}
 		
-		public IWebTestMethodManager WebTestMethodManager => Container.Resolve<IWebTestMethodManager>(); 
+		public WebTestMethodManager WebTestMethodManager => (WebTestMethodManager)Container.Resolve<ITestMethodManager>();
     	public bool IsDriverNull(string testMethod)
         {
-	        var driverExists = WebTestMethodManager.WebDriverService.TryGetValue(testMethod, out IWebDriver webDriver);
+	        WebTestMethodManager.TestMethods.TryGetValue(testMethod, out ITestMethodBase testMethodBase);
+			var webTestMethod = (WebTestMethod) testMethodBase;
+			var driverExists = webTestMethod?.WebDriver != null;
 
 	        if (!driverExists) return false;
 
-	        return webDriver == null;
+	        return webTestMethod.WebDriver == null;
         }
 
 		public IWebDriver Browser(string testMethod)
@@ -63,22 +65,23 @@ namespace AutoTestMate.MsTest.Web.Core
 				throw new NullReferenceException("Test method not correctly initialised");
 			}
 
-			WebTestMethodManager.WebDriverService.TryGetValue(testMethod, out IWebDriver webDriver);
-			return webDriver;
+            WebTestMethodManager.TestMethods.TryGetValue(testMethod, out ITestMethodBase testMethodBase);
+            var webTestMethod = (WebTestMethod)testMethodBase;
+
+            return webTestMethod?.WebDriver;
 		}
 
-		public IConfigurationReader ConfigurationReaderTestMethod(string testMethod)
-		{
-			if (IsDriverNull(testMethod))
-			{
-				throw new NullReferenceException("Test method not correctly initialised");
-			}
+        public IConfigurationReader ConfigurationReaderTestMethod(string testMethod)
+        {
+            if (IsDriverNull(testMethod))
+            {
+                throw new NullReferenceException("Test method not correctly initialised");
+            }
 
-			TestMethodManager.ConfigurationService.TryGetValue(testMethod, out IConfigurationReader configurationReader);
-			return configurationReader;
-		}
+            return TestMethodManager.TryGetValue(testMethod).ConfigurationReader;
+        }
 
-		#endregion
+        #endregion
 
 		#region Constructor
 
@@ -93,10 +96,9 @@ namespace AutoTestMate.MsTest.Web.Core
             base.OnInitialiseAssemblyDependencies(testContext);
             
             Container.Register(Component.For<IWebDriverService>().ImplementedBy<WebDriverService>().LifestyleSingleton());
-            Container.Register(Component.For<IWebTestMethodManager>().ImplementedBy<WebTestMethodManager>().OverridesExistingRegistration().LifestyleSingleton());
             Container.Register(Component.For<ITestMethodManager>().ImplementedBy<WebTestMethodManager>().OverridesExistingRegistration().LifestyleSingleton());
             
-            var browserOs = ConfigurationReader.GetConfigurationValue(Configuration.BrowserOsKey).ToLower().Trim();
+			var browserOs = ConfigurationReader.GetConfigurationValue(Configuration.BrowserOsKey).ToLower().Trim();
             if (string.Equals(browserOs, Configuration.BrowserOsLinux.ToLower()))
             {
                 Container.Register(Component.For<IProcess>().ImplementedBy<LinuxOsProcess>().LifestyleSingleton());
@@ -118,7 +120,7 @@ namespace AutoTestMate.MsTest.Web.Core
 					.Register(Component.For<IFactory<DriverOptions>>().ImplementedBy<BrowserOptionsFactory>().LifestyleSingleton())
 					.Register(Component.For<IFactory<IWebDriver>>().ImplementedBy<BrowserFactory>().LifestyleSingleton());
 			}
-		}
+        }
         public override void OnTestMethodInitialise(string testMethod, TestContext testContext = null)
 		{
 			TestMethodManager.CheckTestAlreadyInitialised(testMethod);
@@ -126,8 +128,9 @@ namespace AutoTestMate.MsTest.Web.Core
 			try
 			{
 				InitialiseTestContext(testMethod, testContext);
-				WebTestMethodManager.TestInitialiseService.Initialise(testMethod);
-				WebTestMethodManager.WebDriverService.StartWebDriver(testMethod);
+                TestMethodManager.Add(testMethod);
+				//WebTestMethodManager.TestInitialiseService.Initialise(testMethod);
+				//WebTestMethodManager.WebDriverService.StartWebDriver(testMethod);
 			}
 			catch (System.Exception exp)
 			{
@@ -146,9 +149,8 @@ namespace AutoTestMate.MsTest.Web.Core
 		{
 			try
 			{
-				base.DisposeInternal(testMethod);
-				WebTestMethodManager.WebDriverService.Dispose(testMethod);
-			}
+				WebTestMethodManager.Dispose(testMethod);
+            }
 			catch (System.Exception e)
 			{
 				LoggingUtility.Error(e.Message);
