@@ -54,7 +54,7 @@ namespace AutoTestMate.MsTest.Web.Core
 			var webTestMethod = (WebTestMethod) testMethodBase;
 			var driverExists = webTestMethod?.WebDriver != null;
 
-	        if (!driverExists) return false;
+	        if (!driverExists) return true;
 
 	        return webTestMethod.WebDriver == null;
         }

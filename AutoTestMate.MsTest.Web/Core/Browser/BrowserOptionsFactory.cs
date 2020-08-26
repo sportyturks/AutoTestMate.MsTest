@@ -96,8 +96,30 @@ namespace AutoTestMate.MsTest.Web.Core.Browser
             options.AddArgument("no-sandbox");
             options.AddAdditionalCapability("useAutomationExtension", false);
 
+            //var browserOs = _configurationReader.GetConfigurationValue(Constants.Configuration.BrowserOsKey);
+            //if (browserOs.ToLower().Equals("linux"))
+            //{
+            //    options.PlatformName = "Linux";
+            //}
+            //else if (browserOs.ToLower().Equals("unix"))
+            //{
+            //    options.PlatformName = "Unix";
+            //}
+            //else if (browserOs.ToLower().Equals("android"))
+            //{
+            //    options.PlatformName = "Android";
+            //}
+            //else if (browserOs.ToLower().Equals("any"))
+            //{
+            //    options.PlatformName = "Any";
+            //}
+            //else if (browserOs.ToLower().Equals("windows"))
+            //{
+            //    options.PlatformName = "Windows";
+            //}
 
-	        if (string.Equals(_configurationReader.GetConfigurationValue(Constants.Configuration.EnableDetailedLogging).ToLower(), Infrastructure.Constants.Generic.TrueValue))
+
+            if (string.Equals(_configurationReader.GetConfigurationValue(Constants.Configuration.EnableDetailedLogging).ToLower(), Infrastructure.Constants.Generic.TrueValue))
 	        {
 		        var perfLogPrefs = new ChromePerformanceLoggingPreferences();
 		        perfLogPrefs.AddTracingCategories("devtools.network");

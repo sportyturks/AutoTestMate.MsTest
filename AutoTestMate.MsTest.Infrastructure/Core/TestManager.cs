@@ -88,6 +88,15 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 	            .Register(Component.For<IConfigurationReader>().ImplementedBy<ConfigurationReader>().OverridesExistingRegistration())
 	            .Register(Component.For<ITestMethodManager>().ImplementedBy<TestMethodManager>().LifestyleSingleton())
 	            .Register(Component.For<ITestManager>().Instance(this).OverridesExistingRegistration().LifeStyle.Singleton);
+
+            if (TestContext.Properties["UseAppSettings"].ToString().ToLower() == "false")//issue with linux
+            {
+                Container.Register(Component.For<IConfiguration>().ImplementedBy<EmptyConfiguration>().LifestyleSingleton());
+            }
+            else
+            {
+                Container.Register(Component.For<IConfiguration>().ImplementedBy<AppConfiguration>().LifestyleSingleton());
+            }
         }
         
 		public virtual void InitialiseIoc()
@@ -96,8 +105,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 
             container.Register(Component.For<ILoggingUtility>().ImplementedBy<TestLogger>().LifestyleSingleton())
 	            .Register(Component.For<IConfigurationReader>().ImplementedBy<ConfigurationReader>())
-	            .Register(Component.For<IConfiguration>().ImplementedBy<AppConfiguration>().LifestyleSingleton())
-	            .Register(Component.For<IMemoryCache>().ImplementedBy<MemoryCache>().LifestyleSingleton());
+                .Register(Component.For<IMemoryCache>().ImplementedBy<MemoryCache>().LifestyleSingleton());
 
             Container = container;
         }
