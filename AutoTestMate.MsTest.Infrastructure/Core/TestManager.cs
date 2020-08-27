@@ -89,7 +89,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 	            .Register(Component.For<ITestMethodManager>().ImplementedBy<TestMethodManager>().LifestyleSingleton())
 	            .Register(Component.For<ITestManager>().Instance(this).OverridesExistingRegistration().LifeStyle.Singleton);
 
-            if (TestContext.Properties["UseAppSettings"].ToString().ToLower() == "false")//issue with linux
+            if (TestContext.Properties["UseAppSettings"] != null && TestContext.Properties["UseAppSettings"].ToString().ToLower() == "false")//issue with linux
             {
                 Container.Register(Component.For<IConfiguration>().ImplementedBy<EmptyConfiguration>().LifestyleSingleton());
             }

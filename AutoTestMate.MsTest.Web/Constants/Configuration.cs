@@ -30,7 +30,8 @@
 		public const string HeadlessKey = "Headless";
 		public const string EnableDetailedLogging = "EnableDetailedLogging";
         public const string BrowserOsKey = "BrowserOs";
-        public const string BrowserOsWindows = "Windows";
+        public const string BrowserHdResolutionKey = "UseBrowserHdResolution";
+		public const string BrowserOsWindows = "Windows";
         public const string BrowserOsLinux = "Linux";
 
 		public const string UseSeleniumGridKey = "UseSeleniumGrid";

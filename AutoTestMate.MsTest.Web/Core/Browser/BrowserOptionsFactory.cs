@@ -89,9 +89,13 @@ namespace AutoTestMate.MsTest.Web.Core.Browser
             options.LeaveBrowserRunning = true;
 			options.AddArgument("bwsi");
 			options.AddArgument("ignore-certificate-errors");
-			//options.AddArgument("disable-extensions");
-			options.AddArgument("window-size=1920,1080");
-	        options.AddArgument("start-maximized");
+            //options.AddArgument("disable-extensions");
+            var browserHdResolution = _configurationReader.GetConfigurationValue(Constants.Configuration.BrowserHdResolutionKey);
+            if (browserHdResolution.ToLower().Equals("true"))
+            {
+                options.AddArgument("window-size=1920,1080");
+            }
+            options.AddArgument("start-maximized");
 			options.AddArgument("allow-insecure-localhost");
             options.AddArgument("no-sandbox");
             options.AddAdditionalCapability("useAutomationExtension", false);
