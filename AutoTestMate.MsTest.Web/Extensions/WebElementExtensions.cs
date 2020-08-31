@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using AutoTestMate.MsTest.Infrastructure.Core;
+using AutoTestMate.MsTest.Web.Core;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Internal;
@@ -67,51 +68,6 @@ namespace AutoTestMate.MsTest.Web.Extensions
 			element.Click();
 			element.Click();
 		}
-
-		public static void WaitClick(this IWebElement element, IWebDriver driver)
-		{
-			driver.WaitForPageToLoad();
-			element.Click();
-		}
-
-		public static void WaitClickMove(this IWebElement element, IWebDriver driver)
-		{
-			driver.WaitForPageToLoad();
-			var actions = new Actions(driver);
-			actions.MoveToElement(element).Click().Build().Perform();
-		}
-
-		public static void WaitClickJs(this IWebElement element, IWebDriver driver)
-		{
-			driver.WaitForPageToLoad();
-			driver.JavaScript().ExecuteScript("window.scrollTo(0, 0);");
-			driver.JavaScript().ExecuteScript("arguments[0].click();", element);
-		}
-
-
-		public static void WaitClick(this IWebElement element, IWebDriver driver, ref int iteration)
-		{
-			driver.WaitForPageToLoad();
-
-			iteration = iteration > 3 ? 1 : iteration;
-
-			switch (iteration)
-			{
-				case 1:
-					WaitClick(element, driver);
-					break;
-				case 2:
-					WaitClickMove(element, driver);
-					break;
-				case 3:
-					WaitClickJs(element, driver);
-					break;
-				default:
-					WaitClick(element, driver);
-					break;
-			}
-		}
-
 
 		public static bool IsAlertPresent(IWebDriver driver)
 		{
@@ -245,7 +201,7 @@ namespace AutoTestMate.MsTest.Web.Extensions
 			}
 			catch (System.Exception exp)
 			{
-				var loggingUtility = TestManager.Instance().LoggingUtility;
+				var loggingUtility = WebTestManager.Instance().LoggingUtility;
 				loggingUtility.Warning(exp.Message + exp.StackTrace);
 				return false;
 			}

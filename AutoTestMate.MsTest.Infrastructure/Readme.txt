@@ -1,5 +1,5 @@
 ﻿
-Below is a list of the main funcitonality that the infrastructure project offers:
+Below is a list of the main functionality that the infrastructure project offers:
 
 *	ICustomAttributes to solve the issue of 
 	-	Before Test attributes

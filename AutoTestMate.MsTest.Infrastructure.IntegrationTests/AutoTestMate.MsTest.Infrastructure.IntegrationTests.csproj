@@ -27,6 +27,10 @@
     <Content Include="Data\NurseryRhymesBook.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Remove="appsettings.json" />
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +43,10 @@
   <ItemGroup>
     <ProjectReference Include="..\AutoTestMate.MsTest.Infrastructure\AutoTestMate.MsTest.Infrastructure.csproj" />
     <ProjectReference Include="..\AutoTestMate.MsTest.Web\AutoTestMate.MsTest.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="ExcelOdbcTestDataTests.cs" />
   </ItemGroup>
 
 </Project>

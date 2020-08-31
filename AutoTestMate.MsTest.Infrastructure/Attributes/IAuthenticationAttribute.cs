@@ -5,7 +5,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Attributes
 {
     public interface IAuthenticationAttribute
     {
-        void BeforeTest(TestContext testContext, ITestManager testManager);
-        void AfterTest(ITestManager testManager);
+        void BeforeTest(string testMethod, TestContext testContext, ITestManager testManager);
+        void AfterTest(string testMethod, ITestManager testManager);
     }
 }

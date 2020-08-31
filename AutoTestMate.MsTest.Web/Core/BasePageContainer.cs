@@ -1,12 +1,14 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using AutoTestMate.MsTest.Infrastructure.Core;
+using AutoTestMate.MsTest.Infrastructure.Core.MethodManager;
 using AutoTestMate.MsTest.Web.Core.MethodManager;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 
 namespace AutoTestMate.MsTest.Web.Core
 {
     [ExcludeFromCodeCoverage]
-    public abstract class BasePage
+    public abstract class BasePageContainer
     {
         private readonly IWebDriver _driver;
         private readonly IConfigurationReader _configurationReader;
@@ -15,10 +17,10 @@ namespace AutoTestMate.MsTest.Web.Core
         /// <summary>
         /// Constructor of Base Page
         /// </summary>
-        protected BasePage(string testMethod)
+        protected BasePageContainer(ITestMethodManager testMethodManager, TestContext testContext)
         {
-            var webTestMethodManager = WebTestManager.Instance().WebTestMethodManager;
-            var webTestMethod = (WebTestMethod)webTestMethodManager.TryGetValue(testMethod);
+            var webTestMethodManager = (WebTestMethodManager)testMethodManager;
+            var webTestMethod = (WebTestMethod)webTestMethodManager.TryGetValue(testContext.TestName);
 
             _driver = webTestMethod?.WebDriver;
             _configurationReader = webTestMethod?.ConfigurationReader;

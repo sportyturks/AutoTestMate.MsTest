@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using AutoTestMate.MsTest.Infrastructure.Attributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -9,11 +10,13 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 		[TestInitialize]
 		public virtual void OnTestInitialise()
 		{
+			var testMethod = TestContext.TestName;
+			
 			try
 			{
 				TestManager = Core.TestManager.Instance();
-				TestManager.OnTestMethodInitialise(TestContext);
-				CustomAttributesInitialise();
+				TestManager.OnTestMethodInitialise(testMethod, TestContext);
+				CustomAttributesInitialise(testMethod);
 			}
 			catch (Exception ex)
 			{
@@ -28,9 +31,13 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
         [TestCleanup]
         public virtual void OnTestCleanup()
         {
+	        var testMethod = TestContext.TestName;
+	        
             try
             {
-                CustomAttributesCleanup();
+	            
+                CustomAttributesCleanup(testMethod);
+                TestManager.Dispose(testMethod);
 
                 if (TestContext.CurrentTestOutcome != UnitTestOutcome.Passed)
                 {
@@ -54,7 +61,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
             }
             finally
             {
-                TestManager.OnTestCleanup();
+                TestManager.OnTestCleanup(testMethod);
             }
         }
 
@@ -68,8 +75,15 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
             throw exp;
 		}
 
-		public virtual IConfigurationReader ConfigurationReader => TestManager.ConfigurationReader;
+		public virtual IConfigurationReader ConfigurationReader => TestManager.TestMethodManager.TryGetValue(TestMethod).ConfigurationReader;
 
-		public virtual ILoggingUtility LoggingUtility => TestManager.LoggingUtility;
+        public virtual ILoggingUtility LoggingUtility => TestManager.LoggingUtility;
+
+		public string TestMethod => TestContext.TestName;
+
+        public virtual IConfigurationReader GetConfigurationReader([CallerMemberName] string testName = null)
+        {
+            return TestManager.TestMethodManager.TryGetValue(testName).ConfigurationReader;
+        }
 	}
 }

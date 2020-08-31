@@ -1,4 +1,5 @@
-﻿using Castle.Windsor;
+﻿using AutoTestMate.MsTest.Infrastructure.Core.MethodManager;
+using Castle.Windsor;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutoTestMate.MsTest.Infrastructure.Core
@@ -8,18 +9,18 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
         WindsorContainer Container { get; }
 		TestContext TestContext { get; }
 		IConfigurationReader ConfigurationReader { get; }
+		ITestMethodManager TestMethodManager { get; }
         IConfiguration AppConfiguration { get; }
 		ILoggingUtility LoggingUtility { get; }
 		void OnInitialiseAssemblyDependencies(TestContext testContext = null);
 		void OnDisposeAssemblyDependencies();
-        void OnTestMethodInitialise(TestContext testContext = null);
-		void OnTestCleanup();
+        void OnTestMethodInitialise(string testMethod, TestContext testContext = null);
+		void OnTestCleanup(string testMethod);
 		void InitialiseIoc();
 		void InitialiseTestContext(TestContext testContext = null);
 		void InitialiseTestContextDependencies();
-        void Dispose();
-        void DisposeInternal();
-		void UpdateConfigurationReader(IConfigurationReader configurationReader);
+        void Dispose(string testMethod);
+        void UpdateConfigurationReader(string testMethod, IConfigurationReader configurationReader);
 		void SetTextContext(TestContext testContext);
 	}
 }

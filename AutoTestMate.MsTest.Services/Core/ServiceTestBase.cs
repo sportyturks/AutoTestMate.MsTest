@@ -12,11 +12,12 @@ namespace AutoTestMate.MsTest.Services.Core
         [TestInitialize]
         public override void OnTestInitialise()
         {
+            var testMethod = TestContext.TestName;
             try
             {
                 TestManager = ServiceTestManager.Instance();
-                TestManager.OnTestMethodInitialise(TestContext);
-                CustomAttributesInitialise();
+                TestManager.OnTestMethodInitialise(testMethod,TestContext);
+                CustomAttributesInitialise(testMethod);
             }
             catch (Exception ex)
             {

@@ -1,72 +1,117 @@
 using AutoTestMate.MsTest.Infrastructure.Attributes;
 using AutoTestMate.MsTest.Infrastructure.Core;
+using AutoTestMate.MsTest.Web.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutoTestMate.MsTest.Infrastructure.IntegrationTests
 {
     [TestClass]
-    public class ConfigurationReaderTests : TestBase
+    public class ConfigurationReaderTests : WebTestBase
     { 
         [TestMethod]
-        [ExcelOdbcTestData(FileLocation = @".\Data", FileName = "NurseryRhymesBook.xls", RowKey = "8", SheetName = "TableThree")]
         public void GetAppConfigConfigurationValues()
         {
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("RowKey") == "8");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldSeven") == "Climbed");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldEight") == "Up");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldNine") == "The");
+            var configurationReader = GetConfigurationReader();
+            Assert.IsTrue(configurationReader.GetConfigurationValue("BrowserType") == "Chrome");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("ForceKillProcess") == "true");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("Headless") == "false");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("BrowserOs") == "Windows");
         }
 
         [TestMethod]
-        [ExcelOdbcTestData(FileLocation = @".\Data", FileName = "NurseryRhymesBook.xls", RowKey = "8", SheetName = "TableThree")]
+        [ExcelClosedTestData(FileLocation = @"./Data", FileName = "NurseryRhymesBook.xlsx", RowKey = "8", SheetName = "TableThree")]
         public void GetTestSettingConfigurationValues()
         {
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("RowKey") == "8");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldSeven") == "Climbed");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldEight") == "Up");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldNine") == "The");
+            var configurationReader = GetConfigurationReader();
+            Assert.IsTrue(configurationReader.GetConfigurationValue("RowKey") == "8");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldSeven") == "Climbed");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldEight") == "Up");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldNine") == "The");
         }
 
 
         [TestMethod]
-        [ExcelOdbcTestData(FileLocation = @".\Data", FileName = "NurseryRhymesBook.xls", RowKey = "8", SheetName = "TableThree")]
+        [ExcelClosedTestData(FileLocation = @"./Data", FileName = "NurseryRhymesBook.xlsx", RowKey = "8", SheetName = "TableThree")]
         public void GetExcelConfigurationValues()
         {
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("RowKey") == "8");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldSeven") == "Climbed");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldEight") == "Up");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldNine") == "The");
+            var configurationReader = GetConfigurationReader();
+            Assert.IsTrue(configurationReader.GetConfigurationValue("RowKey") == "8");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldSeven") == "Climbed");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldEight") == "Up");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldNine") == "The");
         }
 
         [TestMethod]
-        [ExcelOdbcTestData(FileLocation = @".\Data", FileName = "NurseryRhymesBook.xls", RowKey = "8", SheetName = "TableThree")]
+        [ExcelClosedTestData(FileLocation = @"./Data", FileName = "NurseryRhymesBook.xlsx", RowKey = "8", SheetName = "TableThree")]
         public void SetConfigurationValues()
         {
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("RowKey") == "8");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldSeven") == "Climbed");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldEight") == "Up");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldNine") == "The");
+            var configurationReader = GetConfigurationReader();
+            Assert.IsTrue(configurationReader.GetConfigurationValue("RowKey") == "8");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldSeven") == "Climbed");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldEight") == "Up");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldNine") == "The");
         }
 
 
         [TestMethod]
-        [ExcelOdbcTestData(FileLocation = @".\Data", FileName = "NurseryRhymesBook.xls", RowKey = "8", SheetName = "TableThree")]
+        [ExcelClosedTestData(FileLocation = @"./Data", FileName = "NurseryRhymesBook.xlsx", RowKey = "8", SheetName = "TableThree")]
         public void UpdateConfigurationValues()
         {
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("RowKey") == "8");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldSeven") == "Climbed");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldEight") == "Up");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldNine") == "The");
+            var configurationReader = GetConfigurationReader();
+            Assert.IsTrue(configurationReader.GetConfigurationValue("RowKey") == "8");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldSeven") == "Climbed");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldEight") == "Up");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldNine") == "The");
         }
 
         [TestMethod]
-        [ExcelOdbcTestData(FileLocation = @".\Data", FileName = "NurseryRhymesBook.xls", RowKey = "8", SheetName = "TableThree")]
+        [ExcelClosedTestData(FileLocation = @"./Data", FileName = "NurseryRhymesBook.xlsx", RowKey = "8", SheetName = "TableThree")]
         public void EnsureExceptionThrownForMandatoryConfigurationValues()
         {
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("RowKey") == "8");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldSeven") == "Climbed");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldEight") == "Up");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldNine") == "The");
+            var configurationReader = GetConfigurationReader();
+            Assert.IsTrue(configurationReader.GetConfigurationValue("RowKey") == "8");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldSeven") == "Climbed");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldEight") == "Up");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldNine") == "The");
+        }
+
+        [TestMethod]
+        [ExcelClosedTestData(FileLocation = @"./Data", FileName = "NurseryRhymesBook.xlsx", RowKey = "3", SheetName = "TableOne")]
+        public void ExcelTest1()
+        {
+            var configurationReader = GetConfigurationReader();
+            Assert.IsNotNull(configurationReader);
+            Assert.IsTrue(configurationReader.GetConfigurationValue("RowKey") == "3");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldOne") == "Over");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldTwo") == "The");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldThree") == "Tree");
+        }
+
+
+        [TestMethod]
+        [ExcelClosedTestData(FileLocation = @"./Data", FileName = "NurseryRhymesBook.xlsx", RowKey = "5", SheetName = "TableTwo")]
+        public void ExcelTest2()
+        {
+            var configurationReader = GetConfigurationReader();
+            Assert.IsNotNull(configurationReader);
+            Assert.IsTrue(configurationReader.GetConfigurationValue("BrowserType") == "Chrome");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("RowKey") == "5");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldFour") == "Sheep");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldFive") == "Have");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldSix") == "You");
+        }
+
+        [TestMethod]
+        [ExcelClosedTestData(FileLocation = @"./Data", FileName = "NurseryRhymesBook.xlsx", RowKey = "8", SheetName = "TableThree")]
+        public void ExcelTest3()
+        {
+            var configurationReader = GetConfigurationReader();
+            Assert.IsNotNull(configurationReader);
+            Assert.IsTrue(configurationReader.GetConfigurationValue("BrowserType") == "Chrome");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("RowKey") == "8");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldSeven") == "Climbed");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldEight") == "Up");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldNine") == "The");
         }
     }
 

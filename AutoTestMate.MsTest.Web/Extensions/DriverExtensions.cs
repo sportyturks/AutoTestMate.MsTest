@@ -43,16 +43,17 @@ namespace AutoTestMate.MsTest.Web.Extensions
 			wait.Until(func);
 		}
 
-		/// <summary>
-		///     Waits for a specified function to be satisfied within the specified timeout.
-		/// </summary>
-		/// <param name="driver">The Web Driver</param>
-		/// <param name="func">The function to be satisfied</param>
-		public static void Wait(this IWebDriver driver, Func<IWebDriver, IWebElement> func)
-		{
-			WebTestManager.Instance().BrowserWait
-				.Until(func);
-		}
+		///// <summary>
+		/////     Waits for a specified function to be satisfied within the specified timeout.
+		///// </summary>
+		///// <param name="driver">The Web Driver</param>
+		///// <param name="func">The function to be satisfied</param>
+		//public static void Wait(this IWebDriver driver, Func<IWebDriver, IWebElement> func)
+		//{
+		//	var testManager = WebTestManager.Instance().WebTestMethodManager;
+		//	testManager.WebDriverService.TryGetValue(testManager.TestContext.TestName, out WebDriverWait webDriverWait);
+		//	webDriverWait.Until(func);
+		//}
 
 		public static void Wait(this IWebDriver driver, By by, int limit)
 		{
@@ -60,11 +61,12 @@ namespace AutoTestMate.MsTest.Web.Extensions
 			wait.Until(d => d.FindElement(by));
 		}
 
-		public static void Wait(this IWebDriver driver, By by)
-		{
-			WebTestManager.Instance().BrowserWait
-				.Until(d => d.FindElement(by));
-		}
+		//public static void Wait(this IWebDriver driver, By by)
+		//{
+		//	var testManager = WebTestManager.Instance().WebTestMethodManager;
+		//	testManager.WebDriverService.TryGetValue(testManager.TestContext.TestName, out WebDriverWait webDriverWait);
+		//	webDriverWait.Until(d => d.FindElement(by));
+		//}
 
 		public static bool TryWait(this IWebDriver driver, By by, int limit)
 		{
@@ -80,19 +82,20 @@ namespace AutoTestMate.MsTest.Web.Extensions
 			}
 		}
 
-		public static bool TryWait(this IWebDriver driver, By by)
-		{
-			try
-			{
-				WebTestManager.Instance().BrowserWait
-					.Until(d => d.FindElement(by));
-				return true;
-			}
-			catch
-			{
-				return false;
-			}
-		}
+		//public static bool TryWait(this IWebDriver driver, By by)
+		//{
+		//	try
+		//	{
+		//		var testManager = WebTestManager.Instance().WebTestMethodManager;
+		//		testManager.WebDriverService.TryGetValue(testManager.TestContext.TestName, out WebDriverWait webDriverWait);
+		//		webDriverWait.Until(d => d.FindElement(by));
+		//		return true;
+		//	}
+		//	catch
+		//	{
+		//		return false;
+		//	}
+		//}
 
 		public static void Wait(this IWebDriver driver, Func<IWebDriver, bool> func, int limit)
 		{
@@ -100,11 +103,12 @@ namespace AutoTestMate.MsTest.Web.Extensions
 			wait.Until(func);
 		}
 
-		public static void Wait(this IWebDriver driver, Func<IWebDriver, bool> func)
-		{
-			WebTestManager.Instance().BrowserWait
-				.Until(func);
-		}
+		//public static void Wait(this IWebDriver driver, Func<IWebDriver, bool> func)
+		//{
+		//	var testManager = WebTestManager.Instance().WebTestMethodManager;
+		//	testManager.WebDriverService.TryGetValue(testManager.TestContext.TestName, out WebDriverWait webDriverWait);
+		//	webDriverWait.Until(func);
+		//}
 
 		public static void Wait(this IWebDriver driver, Func<IWebDriver, ReadOnlyCollection<IWebElement>> func,
 			int limit)
@@ -113,11 +117,12 @@ namespace AutoTestMate.MsTest.Web.Extensions
 			wait.Until(func);
 		}
 
-		public static void Wait(this IWebDriver driver, Func<IWebDriver, ReadOnlyCollection<IWebElement>> func)
-		{
-			WebTestManager.Instance().BrowserWait
-				.Until(func);
-		}
+		//public static void Wait(this IWebDriver driver, Func<IWebDriver, ReadOnlyCollection<IWebElement>> func)
+		//{
+		//	var testManager = WebTestManager.Instance().WebTestMethodManager;
+		//	testManager.WebDriverService.TryGetValue(testManager.TestContext.TestName, out WebDriverWait webDriverWait);
+		//	webDriverWait.Until(func);
+		//}
 
 		public static void CloseAlert(this IWebDriver driver, ILoggingUtility loggingUtility)
 		{
@@ -165,56 +170,58 @@ namespace AutoTestMate.MsTest.Web.Extensions
 			throw new ArgumentException("timeoutInSeconds must be greater than 0");
 		}
 
-		/// <summary>
-		/// 
-		/// This one is a tricky one. I will preface it by saying that for the most part you should not need this method. 
-		/// Most Selenium methods (Click, Submit, FindElement, etc) use the implicit timeout to wait for an element to appear 
-		/// and then wait until the page finishes loading before returning control back to your program. Usually if you feel
-		/// like you need to wait for the page to load, it is better to try adjusting the implicit wait time first or use the 
-		/// WaitWebDriver class. Now, with those disclamers, sometimes it can be useful to have the ability to wait for the page 
-		/// to finish loading.For example, SendKeys does not wait for the page to finish loading.
-		/// 
-		/// element.SendKeys(Keys.Enter);
-		/// driver.WaitForPageToLoad();
-		/// Same thing as
-		/// element.Click();
-		/// 
-		/// </summary>
-		/// <param name="driver">Current Web Driver</param>
-		public static void WaitForPageToLoad(this IWebDriver driver)
-		{
-			if (!(driver is IJavaScriptExecutor javascript))
-			{
-				throw new ArgumentException("Driver must support javascript execution", nameof(driver));
-			}
+		///// <summary>
+		///// 
+		///// This one is a tricky one. I will preface it by saying that for the most part you should not need this method. 
+		///// Most Selenium methods (Click, Submit, FindElement, etc) use the implicit timeout to wait for an element to appear 
+		///// and then wait until the page finishes loading before returning control back to your program. Usually if you feel
+		///// like you need to wait for the page to load, it is better to try adjusting the implicit wait time first or use the 
+		///// WaitWebDriver class. Now, with those disclamers, sometimes it can be useful to have the ability to wait for the page 
+		///// to finish loading.For example, SendKeys does not wait for the page to finish loading.
+		///// 
+		///// element.SendKeys(Keys.Enter);
+		///// driver.WaitForPageToLoad();
+		///// Same thing as
+		///// element.Click();
+		///// 
+		///// </summary>
+		///// <param name="driver">Current Web Driver</param>
+		//public static void WaitForPageToLoad(this IWebDriver driver)
+		//{
+		//	if (!(driver is IJavaScriptExecutor javascript))
+		//	{
+		//		throw new ArgumentException("Driver must support javascript execution", nameof(driver));
+		//	}
 
-			//To get around the pop up issue, particualrly in internet explorer 
-			//https://stackoverflow.com/questions/6852732/selenium-webdriver-how-to-close-browser-popup
-			javascript.ExecuteScript("window.onbeforeunload = function(e){};");
+		//	//To get around the pop up issue, particualrly in internet explorer 
+		//	//https://stackoverflow.com/questions/6852732/selenium-webdriver-how-to-close-browser-popup
+		//	javascript.ExecuteScript("window.onbeforeunload = function(e){};");
 
-			WebTestManager.Instance().BrowserWait.Until((d) =>
-			{
-				try
-				{
-					string readyState = javascript.ExecuteScript("if (document.readyState) return document.readyState;").ToString();
-					return readyState.ToLower() == "complete";
-				}
-				catch (InvalidOperationException e)
-				{
-					//Window is no longer available
-					return e.Message.ToLower().Contains("unable to get browser");
-				}
-				catch (WebDriverException e)
-				{
-					//Browser is no longer available
-					return e.Message.ToLower().Contains("unable to connect");
-				}
-				catch
-				{
-					return false;
-				}
-			});
-		}
+		//	var testManager = WebTestManager.Instance().WebTestMethodManager;
+		//	testManager.WebDriverService.TryGetValue(testManager.TestContext.TestName, out WebDriverWait webDriverWait);
+		//	webDriverWait.Until((d) =>
+		//	{
+		//		try
+		//		{
+		//			string readyState = javascript.ExecuteScript("if (document.readyState) return document.readyState;").ToString();
+		//			return readyState.ToLower() == "complete";
+		//		}
+		//		catch (InvalidOperationException e)
+		//		{
+		//			//Window is no longer available
+		//			return e.Message.ToLower().Contains("unable to get browser");
+		//		}
+		//		catch (WebDriverException e)
+		//		{
+		//			//Browser is no longer available
+		//			return e.Message.ToLower().Contains("unable to connect");
+		//		}
+		//		catch
+		//		{
+		//			return false;
+		//		}
+		//	});
+		//}
 
 		public static IJavaScriptExecutor JavaScript(this IWebDriver driver)
 		{

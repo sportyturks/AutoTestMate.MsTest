@@ -7,16 +7,17 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AutoTestMate.MsTest.Infrastructure.IntegrationTests
 {
     [TestClass]
-    public class ExcelClosedTestDataTests : TestBase
+    public class ExcelClosedTestDataTests : WebTestBase
     {
         [TestMethod]
         [ExcelClosedTestData(FileLocation = @"./Data", FileName = "NurseryRhymesBook.xlsx", RowKey = "8", SheetName = "TableThree")]
         public void EnsureCorrectFieldsAccessed()
         {
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("RowKey") == "8");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldSeven") == "Climbed");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldEight") == "Up");
-            Assert.IsTrue(ConfigurationReader.GetConfigurationValue("FieldNine") == "The");
+            var configurationReader = GetConfigurationReader();
+            Assert.IsTrue(configurationReader.GetConfigurationValue("RowKey") == "8");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldSeven") == "Climbed");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldEight") == "Up");
+            Assert.IsTrue(configurationReader.GetConfigurationValue("FieldNine") == "The");
         }
     }
 }

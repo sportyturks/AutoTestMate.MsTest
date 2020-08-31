@@ -7,12 +7,12 @@ namespace AutoTestMate.MsTest.Infrastructure.Attributes
     [AttributeUsage(validOn: AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
     public sealed class AuthenticationAttribute : Attribute, IAuthenticationAttribute
     {
-        public void BeforeTest(TestContext testContext, ITestManager testManager)
+        public void BeforeTest(string testMethod, TestContext testContext, ITestManager testManager)
         {
             Console.WriteLine("Before Test Called");
         }
 
-        public void AfterTest(ITestManager testManager)
+        public void AfterTest(string testMethod, ITestManager testManager)
         {
 			Console.WriteLine("After Test Called");
 		}
