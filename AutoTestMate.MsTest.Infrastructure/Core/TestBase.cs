@@ -85,5 +85,5 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
         {
             return TestManager.TestMethodManager.TryGetValue(testName).ConfigurationReader;
         }
-	}
+    }
 }

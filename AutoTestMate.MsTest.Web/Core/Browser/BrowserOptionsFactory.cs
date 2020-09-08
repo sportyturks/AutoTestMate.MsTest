@@ -51,10 +51,15 @@ namespace AutoTestMate.MsTest.Web.Core.Browser
                 var enableDetailLoggingSetting = _configurationReader.GetConfigurationValue(Constants.Configuration.EnableDetailedLogging).ToLower();
                 var headlessSetting = _configurationReader.GetConfigurationValue(Constants.Configuration.HeadlessKey).ToLower();
                 _loggingUtility.Info($"Browser Profile: {browserProfileSetting}, Detailed Logging: {enableDetailLoggingSetting}, Headless: {headlessSetting}");
+
                 var profile = profileManager.GetProfile(string.IsNullOrWhiteSpace(browserProfileSetting) ? "default" : browserProfileSetting);
-                profile.AcceptUntrustedCertificates = true;
-                profile.AssumeUntrustedCertificateIssuer = true;
-                options.Profile = profile;
+                if (profile != null)
+                {
+                    profile.AcceptUntrustedCertificates = true;
+                    profile.AssumeUntrustedCertificateIssuer = true;
+                    options.Profile = profile;
+                }
+
                 options.AddArguments("--width-1920");
                 options.AddArguments("--height-1080");
 

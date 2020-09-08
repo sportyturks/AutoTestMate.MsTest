@@ -14,6 +14,7 @@ using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Remote;
+//using System.Text.Encoding.CodePages;
 
 namespace AutoTestMate.MsTest.Web.Core.Browser
 {
@@ -40,13 +41,15 @@ namespace AutoTestMate.MsTest.Web.Core.Browser
             var loginWaitTime = Convert.ToInt64(ConfigurationReader.GetConfigurationValue(Constants.Configuration.LoginWaitTimeKey));
 
             var browserTypeValue = ConfigurationReader.GetConfigurationValue(Constants.Configuration.BrowserTypeKey);
-            var browserType = !string.IsNullOrWhiteSpace(browserTypeValue) ? BrowserTypeMapper.ConvertBrowserValue(browserTypeValue) : BrowserTypes.InternetExplorer;
+            var browserType = !string.IsNullOrWhiteSpace(browserTypeValue) ? BrowserTypeMapper.ConvertBrowserValue(browserTypeValue) : BrowserTypes.Chrome;
 
 			var cfgSeleniumGridUrl = ConfigurationReader.GetConfigurationValue(Constants.Configuration.SeleniumGridUrlKey);
 			var seleniumGridUrl = string.IsNullOrEmpty(cfgSeleniumGridUrl) ? Configuration.DefaultSeleniumUrl : cfgSeleniumGridUrl;
 			var commandTimeout = TimeSpan.FromMinutes(1);
 			var driverOptions = BrowserOptionsFactory.Create();
-			driver = new RemoteWebDriver(new Uri(seleniumGridUrl), driverOptions.ToCapabilities(), commandTimeout);
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance); //https://github.com/SeleniumHQ/selenium/issues/4816
+            driver = new RemoteWebDriver(new Uri(seleniumGridUrl), driverOptions.ToCapabilities(), commandTimeout);
+            //ffService.Host = "::1";
             return driver;
         }
 
