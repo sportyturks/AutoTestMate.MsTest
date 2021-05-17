@@ -115,9 +115,10 @@ namespace AutoTestMate.MsTest.Web.Core.Browser
 		    IWebDriver driver;
 		    driverOptions = BrowserOptionsFactory.Create();
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-			var ffService = FirefoxDriverService.CreateDefaultService(ConfigurationReader.GetConfigurationValue(Configuration.DriverServerLocationKey), "geckodriver.exe");
+            var geckonDriverName = string.Equals("linux",ConfigurationReader.GetConfigurationValue("BrowserOs").ToLower()) ? "geckodriver" : "geckodriver.exe";
+			var ffService = FirefoxDriverService.CreateDefaultService(ConfigurationReader.GetConfigurationValue(Configuration.DriverServerLocationKey), geckonDriverName);
             ffService.Host = "::1";
-			ffService.FirefoxBinaryPath = string.IsNullOrWhiteSpace(ConfigurationReader.GetConfigurationValue(Configuration.DriverServerLocationKey)) ? @"C:\Program Files\Mozilla Firefox\firefox.exe" : ConfigurationReader.GetConfigurationValue(Configuration.BrowserLocationKey);
+			ffService.FirefoxBinaryPath = string.IsNullOrWhiteSpace(ConfigurationReader.GetConfigurationValue(Configuration.BrowserLocationKey)) ? @"C:\Program Files\Mozilla Firefox\firefox.exe" : ConfigurationReader.GetConfigurationValue(Configuration.BrowserLocationKey);
 		    driver = new FirefoxDriver(ffService, (FirefoxOptions) driverOptions, TimeSpan.FromMinutes(loginWaitTime));
 		    driver.Manage().Cookies.DeleteAllCookies();
 		    driver.Manage().Window.Maximize();
