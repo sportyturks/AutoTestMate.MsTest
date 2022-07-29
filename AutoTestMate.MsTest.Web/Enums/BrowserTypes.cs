@@ -10,6 +10,8 @@ namespace AutoTestMate.MsTest.Web.Enums
 		InternetExplorer,
 		[Description("chrome")]
 		Chrome,
+		[Description("edge-chromium")]
+		EdgeChromium,
 		[Description("microsoftwebdriver")]
 		Edge,
 		[Description("")]

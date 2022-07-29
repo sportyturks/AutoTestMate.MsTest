@@ -37,6 +37,14 @@
 		public const string UseSeleniumGridKey = "UseSeleniumGrid";
 		public const string SeleniumGridUrlKey = "SeleniumGridUrl";
 		public const string DefaultSeleniumUrl = "http://localhost:4444/wd/hub";
+		public const string EnableVNC = "EnableVNC";
+		public const string EnableVideo = "EnableVideo";
+		public const string EnableLog = "EnableLog";
+		public const string ScreenResolution = "ScreenResolution";
+		public const string UseAop = "UseAop";
+		public const int DefaultTimeoutValue = 5;
+		public const string BrowserVersionKey = "BrowserVersion";
+
 
 		#endregion
 	}

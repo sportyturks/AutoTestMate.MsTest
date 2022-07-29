@@ -4,8 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>1.2.0</Version>
-    <AssemblyVersion>1.2.0.0</AssemblyVersion>
-    <FileVersion>1.2.0.0</FileVersion>
+    <AssemblyVersion>1.2.1.0</AssemblyVersion>
+    <FileVersion>1.2.1.0</FileVersion>
     <PackageVersion>1.2.0.0</PackageVersion>
   </PropertyGroup>
 
@@ -48,10 +48,9 @@
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.3" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
     <PackageReference Include="NLog" Version="4.7.10" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.6.0-preview3.19128.7" />
   </ItemGroup>
 
 </Project>
