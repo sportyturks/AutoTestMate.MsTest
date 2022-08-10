@@ -1,5 +1,7 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using AutoTestMate.MsTest.Infrastructure.Core;
+using AutoTestMate.MsTest.Web.Constants;
 using AutoTestMate.MsTest.Web.Core.MethodManager;
 using OpenQA.Selenium;
 
@@ -8,27 +10,35 @@ namespace AutoTestMate.MsTest.Web.Core
     [ExcludeFromCodeCoverage]
     public abstract class BasePage
     {
-        private readonly IWebDriver _driver;
-        private readonly IConfigurationReader _configurationReader;
-        private readonly ILoggingUtility _loggingUtility;
-
         /// <summary>
         /// Constructor of Base Page
         /// </summary>
         protected BasePage(string testMethod)
         {
-            var webTestMethodManager = WebTestManager.Instance().WebTestMethodManager;
-            var webTestMethod = (WebTestMethod)webTestMethodManager.TryGetValue(testMethod);
-
-            _driver = webTestMethod?.WebDriver;
-            _configurationReader = webTestMethod?.ConfigurationReader;
-            _loggingUtility = webTestMethodManager.LoggingUtility;
+            TestMethod = testMethod;
+            WebTestManager = WebTestManager.Instance();
+            WebTestMethodManager = WebTestManager.WebTestMethodManager;
+            WebTestMethod = (WebTestMethod)WebTestMethodManager.TryGetValue(testMethod);
+            Driver = WebTestMethod?.WebDriver;
+            ConfigurationReader = WebTestMethod?.ConfigurationReader;
+            LoggingUtility = WebTestMethodManager.LoggingUtility;
+            var timeout = ConfigurationReader.GetConfigurationValue(Configuration.TimeoutKey);
+            var timeoutValue = string.IsNullOrWhiteSpace(timeout) ? Configuration.DefaultTimeoutValue : Convert.ToInt64(timeout);
+            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(timeoutValue);
         }
 
-        public IWebDriver Driver => _driver;
-
-        public IConfigurationReader ConfigurationReader => _configurationReader;
-
-        public ILoggingUtility LoggingUtility => _loggingUtility;
+        protected IWebDriver Driver { get; }
+    
+        protected IConfigurationReader ConfigurationReader { get; }
+      
+        protected ILoggingUtility LoggingUtility  { get; }
+        
+        protected string TestMethod  { get; }
+        
+        protected WebTestMethodManager WebTestMethodManager  { get; }
+        
+        protected WebTestManager WebTestManager  { get; }
+        
+        protected WebTestMethod WebTestMethod  { get; }
     }
 }

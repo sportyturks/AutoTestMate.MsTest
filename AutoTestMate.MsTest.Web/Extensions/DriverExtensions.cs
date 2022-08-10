@@ -9,6 +9,7 @@ using AutoTestMate.MsTest.Web.Exception;
 using OpenQA.Selenium;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 
 namespace AutoTestMate.MsTest.Web.Extensions
 {
@@ -268,6 +269,46 @@ namespace AutoTestMate.MsTest.Web.Extensions
 			if (throwException)
 			{
 				throw new System.Exception("WebDriver timed out waiting for AJAX call to complete");
+			}
+		}
+		
+		public static IWebElement WaitUntilElementIsVisible(this IWebDriver driver, By by, int seconds = 60)
+		{
+			var wait = new WebDriverWait(driver, new TimeSpan(0, 0, seconds));
+			var element = wait.Until(ExpectedConditions.ElementIsVisible(by));
+			return element;
+		}
+
+		public static IWebElement WaitUntilElementIsNotVisible(this IWebDriver driver, By by, int seconds = 60, uint polling = 250 )
+		{
+			try
+			{
+				var wait = new WebDriverWait(driver, new TimeSpan(0, 0, seconds));
+
+				wait.IgnoreExceptionTypes(typeof(NoSuchElementException), typeof(WebDriverException), typeof(StaleElementReferenceException));
+
+				return wait.Until(ctx =>
+					{
+						var elems = ctx.FindElements(by);
+
+						if (elems.Count == 0) return null;
+
+						var elem = ctx.FindElement(by);
+
+						if (elem == null) return null;
+
+						if (!elem.Displayed || !elem.Enabled)
+						{
+							return elem;
+						}
+
+						return null;
+					}
+				);
+			}
+			catch
+			{
+				return null;
 			}
 		}
 	}

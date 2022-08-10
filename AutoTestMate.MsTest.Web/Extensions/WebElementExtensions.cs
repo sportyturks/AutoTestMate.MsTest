@@ -187,15 +187,21 @@ namespace AutoTestMate.MsTest.Web.Extensions
 
 		public static bool VisibleWait(this IWebElement elm, uint timeOut = 10, uint polling = 550)
 		{
+			var driver = ((IWrapsDriver)elm).WrappedDriver;
+			var defaultImplicitWait = driver.Manage().Timeouts().ImplicitWait;
+
 			try
 			{
+				driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+				
 				var wait = new DefaultWait<IWebElement>(elm)
 				{
 					Timeout = TimeSpan.FromSeconds(timeOut),
 					PollingInterval = TimeSpan.FromMilliseconds(polling)
 				};
 
-				wait.IgnoreExceptionTypes(typeof(NoSuchElementException), typeof(WebDriverException), typeof(StaleElementReferenceException));
+				wait.IgnoreExceptionTypes(typeof(NoSuchElementException), typeof(WebDriverException),
+					typeof(StaleElementReferenceException));
 
 				return wait.Until(element => element.Displayed && element.Enabled);
 			}
@@ -205,6 +211,11 @@ namespace AutoTestMate.MsTest.Web.Extensions
 				loggingUtility.Warning(exp.Message + exp.StackTrace);
 				return false;
 			}
+			finally
+			{
+				driver.Manage().Timeouts().ImplicitWait = defaultImplicitWait;
+			}
 		}
 	}
+	
 }
