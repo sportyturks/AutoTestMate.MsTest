@@ -1,7 +1,9 @@
 ﻿using System;
 using AutoTestMate.MsTest.Infrastructure.Core.MethodManager;
+using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
+using Castle.Windsor.Installer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutoTestMate.MsTest.Infrastructure.Core
@@ -101,7 +103,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
         
 		public virtual void InitialiseIoc()
         {
-            var container = new WindsorContainer();
+            var container = new WindsorContainer(new DefaultKernel(new AutomationDependencyResolver(), null), new DefaultComponentInstaller());
 
             container.Register(Component.For<ILoggingUtility>().ImplementedBy<TestLogger>().LifestyleSingleton())
 	            .Register(Component.For<IConfigurationReader>().ImplementedBy<ConfigurationReader>())

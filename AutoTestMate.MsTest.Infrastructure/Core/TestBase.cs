@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using AutoTestMate.MsTest.Infrastructure.Attributes;
+using Castle.MicroKernel.Registration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutoTestMate.MsTest.Infrastructure.Core
@@ -84,6 +85,10 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
         public virtual IConfigurationReader GetConfigurationReader([CallerMemberName] string testName = null)
         {
             return TestManager.TestMethodManager.TryGetValue(testName).ConfigurationReader;
+        }
+        public virtual void Register<TInterface, TImplementation>() where TImplementation : TInterface where TInterface : class
+        {
+	        TestManager.Container.Register(Component.For<TInterface>().ImplementedBy<TImplementation>().OverridesExistingRegistration().LifestyleTransient());
         }
     }
 }

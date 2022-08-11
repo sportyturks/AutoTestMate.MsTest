@@ -1,10 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using AutoTestMate.MsTest.Infrastructure.Core;
 using AutoTestMate.MsTest.Web.Core;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Internal;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;

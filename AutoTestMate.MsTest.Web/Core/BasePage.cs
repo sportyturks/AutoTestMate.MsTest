@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using AutoTestMate.MsTest.Infrastructure.Core;
 using AutoTestMate.MsTest.Web.Constants;
 using AutoTestMate.MsTest.Web.Core.MethodManager;
+using Castle.MicroKernel;
 using OpenQA.Selenium;
 
 namespace AutoTestMate.MsTest.Web.Core
@@ -22,6 +23,7 @@ namespace AutoTestMate.MsTest.Web.Core
             Driver = WebTestMethod?.WebDriver;
             ConfigurationReader = WebTestMethod?.ConfigurationReader;
             LoggingUtility = WebTestMethodManager.LoggingUtility;
+            
             var timeout = ConfigurationReader.GetConfigurationValue(Configuration.TimeoutKey);
             var timeoutValue = string.IsNullOrWhiteSpace(timeout) ? Configuration.DefaultTimeoutValue : Convert.ToInt64(timeout);
             Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(timeoutValue);
@@ -40,5 +42,10 @@ namespace AutoTestMate.MsTest.Web.Core
         protected WebTestManager WebTestManager  { get; }
         
         protected WebTestMethod WebTestMethod  { get; }
+
+        protected T GetPage<T>()
+        {
+            return WebTestManager.Container.Resolve<T>(new Arguments { { "testName", TestMethod } });
+        }
     }
 }

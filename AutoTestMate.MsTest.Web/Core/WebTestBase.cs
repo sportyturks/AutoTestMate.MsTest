@@ -1,8 +1,10 @@
 ﻿using System.Net.Http;
+using System.Runtime.CompilerServices;
 using AutoTestMate.MsTest.Infrastructure.Core.MethodManager;
 using AutoTestMate.MsTest.Services.Core;
 using AutoTestMate.MsTest.Web.Core.MethodManager;
 using AutoTestMate.MsTest.Web.Extensions;
+using Castle.MicroKernel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutoTestMate.MsTest.Web.Core
@@ -93,7 +95,11 @@ namespace AutoTestMate.MsTest.Web.Core
 		public WebTestManager WebTestManager => (WebTestManager)TestManager;
 
 		public override HttpClient HttpClient => ((WebTestManager)TestManager).HttpClient;
-    }
+		public virtual T GetPage<T>([CallerMemberName] string testName = null)
+		{
+			return TestManager.Container.Resolve<T>(new Arguments { { "testName", testName } });
+		}
+	}
 }
 
 

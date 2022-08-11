@@ -11,8 +11,8 @@ namespace AutoTestMate.MsTest.Infrastructure.Attributes
     {
         private IEnumerable<IAuthenticationAttribute> _actionAuthenticationAttributes = new List<IAuthenticationAttribute>();
         private IEnumerable<ITestDataAttribute> _actionTestDataAttributes = new List<ITestDataAttribute>();
-        public ITestManager TestManager { get; set; }
-		public TestContext TestContext { get; set; }
+        public virtual ITestManager TestManager { get; set; }
+		public virtual TestContext TestContext { get; set; }
 
 		public virtual void CustomAttributesInitialise(string testMethod)
         {

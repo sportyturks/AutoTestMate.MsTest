@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using AutoTestMate.MsTest.Infrastructure.Core;
+using Castle.MicroKernel.Registration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutoTestMate.MsTest.Services.Core

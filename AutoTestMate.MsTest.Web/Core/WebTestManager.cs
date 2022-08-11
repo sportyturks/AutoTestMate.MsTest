@@ -2,8 +2,10 @@
 using System.Diagnostics.CodeAnalysis;
 using AutoTestMate.MsTest.Infrastructure.Core;
 using AutoTestMate.MsTest.Infrastructure.Core.MethodManager;
+using AutoTestMate.MsTest.Infrastructure.Helpers;
 using AutoTestMate.MsTest.Services.Core;
 using AutoTestMate.MsTest.Web.Constants;
+using AutoTestMate.MsTest.Web.Core.Attributes;
 using AutoTestMate.MsTest.Web.Core.Browser;
 using AutoTestMate.MsTest.Web.Core.MethodManager;
 using Castle.MicroKernel.Registration;
@@ -98,6 +100,13 @@ namespace AutoTestMate.MsTest.Web.Core
 					.Register(Component.For<IFactory<DriverOptions>>().ImplementedBy<BrowserOptionsFactory>().LifestyleSingleton())
 					.Register(Component.For<IFactory<IWebDriver>>().ImplementedBy<BrowserFactory>().LifestyleSingleton());
 			}
+
+			if (!string.Equals(ConfigurationReader.GetConfigurationValue(Configuration.UseAop).Trim().ToLower(), Infrastructure.Constants.Generic.TrueValue)) return;
+			
+			RetryInterceptorRegister.Initialize(Container);
+			
+			//TODO: Not working for some reason
+			//Container.Register(Classes.FromAssemblyInDirectory(new AssemblyFilter(FileHelper.GetCurrentExecutingDirectory()).BasedOn(typeof(BasePage)).LifestyleTransient());
         }
         public override void OnTestMethodInitialise(string testMethod, TestContext testContext = null)
 		{
