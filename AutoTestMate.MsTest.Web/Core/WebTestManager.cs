@@ -126,21 +126,24 @@ namespace AutoTestMate.MsTest.Web.Core
 
         public override void Dispose(string testMethod)
 		{
-			DisposeInternal(testMethod);
-		}
-
-		public override void DisposeInternal(string testMethod)
-		{
 			try
 			{
-				WebTestMethodManager.Dispose(testMethod);
-            }
+				if (!string.IsNullOrWhiteSpace(testMethod))
+				{
+					LoggingUtility.Info($"Dispose test method -> {testMethod}...",true);
+					TestMethodManager.Dispose(testMethod);
+					return;
+				}
+				
+				LoggingUtility.Info("Dispose all..",true);
+				WebTestMethodManager.Dispose();
+			}
 			catch (System.Exception e)
 			{
 				LoggingUtility.Error(e.Message);
 			}
 		}
-
+        
 		#endregion
     }
 }

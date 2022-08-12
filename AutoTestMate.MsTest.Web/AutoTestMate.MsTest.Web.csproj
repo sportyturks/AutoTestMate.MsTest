@@ -4,9 +4,9 @@
     <TargetFramework>net6.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>1.2.0</Version>
-    <AssemblyVersion>1.2.9.0</AssemblyVersion>
-    <FileVersion>1.2.9.0</FileVersion>
-    <PackageVersion>1.2.9.0</PackageVersion>
+    <AssemblyVersion>1.2.22.0</AssemblyVersion>
+    <FileVersion>1.2.22.0</FileVersion>
+    <PackageVersion>1.2.22.0</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -47,5 +47,9 @@
     <Folder Include="Enums\" />
     <Folder Include="Extensions\" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <NoWarn>1416</NoWarn>
+  </PropertyGroup>
 
 </Project>

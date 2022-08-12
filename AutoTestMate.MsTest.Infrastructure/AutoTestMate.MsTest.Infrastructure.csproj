@@ -4,9 +4,9 @@
     <TargetFramework>net6.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>1.2.0</Version>
-    <AssemblyVersion>1.2.7.0</AssemblyVersion>
-    <FileVersion>1.2.7.0</FileVersion>
-    <PackageVersion>1.2.7.0</PackageVersion>
+    <AssemblyVersion>1.2.21.0</AssemblyVersion>
+    <FileVersion>1.2.21.0</FileVersion>
+    <PackageVersion>1.2.21.0</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -43,6 +43,7 @@
 
   <ItemGroup>
     <PackageReference Include="Castle.Windsor" Version="5.1.1" />
+    <PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.1.0" />
     <PackageReference Include="ClosedXML" Version="0.95.4" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.13.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
@@ -53,10 +54,8 @@
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Castle.Core.AsyncInterceptor">
-      <HintPath>..\..\..\..\..\.nuget\packages\castle.core.asyncinterceptor\2.1.0\lib\net6.0\Castle.Core.AsyncInterceptor.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1416</NoWarn>
+  </PropertyGroup>
 
 </Project>

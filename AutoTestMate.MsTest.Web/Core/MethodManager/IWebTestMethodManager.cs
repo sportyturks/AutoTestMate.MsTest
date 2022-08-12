@@ -6,6 +6,6 @@ namespace AutoTestMate.MsTest.Web.Core.MethodManager
     public interface IWebTestMethodManager: ITestMethodManager
     {
         IWebDriverService WebDriverService { get; set; }
-        ILoggingUtility LoggingUtility { get; set; }
+        new ILoggingUtility LoggingUtility { get; set; }
     }
 }

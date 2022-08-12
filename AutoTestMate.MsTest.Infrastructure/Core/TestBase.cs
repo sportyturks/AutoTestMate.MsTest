@@ -80,7 +80,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 
         public virtual ILoggingUtility LoggingUtility => TestManager.LoggingUtility;
 
-		public string TestMethod => TestContext.TestName;
+		public virtual string TestMethod => TestContext.TestName;
 
         public virtual IConfigurationReader GetConfigurationReader([CallerMemberName] string testName = null)
         {

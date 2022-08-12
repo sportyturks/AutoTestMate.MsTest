@@ -37,21 +37,13 @@ namespace AutoTestMate.MsTest.Web.Core.Browser
 
         public virtual IWebDriver Create()
         {
-            IWebDriver driver;
             var loginWaitTime = Convert.ToInt64(ConfigurationReader.GetConfigurationValue(Constants.Configuration.LoginWaitTimeKey));
-
-            var browserTypeValue = ConfigurationReader.GetConfigurationValue(Constants.Configuration.BrowserTypeKey);
-            var browserType = !string.IsNullOrWhiteSpace(browserTypeValue) ? BrowserTypeMapper.ConvertBrowserValue(browserTypeValue) : BrowserTypes.Chrome;
-
 			var cfgSeleniumGridUrl = ConfigurationReader.GetConfigurationValue(Constants.Configuration.SeleniumGridUrlKey);
 			var seleniumGridUrl = string.IsNullOrEmpty(cfgSeleniumGridUrl) ? Configuration.DefaultSeleniumUrl : cfgSeleniumGridUrl;
-			var commandTimeout = TimeSpan.FromMinutes(1);
-			var driverOptions = BrowserOptionsFactory.Create();
+            var driverOptions = BrowserOptionsFactory.Create();
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance); //https://github.com/SeleniumHQ/selenium/issues/4816
-            driver = new RemoteWebDriver(new Uri(seleniumGridUrl), driverOptions.ToCapabilities(), commandTimeout);
-            //ffService.Host = "::1";
+            IWebDriver driver = new RemoteWebDriver(new Uri(seleniumGridUrl), driverOptions.ToCapabilities(), TimeSpan.FromMinutes(loginWaitTime));
             return driver;
         }
-
     }
 }

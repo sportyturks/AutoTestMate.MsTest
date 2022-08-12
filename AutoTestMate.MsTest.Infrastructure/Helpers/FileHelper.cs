@@ -11,7 +11,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Helpers
 
 		public static string GetCurrentExecutingDirectory()
 		{
-			string directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
+			var directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
 			return directoryName?.Replace("file:\\", string.Empty).Replace(@"file:\", string.Empty) ?? string.Empty;
 		}

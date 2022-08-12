@@ -8,5 +8,6 @@ namespace AutoTestMate.MsTest.Infrastructure.Constants
         public const string LogLevelKey = "LogLevel";
 		public const string LogNameKey = "LogName";
         public const string NullValue = "NULL";
+        public const string OutputFileDirectory = "OutputFileDirectory";
     }
 }

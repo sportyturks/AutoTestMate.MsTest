@@ -72,7 +72,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
             catch (Exception exp)
             {
                 LoggingUtility.Error(exp.Message);
-                Dispose(testMethod);
+                //Dispose(testMethod); This should be called on TestCleanup
                 throw;
             }
         }
@@ -129,19 +129,14 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 		}
 		public virtual void Dispose(string testMethod)
         {
-            DisposeInternal(testMethod);
+	        if (string.IsNullOrWhiteSpace(testMethod))
+	        {
+		        TestMethodManager.Dispose();
+		        return;
+	        }
+	        
+	        TestMethodManager.Dispose(testMethod);
         }
-        public virtual void DisposeInternal(string testMethod)
-		{
-			TestMethodManager.Dispose(testMethod);
-
-            if (string.IsNullOrWhiteSpace(testMethod))
-			{
-				TestMethodManager.Dispose();
-
-			}
-		}
-
         public void SetTextContext(TestContext testContext)
         {
 	        Container.Register(Component.For<TestContext>().Instance(testContext).OverridesExistingRegistration());

@@ -114,8 +114,8 @@ namespace AutoTestMate.MsTest.Web.Core.Browser
 		    IWebDriver driver;
 		    driverOptions = BrowserOptionsFactory.Create();
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            var geckonDriverName = string.Equals("linux",ConfigurationReader.GetConfigurationValue("BrowserOs").ToLower()) ? "geckodriver" : "geckodriver.exe";
-			var ffService = FirefoxDriverService.CreateDefaultService(ConfigurationReader.GetConfigurationValue(Configuration.DriverServerLocationKey), geckonDriverName);
+            var geckoDriverName = string.Equals("linux",ConfigurationReader.GetConfigurationValue("BrowserOs").ToLower()) ? "geckodriver" : "geckodriver.exe";
+			var ffService = FirefoxDriverService.CreateDefaultService(ConfigurationReader.GetConfigurationValue(Configuration.DriverServerLocationKey), geckoDriverName);
             ffService.Host = "::1";
 			ffService.FirefoxBinaryPath = string.IsNullOrWhiteSpace(ConfigurationReader.GetConfigurationValue(Configuration.BrowserLocationKey)) ? @"C:\Program Files\Mozilla Firefox\firefox.exe" : ConfigurationReader.GetConfigurationValue(Configuration.BrowserLocationKey);
 		    driver = new FirefoxDriver(ffService, (FirefoxOptions) driverOptions, TimeSpan.FromMinutes(loginWaitTime));
@@ -127,9 +127,9 @@ namespace AutoTestMate.MsTest.Web.Core.Browser
 
 	    public string AssemblyDirectory()
         {
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
-            string path = Uri.UnescapeDataString(uri.Path);
+            var codeBase = Assembly.GetExecutingAssembly().Location;
+            var uri = new UriBuilder(codeBase);
+            var path = Uri.UnescapeDataString(uri.Path);
             return Path.GetDirectoryName(path);
         }
     }

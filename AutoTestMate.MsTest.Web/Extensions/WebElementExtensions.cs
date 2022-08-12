@@ -27,15 +27,6 @@ namespace AutoTestMate.MsTest.Web.Extensions
 			driver.ExecuteJavaScript(highlightJavascript, context);
 		}
 
-		public static IWebDriver GetWebDriverFromElement(IWebElement element)
-		{
-			var realElement = element.GetType() != typeof(RemoteWebElement)
-				? element
-				: ((IWrapsElement) element).WrappedElement;
-
-			return ((IWrapsDriver) realElement).WrappedDriver;
-		}
-
 		public static IWebElement ClearAndSendKeys(this IWebElement element, string keys)
 		{
 			element.Clear();
