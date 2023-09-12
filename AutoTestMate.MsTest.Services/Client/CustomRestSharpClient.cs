@@ -277,10 +277,7 @@ namespace AutoTestMate.MsTest.Services.Client
 
                 JsonSerializer = NewtonsoftJsonSerializer.Default
             };
-
-
-            restRequest.AddHeader("employment.gov.au-UniqueRequestMessageId", Guid.NewGuid().ToString());
-
+            
             restRequest.AddHeader(nameof(HttpRequestHeaders.Authorization),
                 $"{TokenTypeBearer} {AuthorisationToken.GetToken(forceResetToken)}");
 
