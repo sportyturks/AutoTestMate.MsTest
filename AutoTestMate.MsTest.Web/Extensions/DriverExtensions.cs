@@ -16,7 +16,7 @@ namespace AutoTestMate.MsTest.Web.Extensions
 				Directory.CreateDirectory(directory);
 				string fileName = Path.Combine(directory, $"{testName}_{DateTime.Now:yyyy-MM-dd_HH.mm}.png");
 				var screenshot = ((ITakesScreenshot)driver).GetScreenshot();
-				screenshot.SaveAsFile(fileName, ScreenshotImageFormat.Png);
+				screenshot.SaveAsFile(fileName);
 				return fileName;
 			}
 			catch
