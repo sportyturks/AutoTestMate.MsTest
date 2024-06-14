@@ -15,7 +15,7 @@ namespace AutoTestMate.MsTest.Web.Core
 		public override void OnTestInitialise()
 		{
 			var testMethod = TestMethod;
-            TestManager = WebTestManager.Instance();
+            TestManager = WebTestManager.Instance;
 
 			try
 			{
@@ -44,10 +44,10 @@ namespace AutoTestMate.MsTest.Web.Core
 		}
 
 		[TestCleanup]
-		public override void OnTestCleanup()
+		public override void OnTestCleanUp()
 		{
 			var testMethod = TestMethod;
-            TestManager = WebTestManager.Instance();
+            TestManager = WebTestManager.Instance;
 			WebTestMethodManager.TestMethods.TryGetValue(testMethod, out ITestMethodBase testMethodBase);
             var webTestMethod = (WebTestMethod)testMethodBase;
 

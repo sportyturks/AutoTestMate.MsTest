@@ -8,53 +8,27 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutoTestMate.MsTest.Infrastructure.Core
 {
-	public class TestManager : ITestManager
-	{
-		#region Private Variables
+    public class TestManager : ITestManager
+    {
+        private static readonly Lazy<TestManager> Singleton = new(() => new TestManager());
+        public static TestManager Instance => Singleton.Value;
 
-		private static TestManager _uniqueInstance;
-		private static readonly object SyncLock = new Object();
+        protected TestManager() { }
 
-		#endregion
-
-		#region Constructor
-
-		protected TestManager() { }
-
-		#endregion
-
-		#region Properties
-		public static TestManager Instance()
-		{
-			// Lock entire body of method
-			lock (SyncLock)
-			{
-				// ReSharper disable once ConvertIfStatementToNullCoalescingExpression
-				if (_uniqueInstance == null)
-				{
-					_uniqueInstance = new TestManager();
-				}
-
-				return _uniqueInstance;
-			}
-		}
-		public WindsorContainer Container { get; set; }
-		public ILoggingUtility LoggingUtility => Container.Resolve<ILoggingUtility>();
-		public IConfigurationReader ConfigurationReader => Container.Resolve<IConfigurationReader>();
+        public WindsorContainer Container { get; private set; }
+        public ILoggingUtility LoggingUtility => Container.Resolve<ILoggingUtility>();
+        public IConfigurationReader ConfigurationReader => Container.Resolve<IConfigurationReader>();
         public IConfiguration AppConfiguration => Container.Resolve<IConfiguration>();
-        public ITestMethodManager TestMethodManager => Container.Resolve<ITestMethodManager>(); 
+        public ITestMethodManager TestMethodManager => Container.Resolve<ITestMethodManager>();
         public TestContext TestContext => Container.Resolve<TestContext>();
 
-		#endregion
-
-		#region Public Methods
-        
         public virtual void OnInitialiseAssemblyDependencies(TestContext testContext = null)
         {
             InitialiseIoc();
             InitialiseTestContext(testContext);
             InitialiseTestContextDependencies();
         }
+
         public virtual void OnDisposeAssemblyDependencies()
         {
             Dispose(null);
@@ -63,16 +37,15 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 
         public virtual void OnTestMethodInitialise(string testMethod, TestContext testContext = null)
         {
-	        TestMethodManager.CheckTestAlreadyInitialised(testMethod);
+            TestMethodManager.CheckTestAlreadyInitialised(testMethod);
 
-	        try
+            try
             {
                 TestMethodManager.Add(testMethod);
             }
             catch (Exception exp)
             {
                 LoggingUtility.Error(exp.Message);
-                //Dispose(testMethod); This should be called on TestCleanup
                 throw;
             }
         }
@@ -86,62 +59,57 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
         {
             if (testContext == null) return;
 
-            Container.Register(Component.For<TestContext>().Instance(testContext).OverridesExistingRegistration())
-	            .Register(Component.For<IConfigurationReader>().ImplementedBy<ConfigurationReader>().OverridesExistingRegistration())
-	            .Register(Component.For<ITestMethodManager>().ImplementedBy<TestMethodManager>().LifestyleSingleton())
-	            .Register(Component.For<ITestManager>().Instance(this).OverridesExistingRegistration().LifeStyle.Singleton);
+            Container.Register(
+                Component.For<TestContext>().Instance(testContext).OverridesExistingRegistration(),
+                Component.For<IConfigurationReader>().ImplementedBy<ConfigurationReader>().OverridesExistingRegistration(),
+                Component.For<ITestMethodManager>().ImplementedBy<TestMethodManager>().LifestyleSingleton(),
+                Component.For<ITestManager>().Instance(this).OverridesExistingRegistration().LifeStyle.Singleton
+            );
 
-            if (TestContext.Properties["UseAppSettings"] != null && TestContext.Properties["UseAppSettings"].ToString().ToLower() == "false")//issue with linux
-            {
-                Container.Register(Component.For<IConfiguration>().ImplementedBy<EmptyConfiguration>().LifestyleSingleton());
-            }
-            else
-            {
-                Container.Register(Component.For<IConfiguration>().ImplementedBy<AppConfiguration>().LifestyleSingleton());
-            }
+            var useAppSettings = TestContext.Properties["UseAppSettings"]?.ToString().ToLower() != "false";
+            var configurationType = useAppSettings ? typeof(AppConfiguration) : typeof(EmptyConfiguration);
+
+            Container.Register(Component.For<IConfiguration>().ImplementedBy(configurationType).LifestyleSingleton());
         }
-        
-		public virtual void InitialiseIoc()
+
+        public virtual void InitialiseIoc()
         {
             var container = new WindsorContainer(new DefaultKernel(new AutomationDependencyResolver(), null), new DefaultComponentInstaller());
 
-            container.Register(Component.For<ILoggingUtility>().ImplementedBy<TestLogger>().LifestyleSingleton())
-	            .Register(Component.For<IConfigurationReader>().ImplementedBy<ConfigurationReader>())
-                .Register(Component.For<IMemoryCache>().ImplementedBy<MemoryCache>().LifestyleSingleton());
+            container.Register(
+                Component.For<ILoggingUtility>().ImplementedBy<TestLogger>().LifestyleSingleton(),
+                Component.For<IConfigurationReader>().ImplementedBy<ConfigurationReader>(),
+                Component.For<IMemoryCache>().ImplementedBy<MemoryCache>().LifestyleSingleton()
+            );
 
             Container = container;
         }
-		public virtual void InitialiseTestContextDependencies()
-        {
 
-        }
-	    public virtual void UpdateConfigurationReader(string testMethod, IConfigurationReader configurationReader)
-		{
-			if (configurationReader != null)
-			{
-				TestMethodManager.UpdateConfigurationReader(testMethod, configurationReader);
-			}
-			else //TODO: check to see if this can be removed, possibly no longer required
-			{
-				var updateConfigurationReader = new ConfigurationReader(TestContext, AppConfiguration); 
-				TestMethodManager.UpdateConfigurationReader(testMethod, updateConfigurationReader);
-			}
-		}
-		public virtual void Dispose(string testMethod)
+        public virtual void InitialiseTestContextDependencies()
         {
-	        if (string.IsNullOrWhiteSpace(testMethod))
-	        {
-		        TestMethodManager.Dispose();
-		        return;
-	        }
-	        
-	        TestMethodManager.Dispose(testMethod);
-        }
-        public void SetTextContext(TestContext testContext)
-        {
-	        Container.Register(Component.For<TestContext>().Instance(testContext).OverridesExistingRegistration());
+            // Implementation can be provided here or in inheritted classes 
         }
 
-        #endregion
-	}
+        public virtual void UpdateConfigurationReader(string testMethod, IConfigurationReader configurationReader)
+        {
+            var reader = configurationReader ?? new ConfigurationReader(TestContext, AppConfiguration);
+            TestMethodManager.UpdateConfigurationReader(testMethod, reader);
+        }
+
+        public virtual void Dispose(string testMethod)
+        {
+            if (string.IsNullOrWhiteSpace(testMethod))
+            {
+                TestMethodManager.Dispose();
+                return;
+            }
+
+            TestMethodManager.Dispose(testMethod);
+        }
+
+        public virtual void SetTestContext(TestContext testContext)
+        {
+            Container.Register(Component.For<TestContext>().Instance(testContext).OverridesExistingRegistration());
+        }
+    }
 }

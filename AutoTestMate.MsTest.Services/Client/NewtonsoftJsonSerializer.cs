@@ -47,7 +47,6 @@ namespace AutoTestMate.MsTest.Services.Client
 
         {
             using (var stringWriter = new StringWriter())
-
             {
                 using (var jsonTextWriter = new JsonTextWriter(stringWriter))
 
@@ -66,12 +65,9 @@ namespace AutoTestMate.MsTest.Services.Client
         {
             var content = response.Content;
 
-
             using (var stringReader = new StringReader(content))
-
             {
                 using (var jsonTextReader = new JsonTextReader(stringReader))
-
                 {
                     return _serializer.Deserialize<T>(jsonTextReader);
                 }

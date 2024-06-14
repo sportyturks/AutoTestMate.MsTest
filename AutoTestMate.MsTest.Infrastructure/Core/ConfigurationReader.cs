@@ -10,21 +10,11 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 	/// </summary>
 	public class ConfigurationReader : IConfigurationReader
     {
-        #region Private Variables
-
-        private readonly IDictionary<string, string> _settings;
-        private readonly IConfiguration _appConfiguration;
-	    private readonly TestContext _testContext;
-
-		#endregion
-
-		#region Constructor
-
 		public ConfigurationReader(TestContext testContext, IConfiguration appConfiguration)
         {
-	        _settings = new Dictionary<string, string>();
-	        _testContext = testContext;
-			_appConfiguration = appConfiguration;
+	        Settings = new Dictionary<string, string>();
+	        TestContext = testContext;
+			AppConfiguration = appConfiguration;
 
             if (testContext != null)
             {
@@ -34,12 +24,10 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 
 	    public ConfigurationReader(TestContext testContext, IConfiguration appConfiguration, IDictionary<string, string> settings)
 	    {
-		    _testContext = testContext;
-		    _appConfiguration = appConfiguration;
-			_settings = settings;
+		    TestContext = testContext;
+		    AppConfiguration = appConfiguration;
+			Settings = settings;
 	    }
-
-		#endregion
 
 		#region Public Methods
 
@@ -48,19 +36,19 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 		/// </summary>
 		public string GetConfigurationValue(string key, bool required = false)
         {
-	        if (_settings.Count == 0 && _appConfiguration.Settings.Count == 0)
+	        if (Settings.Count == 0 && AppConfiguration.Settings.Count == 0)
 	        {
 		        throw new KeyNotFoundException($"{key} was not found in the test parameters. Please make sure that the solution has an active .runsettings file and that the parameter is valid.");
 	        }
 
-			var testSettingsValue = _settings.ContainsKey(key) ? _settings[key] : string.Empty;
+			var testSettingsValue = Settings.TryGetValue(key, out var setting) ? setting : string.Empty;
 			if (!string.IsNullOrWhiteSpace(testSettingsValue))
             {
                 return testSettingsValue;
             }
 
-	        var appSettingsDict = _appConfiguration.Settings.AllKeys.ToDictionary(k => k, k => _appConfiguration.Settings[k]);
-			var appSettingsValue = appSettingsDict.ContainsKey(key) ? appSettingsDict[key] : string.Empty;
+	        var appSettingsDict = AppConfiguration.Settings.AllKeys.ToDictionary(k => k, k => AppConfiguration.Settings[k]);
+			var appSettingsValue = appSettingsDict.TryGetValue(key, out var value) ? value : string.Empty;
 			if (!string.IsNullOrWhiteSpace(appSettingsValue))
             {
                 return string.Equals(appSettingsValue, Constants.Configuration.NullValue) ? null : appSettingsValue;
@@ -80,13 +68,13 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
             foreach (var key in keys)
             {
                 var value = testContext.Properties[key.ToString()].ToString();
-                if (!_settings.TryGetValue(key.ToString(), out _))
+                if (!Settings.TryGetValue(key.ToString(), out _))
                 {
-                    _settings.Add(key.ToString(), value);
+                    Settings.Add(key.ToString(), value);
                 }
                 else
                 {
-                    _settings[key.ToString()] = value;
+                    Settings[key.ToString()] = value;
                 }
             }
 
@@ -111,17 +99,17 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
         }
         public void AddSetting(string key, string value)
         {
-            if (!_settings.ContainsKey(key))
+            if (!Settings.ContainsKey(key))
             {
-                _settings.Add(key, value);
+                Settings.Add(key, value);
             }
         }
 
         public bool UpdateSetting(string key, string value)
         {
-            if (!_settings.ContainsKey(key)) return false;
+            if (!Settings.ContainsKey(key)) return false;
 
-            _settings[key] = value;
+            Settings[key] = value;
 
             return true;
         }
@@ -130,9 +118,11 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
         #region Public Properties
         public string LogLevel => GetConfigurationValue(Constants.Configuration.LogLevelKey);
         public string LogName => GetConfigurationValue(Constants.Configuration.LogNameKey);
-        public IDictionary<string, string> Settings => _settings;
-		public IConfiguration AppConfiguration => _appConfiguration;
-		public TestContext TestContext => _testContext;
+        public IDictionary<string, string> Settings { get; }
+
+        public IConfiguration AppConfiguration { get; }
+
+        public TestContext TestContext { get; }
 
 		#endregion
 	}

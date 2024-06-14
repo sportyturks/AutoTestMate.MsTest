@@ -8,16 +8,9 @@ using AutoTestMate.MsTest.Infrastructure.Core;
 
 namespace AutoTestMate.MsTest.Web.Core
 {
-    public class LinuxOsProcess : IProcess
+    public class LinuxOsProcess(ILoggingUtility loggingUtility) : IProcess
     {
         public const string UnixPidRegex = @"\w+\s+(\d+).*";
-
-        private readonly ILoggingUtility _loggingUtility;
-
-        public LinuxOsProcess(ILoggingUtility loggingUtility)
-        {
-            _loggingUtility = loggingUtility;
-        }
 
         public IEnumerable<int> GetProcessesByName(string name)
         {
@@ -47,7 +40,7 @@ namespace AutoTestMate.MsTest.Web.Core
                 }
                 catch (System.Exception exp)
                 {
-                    _loggingUtility.Error("Error while killing child processes " + exp.Message);
+                    loggingUtility.Error("Error while killing child processes " + exp.Message);
                 }
 
                 return;
@@ -89,7 +82,7 @@ namespace AutoTestMate.MsTest.Web.Core
         {
             if (processList == null)
             {
-                return new List<string>();
+                return [];
             }
 
             return filter == null ? processList : processList.FindAll(i => i != null && i.ToLower().Contains(filter.ToLower()));
@@ -104,7 +97,7 @@ namespace AutoTestMate.MsTest.Web.Core
             }
             catch
             {
-                _loggingUtility.Warning($"Cannot convert pid {pidString} to integer during driver cleanup process.");
+                loggingUtility.Warning($"Cannot convert pid {pidString} to integer during driver cleanup process.");
                 return 0;
             }
         }

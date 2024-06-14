@@ -1,6 +1,4 @@
-﻿using System.Collections.Concurrent;
-using AutoTestMate.MsTest.Infrastructure.Core;
-using AutoTestMate.MsTest.Infrastructure.Core.MethodManager;
+﻿using AutoTestMate.MsTest.Infrastructure.Core;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 

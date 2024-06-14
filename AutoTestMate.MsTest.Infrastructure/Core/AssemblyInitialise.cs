@@ -8,13 +8,13 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 		[AssemblyInitialize]
 		public static void Initialise(TestContext testContext)
 		{
-			TestManager.Instance().OnInitialiseAssemblyDependencies(testContext);
+			TestManager.Instance.OnInitialiseAssemblyDependencies(testContext);
 		}
 
 		[AssemblyCleanup]
 		public static void Cleanup()
 		{
-			TestManager.Instance().OnDisposeAssemblyDependencies();
+			TestManager.Instance.OnDisposeAssemblyDependencies();
 		}
 	}
 }

@@ -2,7 +2,6 @@
 {
     public class Exceptions
     { 
-
         #region Constants
         
         public const string ExceptionMsgWebBrowserWaitInstanceNotInitialised = "The WebDriver browser wait instance was not initialized. You should first call the method Start.";

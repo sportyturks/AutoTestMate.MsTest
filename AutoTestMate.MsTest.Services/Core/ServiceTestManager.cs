@@ -10,28 +10,11 @@ namespace AutoTestMate.MsTest.Services.Core
 {
     public class ServiceTestManager : TestManager
     {
-        #region Private Variables
-
-        private static ServiceTestManager _uniqueInstance;
-        private static readonly object SyncLock = new Object();
-
-        #endregion
+        
+        private static readonly Lazy<ServiceTestManager> Singleton = new(() => new ServiceTestManager());
+        public new static ServiceTestManager Instance => Singleton.Value;
         
         #region Properties
-
-        public new static ServiceTestManager Instance()
-        {
-            // Lock entire body of method
-            lock (SyncLock)
-            {
-                // ReSharper disable once ConvertIfStatementToNullCoalescingExpression
-                if (_uniqueInstance == null)
-                {
-                    _uniqueInstance = new ServiceTestManager();
-                }
-                return _uniqueInstance;
-            }
-        }
 
         public virtual bool UseWcfServices
         {

@@ -8,7 +8,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
     {
         public AppConfiguration()
         { 
-            Settings = new NameValueCollection();
+            Settings = [];
 
             var configBuilder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())

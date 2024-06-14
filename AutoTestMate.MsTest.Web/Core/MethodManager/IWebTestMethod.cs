@@ -6,8 +6,10 @@ namespace AutoTestMate.MsTest.Web.Core.MethodManager
 {
     public interface IWebTestMethod
     {
+        IWebDriverService WebDriverService { get; set; }
         IWebDriver WebDriver { get; set; }
         WebDriverWait WebDriverWait { get; set; }
         IFactory<IDriverCleanup> DriverCleanup { get; set; }
+        void StartWebDriver();
     }
 }
