@@ -16,6 +16,7 @@ namespace AutoTestMate.MsTest.Infrastructure.IntegrationTests
             Assert.IsTrue(configurationReader.GetConfigurationValue("ForceKillProcess") == "false");
             Assert.IsTrue(configurationReader.GetConfigurationValue("Headless") == "false");
             Assert.IsTrue(configurationReader.GetConfigurationValue("BrowserOs").ToLower() == "linux");
+
         }
 
         [TestMethod]
