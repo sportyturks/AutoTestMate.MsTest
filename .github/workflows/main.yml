@@ -42,7 +42,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: nugetPackage
-        path: ./*.nupkg
+        path: AutoTestMate.MsTest/*.nupkg
         
   release:
     runs-on: ubuntu-latest    
