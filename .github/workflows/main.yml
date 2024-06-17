@@ -34,23 +34,15 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 8.0.x
-    - name: Build Infrastructure NuGet package
-      run: dotnet build AutoTestMate.MsTest.Infrastructure/AutoTestMate.MsTest.Infrastructure.csproj -p:Version='${{ steps.gitversion.outputs.SemVer }}' -c Release
-    - name: Pack Infrastructure NuGet package
-      run: dotnet pack AutoTestMate.MsTest.Infrastructure/AutoTestMate.MsTest.Infrastructure.csproj -p:Version='${{ steps.gitversion.outputs.SemVer }}' -c Release
-    - name: Build Services NuGet package
-      run: dotnet build AutoTestMate.MsTest.Services/AutoTestMate.MsTest.Services.csproj -p:Version='${{ steps.gitversion.outputs.SemVer }}' -c Release
-    - name: Pack Services NuGet package
-      run: dotnet pack AutoTestMate.MsTest.Services/AutoTestMate.MsTest.Services.csproj -p:Version='${{ steps.gitversion.outputs.SemVer }}' -c Release
-    - name: Build Web NuGet package
-      run: dotnet build AutoTestMate.MsTest.Web/AutoTestMate.MsTest.Web.csproj -p:Version='${{ steps.gitversion.outputs.SemVer }}' -c Release
-    - name: Pack Web NuGet package
-      run: dotnet pack AutoTestMate.MsTest.Web/AutoTestMate.MsTest.Web.csproj -p:Version='${{ steps.gitversion.outputs.SemVer }}' -c Release
+    - name: Build NuGet packages
+      run: dotnet build AutoTestMate.MsTest.sln -p:Version='${{ steps.gitversion.outputs.SemVer }}' -c Release
+    - name: Pack NuGet packages
+      run: dotnet pack AutoTestMate.MsTest.sln -p:Version='${{ steps.gitversion.outputs.SemVer }}' -c Release
     - name: Upload NuGet package to GitHub
       uses: actions/upload-artifact@v2
       with:
         name: nugetPackage
-        path: AutoTestMate.MsTest.Infrastructure/bin/Release/
+        path: /
         
   release:
     runs-on: ubuntu-latest    
