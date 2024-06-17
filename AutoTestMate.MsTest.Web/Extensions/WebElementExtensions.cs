@@ -195,7 +195,7 @@ namespace AutoTestMate.MsTest.Web.Extensions
 			}
 			catch (System.Exception exp)
 			{
-				var loggingUtility = WebTestManager.Instance().LoggingUtility;
+				var loggingUtility = WebTestManager.Instance.LoggingUtility;
 				loggingUtility.Warning(exp.Message + exp.StackTrace);
 				return false;
 			}

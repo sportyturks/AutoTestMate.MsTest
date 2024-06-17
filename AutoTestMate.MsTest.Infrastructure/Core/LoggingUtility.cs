@@ -38,8 +38,15 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 
             var outputDirectory = _configurationReader.GetConfigurationValue(Constants.Configuration.OutputFileDirectory);
 	        string outputFile;
-	        
-			if (!string.IsNullOrWhiteSpace(outputDirectory) && outputDirectory.Contains("/")) //handle relative paths
+
+	        if (!string.IsNullOrWhiteSpace(outputDirectory) && outputDirectory.Contains("~")) //handle relative paths
+	        {
+		        var homeDirRoot = Environment.GetEnvironmentVariable("HOME") + "/";
+		        var outputDir = outputDirectory.Trim('~');
+		        var homeDir = Path.GetDirectoryName(homeDirRoot) + outputDir;
+		        outputFile = $"{homeDir}/{_defaultFileName}";
+	        }
+	        else if (!string.IsNullOrWhiteSpace(outputDirectory) && outputDirectory.Contains("/")) //handle relative paths
 	        {
 		        outputFile = $"{outputDirectory}/{_defaultFileName}";
 	        }
@@ -105,8 +112,8 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
         }
 
         private void TestContextWriteLine(string message, bool logTestContext)
-        {
-	        if (logTestContext)
+         {
+	         if (logTestContext)
 	        {
 		        _testContext.WriteLine(message);
 	        }

@@ -15,7 +15,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 			
 			try
 			{
-				TestManager = Core.TestManager.Instance();
+				TestManager = Core.TestManager.Instance;
 				TestManager.OnTestMethodInitialise(testMethod, TestContext);
 				CustomAttributesInitialise(testMethod);
 			}
@@ -30,13 +30,12 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 		}
 
         [TestCleanup]
-        public virtual void OnTestCleanup()
+        public virtual void OnTestCleanUp()
         {
 	        var testMethod = TestContext.TestName;
 	        
             try
             {
-	            
                 CustomAttributesCleanup(testMethod);
                 TestManager.Dispose(testMethod);
 

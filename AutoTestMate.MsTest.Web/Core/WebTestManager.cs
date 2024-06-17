@@ -2,7 +2,6 @@
 using System.Diagnostics.CodeAnalysis;
 using AutoTestMate.MsTest.Infrastructure.Core;
 using AutoTestMate.MsTest.Infrastructure.Core.MethodManager;
-using AutoTestMate.MsTest.Infrastructure.Helpers;
 using AutoTestMate.MsTest.Services.Core;
 using AutoTestMate.MsTest.Web.Constants;
 using AutoTestMate.MsTest.Web.Core.Attributes;
@@ -17,36 +16,10 @@ namespace AutoTestMate.MsTest.Web.Core
 	[SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class WebTestManager : ServiceTestManager
 	{
-		#region Private Variables
-
-		private static WebTestManager _uniqueInstance;
-		private static readonly object SyncLock = new Object();
-
-		#endregion
-
-		#region Properties
-
-		public new static WebTestManager Instance()
-		{
-			// Lock entire body of method
-			lock (SyncLock)
-			{
-				// ReSharper disable once ConvertIfStatementToNullCoalescingExpression
-				if (_uniqueInstance == null)
-				{
-					_uniqueInstance = new WebTestManager();
-				}
-				return _uniqueInstance;
-			}
-		}
-
-        public static bool IsManagerNull()
-		{
-			lock (SyncLock)
-			{
-				return _uniqueInstance == null;
-			}
-		}
+		private static readonly Lazy<WebTestManager> Singleton = new(() => new WebTestManager());
+		public new static WebTestManager Instance => Singleton.Value;
+		
+		private WebTestManager() { }
 		
 		public WebTestMethodManager WebTestMethodManager => (WebTestMethodManager)Container.Resolve<ITestMethodManager>();
 
@@ -61,15 +34,10 @@ namespace AutoTestMate.MsTest.Web.Core
 	        return webTestMethod.WebDriver == null;
         }
 
-        #endregion
-
-		#region Constructor
-
-		private WebTestManager() { }
-
-		#endregion
-
-		#region Public Methods
+		public static bool IsManagerNull()
+		{
+			return Singleton == null;
+		}
 
         public override void OnInitialiseAssemblyDependencies(TestContext testContext = null)
         {
@@ -123,7 +91,6 @@ namespace AutoTestMate.MsTest.Web.Core
 				throw;
 			}
 		}
-
         public override void Dispose(string testMethod)
 		{
 			try
@@ -142,8 +109,6 @@ namespace AutoTestMate.MsTest.Web.Core
 			{
 				LoggingUtility.Error(e.Message);
 			}
-		}
-        
-		#endregion
-    }
+		} 
+	}
 }

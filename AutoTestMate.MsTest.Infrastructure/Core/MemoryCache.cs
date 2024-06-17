@@ -5,7 +5,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Core
 {
 	public class MemoryCache : IMemoryCache
 	{
-        public const int DefaultCacheMinutes = 5;
+		private const int DefaultCacheMinutes = 5;
 
         private readonly Microsoft.Extensions.Caching.Memory.MemoryCache _memoryCache;
 

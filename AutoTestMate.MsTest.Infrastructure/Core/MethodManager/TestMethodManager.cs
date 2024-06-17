@@ -1,25 +1,19 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NLog.Fluent;
 
 namespace AutoTestMate.MsTest.Infrastructure.Core.MethodManager
 {
-    public class TestMethodManager : ITestMethodManager
+    public class TestMethodManager(
+        TestContext testContext,
+        IConfiguration appConfiguration,
+        ILoggingUtility loggingUtility)
+        : ITestMethodManager
     {
-        public TestMethodManager(TestContext testContext, IConfiguration appConfiguration, ILoggingUtility loggingUtility)
-        {
-            TestContext = testContext;
-            AppConfiguration = appConfiguration;
-            LoggingUtility = loggingUtility;
-            TestMethods = new ConcurrentDictionary<string, ITestMethodBase>();
-        }
-
-        public ConcurrentDictionary<string, ITestMethodBase> TestMethods { get; set; }
-        public  TestContext TestContext { get; set; }
-        public  ILoggingUtility LoggingUtility { get; set; }
-        public  IConfiguration AppConfiguration { get; set; }
+        public ConcurrentDictionary<string, ITestMethodBase> TestMethods { get; set; } = new();
+        public  TestContext TestContext { get; set; } = testContext;
+        public  ILoggingUtility LoggingUtility { get; set; } = loggingUtility;
+        public  IConfiguration AppConfiguration { get; set; } = appConfiguration;
 
         public virtual void CheckTestAlreadyInitialised(string testMethod)
         {

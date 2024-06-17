@@ -1,18 +1,9 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Reflection;
 using System.Text;
 using AutoTestMate.MsTest.Infrastructure.Core;
-using AutoTestMate.MsTest.Infrastructure.Helpers;
 using AutoTestMate.MsTest.Web.Constants;
-using AutoTestMate.MsTest.Web.Enums;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Edge;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Remote;
 //using System.Text.Encoding.CodePages;
 

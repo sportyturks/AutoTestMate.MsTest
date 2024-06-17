@@ -1,27 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
 <RunSettings>
   <!-- Configurations that affect the Test Framework -->
   <RunConfiguration>
-    <!-- Path relative to solution directory -->
-    <ResultsDirectory>/home/jopo/Development/TestResults/</ResultsDirectory>
+    <!-- Please note that relative home directory not support and needs to be explicit, i.e ~/.local/share/autotestmate/logs -->
+    <ResultsDirectory>/home/sporty-turks/.local/share/autotestmate/logs/test-results/</ResultsDirectory>
     <!-- [x86] | x64    - You can also change it from menu Test, Test Settings, Default Processor Architecture -->
     <TargetPlatform>x64</TargetPlatform>
-    <!-- Framework35 | [Framework40] | Framework45 -->
-    <!-- Framework35 | [Framework40] | Framework45 -->
-    <TargetFrameworkVersion>Framework45</TargetFrameworkVersion> 
-    <DisableParallelization>true</DisableParallelization>
-    <MaxCpuCount>6</MaxCpuCount>
+    <DisableParallelization>false</DisableParallelization>
+    <MaxCpuCount>4</MaxCpuCount>
   </RunConfiguration>
-
   <TestRunParameters>
     <Parameter name="LogLevel" value="Debug" />
     <Parameter name="LogName" value="WebTest" />
     <Parameter name="BaseUrl" value="https://www.google.com" />
-    <Parameter name="DriverServerLocation" value="/home/jopo/Development/SeleniumDrivers" />
+    <Parameter name="DriverServerLocation" value="~/.local/share/autotestmate/logs/selenium-drivers" />
     <Parameter name="Timeout" value="10" />
-    <Parameter name="OutputFileDirectory" value="/home/jopo/Development/TestResults" />
-    <Parameter name="OutputFileScreenshotsDirectory" value="/home/jopo/Development/TestResults/ScreenshotsDirectory" />
+    <Parameter name="OutputFileDirectory" value="~/.local/share/autotestmate/logs/test-results" />
+    <Parameter name="OutputFileScreenshotsDirectory" value="~/.local/share/autotestmate/logs/test-results/screenshots-directory" />
     <Parameter name="LoginWaitTime" value="1" />
     <Parameter name="NavigateToBasePage" value="false" />
     <Parameter name="ForceKillProcess" value="false" />
@@ -31,12 +26,9 @@
     <Parameter name="BrowserOs" value="Linux" />
     <Parameter name="EnableDetailedLogging" value="false" />
     <Parameter name="UseSeleniumGrid" value="true" />
-    <Parameter name="SeleniumGridUrl" value="http://moon.aerokube.local/wd/hub" />
+    <Parameter name="SeleniumGridUrl" value="https://moon-local.automation.delivery/wd/hub" />
     <Parameter name="UseAppSettings" value="false" />
   </TestRunParameters>
-  <!-- MSTest adapter -->
-  <!-- MSTest adapter -->
-
   <MSTest>
     <Parallelize>
       <Workers>3</Workers>

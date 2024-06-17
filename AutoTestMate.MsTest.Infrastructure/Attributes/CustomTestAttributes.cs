@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using AutoTestMate.MsTest.Infrastructure.Core;
 using AutoTestMate.MsTest.Infrastructure.Helpers;
@@ -21,9 +22,9 @@ namespace AutoTestMate.MsTest.Infrastructure.Attributes
             var method = GetType().GetMethod(TestContext.TestName);
 
             _actionTestDataAttributes = method.GetCustomAttributes(typeof(ITestDataAttribute), true).OfType<ITestDataAttribute>();
-            foreach (var tesdataAttribute in _actionTestDataAttributes)
+            foreach (var testDataAttribute in _actionTestDataAttributes)
             {
-                tesdataAttribute.BeforeTest(testMethod, TestContext, TestManager);
+                testDataAttribute.BeforeTest(testMethod, TestContext, TestManager);
             }
 
             if (classAttributes.Any())

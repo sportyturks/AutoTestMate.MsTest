@@ -17,8 +17,12 @@
     <Prefer32bit>false</Prefer32bit>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <RepositoryUrl>https://github.com/sportyturks/AutoTestMate.MsTest</RepositoryUrl>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.4.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="RestSharp" Version="106.12.0" />
   </ItemGroup>

@@ -2,9 +2,6 @@ using Castle.DynamicProxy;
 
 namespace AutoTestMate.MsTest.Infrastructure.Core;
 
-public class TestAsyncDeterminationInterceptor<TInterceptor> : AsyncDeterminationInterceptor where TInterceptor: IAsyncInterceptor
-{
-    public TestAsyncDeterminationInterceptor(TInterceptor asyncInterceptor) : base((IAsyncInterceptor)asyncInterceptor)
-    {
-    }
-}
+public class TestAsyncDeterminationInterceptor<TInterceptor>(TInterceptor asyncInterceptor)
+    : AsyncDeterminationInterceptor(asyncInterceptor)
+    where TInterceptor : IAsyncInterceptor;

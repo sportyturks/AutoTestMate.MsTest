@@ -16,7 +16,7 @@ namespace AutoTestMate.MsTest.Services.Core
             var testMethod = TestContext.TestName;
             try
             {
-                TestManager = ServiceTestManager.Instance();
+                TestManager = ServiceTestManager.Instance;
                 TestManager.OnTestMethodInitialise(testMethod,TestContext);
                 CustomAttributesInitialise(testMethod);
             }
@@ -27,9 +27,9 @@ namespace AutoTestMate.MsTest.Services.Core
         }
         
         [TestCleanup]
-        public override void OnTestCleanup()
+        public override void OnTestCleanUp()
         {
-            base.OnTestCleanup();
+            base.OnTestCleanUp();
         }
 
         #endregion

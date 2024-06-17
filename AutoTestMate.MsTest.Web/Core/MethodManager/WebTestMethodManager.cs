@@ -22,15 +22,10 @@ namespace AutoTestMate.MsTest.Web.Core.MethodManager
 
             IConfigurationReader configurationReader = new ConfigurationReader(TestContext, AppConfiguration);
 
-            var webTestMethod = new WebTestMethod(DriverCleanup, LoggingUtility, configurationReader, testMethod);
-
-            var browser = WebDriverService.StartWebDriver(testMethod);
-
-            webTestMethod.WebDriver = browser.Item1;
-            webTestMethod.WebDriverWait = browser.Item2;
-
+            var webTestMethod = new WebTestMethod(DriverCleanup, LoggingUtility, configurationReader, WebDriverService, testMethod);
+            
             TestMethods.AddOrUpdate(testMethod, webTestMethod, (key, oldValue) => webTestMethod);
-
+            
             return webTestMethod;
         }
 

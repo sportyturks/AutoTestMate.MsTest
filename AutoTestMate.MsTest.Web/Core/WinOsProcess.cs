@@ -1,21 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Management;
 using AutoTestMate.MsTest.Infrastructure.Core;
 
 namespace AutoTestMate.MsTest.Web.Core
 {
-	public class WinOsProcess : IProcess
+	public class WinOsProcess(ILoggingUtility utility) : IProcess
 	{
-		private readonly ILoggingUtility _loggingUtility;
-
-		public WinOsProcess(ILoggingUtility loggingUtility)
-		{
-			_loggingUtility = loggingUtility;
-		}
-
 		public IEnumerable<int> GetProcessesByName(string name)
 		{
 			return Process.GetProcessesByName(name).Select(p => p.Id);
@@ -42,7 +36,7 @@ namespace AutoTestMate.MsTest.Web.Core
 				}
 				catch (System.Exception exp)
 				{
-					var loggingUtility = _loggingUtility;
+					var loggingUtility = utility ?? throw new ArgumentNullException(nameof(utility));
 					loggingUtility.Error("Error while killing process " + exp.Message);
 				}
 
@@ -57,6 +51,8 @@ namespace AutoTestMate.MsTest.Web.Core
 			}
 		}
 
+        //Message suppressed due to class only for windows
+		[SuppressMessage("Interoperability", "CA1416:Validate platform compatibility")] 
 		public List<Process> GetChildProcesses(int parentId)
 		{
 			var result = new List<Process>();

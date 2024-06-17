@@ -77,10 +77,7 @@ namespace AutoTestMate.MsTest.Infrastructure.Data
 
         public IEnumerable<DataRow> AsDataRows()
         {
-            if (_table == null)
-            {
-                _table = AsDataTable();
-            }
+            _table ??= AsDataTable();
 
             return new List<DataRow>();
         }

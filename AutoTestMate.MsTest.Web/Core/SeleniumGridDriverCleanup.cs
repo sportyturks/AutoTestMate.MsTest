@@ -1,39 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AutoTestMate.MsTest.Infrastructure.Core;
+﻿using AutoTestMate.MsTest.Infrastructure.Core;
 
 namespace AutoTestMate.MsTest.Web.Core
 {
-	public class SeleniumGridDriverCleanupFactory : IFactory<IDriverCleanup>
+	public class SeleniumGridDriverCleanupFactory(
+		IConfigurationReader configurationReader,
+#pragma warning disable CS9113 // Parameter is unread.
+		ILoggingUtility loggingUtility,
+#pragma warning restore CS9113 // Parameter is unread.
+		IProcess osProcess)
+		: IFactory<IDriverCleanup>
 	{
-		private readonly IConfigurationReader _configurationReader;
-		private readonly ILoggingUtility _loggingUtility;
-		private readonly IProcess _osProcess;
-		public SeleniumGridDriverCleanupFactory(IConfigurationReader configurationReader, ILoggingUtility loggingUtility, IProcess osProcess)
-		{
-			_configurationReader = configurationReader;
-			_loggingUtility = loggingUtility;
-			_osProcess = osProcess;
-		}
-
 		public virtual IDriverCleanup Create()
 		{
-			return new SeleniumGridDriverCleanup(_osProcess, _configurationReader);
+			return new SeleniumGridDriverCleanup(osProcess, configurationReader);
 		}
 	}
 
-	public class SeleniumGridDriverCleanup : IDriverCleanup
+#pragma warning disable CS9113 // Parameter is unread.
+	public class SeleniumGridDriverCleanup(IProcess process, IConfigurationReader configurationReader) : IDriverCleanup
+#pragma warning restore CS9113 // Parameter is unread.
 	{
-		public const int MaxKillAttemps = 100;
-		private readonly IConfigurationReader _configurationReader;
-		
-		public SeleniumGridDriverCleanup(IProcess process, IConfigurationReader configurationReader)
-		{
-			_configurationReader = configurationReader;
-			Process = process;
-		}
-
 		public void Dispose()
 		{
 		}
@@ -42,7 +28,6 @@ namespace AutoTestMate.MsTest.Web.Core
 		{
 		}
 
-		public IProcess Process { get; }
-
+		public IProcess Process { get; } = process;
 	}
 }

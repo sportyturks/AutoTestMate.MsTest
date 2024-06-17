@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using AutoTestMate.MsTest.Infrastructure.Core.MethodManager;
 using AutoTestMate.MsTest.Services.Core;
@@ -15,7 +16,7 @@ namespace AutoTestMate.MsTest.Web.Core
 		public override void OnTestInitialise()
 		{
 			var testMethod = TestMethod;
-            TestManager = WebTestManager.Instance();
+            TestManager = WebTestManager.Instance;
 
 			try
 			{
@@ -29,28 +30,23 @@ namespace AutoTestMate.MsTest.Web.Core
 				LoggingUtility.Error(Constants.Exceptions.ExceptionMsgSetupError + ex.Message);
 
                 WebTestMethodManager.TestMethods.TryGetValue(testMethod, out ITestMethodBase testMethodBase);
+                
                 var webTestMethod = (WebTestMethod)testMethodBase;
 
 				if (webTestMethod?.WebDriver == null) throw;
-				
-				var outputScreenshotsDirectory = TestManager.ConfigurationReader.GetConfigurationValue("OutputScreenshotsDirectory");
 
-				var outputPath = !string.IsNullOrWhiteSpace(outputScreenshotsDirectory) ? outputScreenshotsDirectory : $"{TestContext.TestRunResultsDirectory}\\Screenshots";
-
-                webTestMethod.WebDriver.ScreenShotSaveFile(outputPath, testMethod);
+				CaptureScreenshot(testMethod);
                 
                 throw;
 			}
 		}
 
 		[TestCleanup]
-		public override void OnTestCleanup()
+		public override void OnTestCleanUp()
 		{
 			var testMethod = TestMethod;
-            TestManager = WebTestManager.Instance();
-			WebTestMethodManager.TestMethods.TryGetValue(testMethod, out ITestMethodBase testMethodBase);
-            var webTestMethod = (WebTestMethod)testMethodBase;
-
+            TestManager = WebTestManager.Instance;
+            
 			try
 			{
 				CustomAttributesCleanup(testMethod);
@@ -61,19 +57,9 @@ namespace AutoTestMate.MsTest.Web.Core
 
 					if (LoggingUtility == null || TestManager.ConfigurationReader == null) return;
 
-					var outputPath = !string.IsNullOrWhiteSpace(TestManager.ConfigurationReader.GetConfigurationValue(Constants.Configuration.ConfigKeyOutputFileScreenshotsDirectory)) ? $"{TestManager.ConfigurationReader.GetConfigurationValue(Constants.Configuration.ConfigKeyOutputFileScreenshotsDirectory)}" : $"{TestContext.TestRunResultsDirectory}{Constants.Configuration.ScreenshotsDirectory}";
+					var screenshotPath = CaptureScreenshot(testMethod);
 
-					if (webTestMethod?.WebDriver == null) return;
-
-					TestContext.WriteLine($"Attempting to capture screen shot to: {outputPath}");
-
-                    var captureScreenShot = webTestMethod.WebDriver.ScreenShotSaveFile(outputPath, testMethod);
-
-					if (string.IsNullOrWhiteSpace(captureScreenShot)) return;
-
-					TestContext.AddResultFile(captureScreenShot);
-
-					LoggingUtility.Error(captureScreenShot);
+					LoggingUtility.Error(screenshotPath);
 				}
 				else
 				{
@@ -99,6 +85,44 @@ namespace AutoTestMate.MsTest.Web.Core
 		{
 			return TestManager.Container.Resolve<T>(new Arguments { { "testName", testName } });
 		}
+
+		public virtual string CaptureScreenshot([CallerMemberName] string testMethod = null)
+		{
+			var screenshot = string.Empty;
+			TestManager = WebTestManager.Instance;
+			
+			if (string.IsNullOrWhiteSpace(testMethod)) return screenshot; 
+			
+			WebTestMethodManager.TestMethods.TryGetValue(testMethod, out ITestMethodBase testMethodBase);
+			var webTestMethod = (WebTestMethod)testMethodBase;
+			
+			var outputPath =
+				!string.IsNullOrWhiteSpace(
+					TestManager.ConfigurationReader.GetConfigurationValue(Constants.Configuration
+						.ConfigKeyOutputFileScreenshotsDirectory))
+					? $"{TestManager.ConfigurationReader.GetConfigurationValue(Constants.Configuration.ConfigKeyOutputFileScreenshotsDirectory)}"
+					: $"{TestContext.TestRunResultsDirectory}{Constants.Configuration.ScreenshotsDirectory}";
+					
+			if (!string.IsNullOrWhiteSpace(outputPath) && outputPath.Contains("~")) //handle home relative paths
+			{
+				var homeDirRoot = Environment.GetEnvironmentVariable("HOME") + "/";
+				var outputDir = outputPath.Trim('~').Replace("\\", "/");
+				var homeDir = homeDirRoot + outputDir;
+				outputPath = homeDir;
+			}
+
+			if (webTestMethod?.WebDriver == null) return screenshot;
+					
+			TestContext.WriteLine($"Attempting to capture screen shot to: {outputPath}");
+
+			screenshot = webTestMethod.WebDriver.ScreenShotSaveFile(outputPath, testMethod);
+			
+			if (string.IsNullOrWhiteSpace(screenshot)) return string.Empty;
+
+			TestContext.AddResultFile(screenshot);
+
+			return screenshot;
+		}  
 	}
 }
 

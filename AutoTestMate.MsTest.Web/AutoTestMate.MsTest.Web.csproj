@@ -17,6 +17,10 @@
     <Prefer32bit>false</Prefer32bit>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <RepositoryUrl>https://github.com/sportyturks/AutoTestMate.MsTest</RepositoryUrl>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Exceptions\**" />
     <EmbeddedResource Remove="Exceptions\**" />
@@ -34,9 +38,8 @@
     <PackageReference Include="Selenium.WebDriver" Version="4.19.0" />
     <PackageReference Include="System.Management" Version="6.0.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
     <PackageReference Include="SeleniumExtras.WaitHelpers" Version="1.0.2" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.4.3" />
   </ItemGroup>
 
   <ItemGroup>
