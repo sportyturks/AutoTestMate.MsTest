@@ -42,7 +42,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: nugetPackage
-        path: /**/bin/release
+        path: ./*.nupkg
         
   release:
     runs-on: ubuntu-latest    
