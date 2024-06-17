@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoTestMate.MsTest.Service
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2E579423-C9B4-49BE-B6E6-9EB2B7CA10EA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoTestMate.MsTest.Infrastructure.IntegrationTests", "AutoTestMate.MsTest.Infrastructure.IntegrationTests\AutoTestMate.MsTest.Infrastructure.IntegrationTests.csproj", "{15F32262-191D-403D-AB6D-00E941110573}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoTestMate.MsTest.IntegrationTests", "AutoTestMate.MsTest.IntegrationTests\AutoTestMate.MsTest.IntegrationTests.csproj", "{15F32262-191D-403D-AB6D-00E941110573}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoTestMate.MsTest.Infrastructure.UnitTests", "AutoTestMate.MsTest.Infrastructure.UnitTests\AutoTestMate.MsTest.Infrastructure.UnitTests.csproj", "{10D6FC7B-A08D-4DC2-B253-A3AFE2668D31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoTestMate.MsTest.UnitTests", "AutoTestMate.MsTest.UnitTests\AutoTestMate.MsTest.UnitTests.csproj", "{10D6FC7B-A08D-4DC2-B253-A3AFE2668D31}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E7345A6C-60C7-40E6-9E03-86D81E5A31E6}"
 	ProjectSection(SolutionItems) = preProject
