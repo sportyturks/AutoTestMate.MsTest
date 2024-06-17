@@ -3,10 +3,9 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.2.22</Version>
-    <AssemblyVersion>1.2.22.0</AssemblyVersion>
-    <FileVersion>1.2.22.0</FileVersion>
-    <PackageVersion>1.2.22.0</PackageVersion>
+    <Authors>Joey Turks</Authors>
+    <Company>Joey Turks</Company>
+    <RepositoryUrl>https://github.com/sportyturks/AutoTestMate.MsTest</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
