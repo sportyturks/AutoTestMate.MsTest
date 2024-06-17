@@ -17,6 +17,10 @@
     <Prefer32bit>false</Prefer32bit>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <RepositoryUrl>https://github.com/sportyturks/AutoTestMate.MsTest</RepositoryUrl>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Exceptions\**" />
     <EmbeddedResource Remove="Exceptions\**" />
