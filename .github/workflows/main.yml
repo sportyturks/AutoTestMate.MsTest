@@ -43,9 +43,9 @@ jobs:
       with:
         name: nugetPackage
         path: |
-          AutoTestMate.MsTest.Infrastructure/bin/Release
-          AutoTestMate.MsTest.Services/bin/Release
-          AutoTestMate.MsTest.Web/bin/Release 
+          AutoTestMate.MsTest.Infrastructure/bin/Release/
+          AutoTestMate.MsTest.Services/bin/Release/
+          AutoTestMate.MsTest.Web/bin/Release/
         
   release:
     runs-on: ubuntu-latest    
