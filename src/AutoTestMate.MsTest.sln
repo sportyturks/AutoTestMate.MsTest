@@ -21,9 +21,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoTestMate.MsTest.Web", "AutoTestMate.MsTest.Web\AutoTestMate.MsTest.Web.csproj", "{1E026807-75DC-4F26-A408-EE3806A8BF9E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F65F97F4-A9FD-4322-A15D-4C86FAF02C23}"
-	ProjectSection(SolutionItems) = preProject
-		Test.runsettings = Test.runsettings
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
