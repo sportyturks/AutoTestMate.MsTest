@@ -22,6 +22,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoTestMate.MsTest.Web", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F65F97F4-A9FD-4322-A15D-4C86FAF02C23}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTestMate.MsTest.Playwright", "AutoTestMate.MsTest.Playwright\AutoTestMate.MsTest.Playwright.csproj", "{6FAA9842-B5D3-48AC-83B3-59153F980786}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{1E026807-75DC-4F26-A408-EE3806A8BF9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E026807-75DC-4F26-A408-EE3806A8BF9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E026807-75DC-4F26-A408-EE3806A8BF9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FAA9842-B5D3-48AC-83B3-59153F980786}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FAA9842-B5D3-48AC-83B3-59153F980786}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FAA9842-B5D3-48AC-83B3-59153F980786}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FAA9842-B5D3-48AC-83B3-59153F980786}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
