@@ -44,7 +44,8 @@ namespace AutoTestMate.MsTest.Playwright.Core
         {
             base.OnInitialiseAssemblyDependencies(testContext);
             
-            Container.Register(Component.For<IWebDriverService>().ImplementedBy<WebDriverService>().LifestyleSingleton());
+            Container.Register(Component.For<IPlaywrightDriver>().ImplementedBy<PlaywrightDriver>().LifestyleSingleton());
+            Container.Register(Component.For<IFactory<IDriverCleanup>>().ImplementedBy<BrowserCleanupFactory>().LifestyleSingleton());
             Container.Register(Component.For<ITestMethodManager>().ImplementedBy<PlaywrightTestMethodManager>().OverridesExistingRegistration().LifestyleSingleton());
             
 			var browserOs = ConfigurationReader.GetConfigurationValue(Configuration.BrowserOsKey).ToLower().Trim();
@@ -56,19 +57,6 @@ namespace AutoTestMate.MsTest.Playwright.Core
             {
                 Container.Register(Component.For<IProcess>().ImplementedBy<WinOsProcess>().LifestyleSingleton());
             }
-
-			if (string.Equals(ConfigurationReader.GetConfigurationValue(Configuration.UseSeleniumGridKey).ToLower(), Infrastructure.Constants.Generic.TrueValue))
-			{
-				// Container.Register(Component.For<IFactory<IDriverCleanup>>().ImplementedBy<SeleniumGridDriverCleanupFactory>().LifestyleSingleton())
-				// 	.Register(Component.For<IFactory<DriverOptions>>().ImplementedBy<BrowserOptionsFactory>().LifestyleSingleton())
-				// 	.Register(Component.For<IFactory<IWebDriver>>().ImplementedBy<SeleniumGridDriverFactory>().LifestyleSingleton());
-			}
-			else
-			{
-				// Container.Register(Component.For<IFactory<IDriverCleanup>>().ImplementedBy<BrowserCleanupFactory>().LifestyleSingleton())
-				// 	.Register(Component.For<IFactory<DriverOptions>>().ImplementedBy<BrowserOptionsFactory>().LifestyleSingleton())
-				// 	.Register(Component.For<IFactory<IWebDriver>>().ImplementedBy<BrowserFactory>().LifestyleSingleton());
-			}
 
 			if (!string.Equals(ConfigurationReader.GetConfigurationValue(Configuration.UseAop).Trim().ToLower(), Infrastructure.Constants.Generic.TrueValue)) return;
 			

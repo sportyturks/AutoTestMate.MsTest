@@ -6,14 +6,12 @@ namespace AutoTestMate.MsTest.Playwright.Core.MethodManager
 {
     public class PlaywrightTestMethodManager : TestMethodManager, IPlaywrightTestMethodManager
     {
-        public PlaywrightTestMethodManager(ILoggingUtility loggingUtility, TestContext testContext, IConfiguration appConfiguration, IFactory<IDriverCleanup> driverCleanup, IWebDriverService webDriverService): base (testContext, appConfiguration, loggingUtility)
+        public PlaywrightTestMethodManager(ILoggingUtility loggingUtility, TestContext testContext, IConfiguration appConfiguration, IFactory<IDriverCleanup> driverCleanup): base (testContext, appConfiguration, loggingUtility)
         {
-            WebDriverService = webDriverService;
             LoggingUtility = loggingUtility;
             DriverCleanup = driverCleanup;
         }
 
-        public IWebDriverService WebDriverService { get; set; }
         public IFactory<IDriverCleanup> DriverCleanup { get; set; }
 
         public override ITestMethodBase Add(string testMethod)
@@ -22,11 +20,13 @@ namespace AutoTestMate.MsTest.Playwright.Core.MethodManager
 
             IConfigurationReader configurationReader = new ConfigurationReader(TestContext, AppConfiguration);
 
-            var webTestMethod = new PlaywrightTestMethod(DriverCleanup, LoggingUtility, configurationReader, WebDriverService, testMethod);
+            var driver = PlaywrightTestManager.Instance.Container.Resolve<IPlaywrightDriver>();
+
+            var playwrightTestMethod = new PlaywrightTestMethod(DriverCleanup, LoggingUtility, configurationReader, driver, testMethod);
             
-            TestMethods.AddOrUpdate(testMethod, webTestMethod, (key, oldValue) => webTestMethod);
+            TestMethods.AddOrUpdate(testMethod, playwrightTestMethod, (key, oldValue) => playwrightTestMethod);
             
-            return webTestMethod;
+            return playwrightTestMethod;
         }
 
         public override void Dispose(string testMethod)

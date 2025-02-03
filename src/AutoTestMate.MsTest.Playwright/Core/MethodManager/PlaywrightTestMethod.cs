@@ -8,42 +8,27 @@ namespace AutoTestMate.MsTest.Playwright.Core.MethodManager
         public PlaywrightTestMethod(IFactory<IDriverCleanup> driverCleanup,
             ILoggingUtility loggingUtility,
             IConfigurationReader configurationReader,
-            IWebDriverService webDriverService,
+            IPlaywrightDriver playwrightDriver,
             string testMethod) : base(loggingUtility, configurationReader, testMethod)
         {
-            WebDriverService = webDriverService;
+            PlaywrightDriver = playwrightDriver;
             DriverCleanup = driverCleanup;
             StartWebDriver();
         }
 
-        //public IWebDriver  WebDriver { get; set; }
-        public IWebDriverService WebDriverService { get; set; }
-        //public WebDriverWait WebDriverWait { get; set; }
+        public IPlaywrightDriver  PlaywrightDriver { get; set; }
         public IFactory<IDriverCleanup> DriverCleanup { get; set; }
 
         public void StartWebDriver()
         {
-            if (WebDriverService != null)
-            {
-                //var browser = WebDriverService.StartWebDriver(TestMethod);
-                //WebDriver = browser.Item1;
-                //WebDriverWait = browser.Item2;
-            }
+            PlaywrightDriver.StartPlaywright();
         }
 
         public override void Dispose()
         {
             try
             {
-                //var testWebDriverExists = WebDriver != null;
-                var testWebDriverExists = false;
-                
-                if (testWebDriverExists)
-                {
-                    //WebDriver?.Quit();
-                }
-
-                //WebDriverWait = null;
+                PlaywrightDriver?.Dispose();
             }
             catch (System.Exception exp)
             {

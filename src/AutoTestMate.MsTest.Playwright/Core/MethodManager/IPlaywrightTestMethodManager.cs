@@ -5,7 +5,6 @@ namespace AutoTestMate.MsTest.Playwright.Core.MethodManager
 {
     public interface IPlaywrightTestMethodManager: ITestMethodManager
     {
-        IWebDriverService WebDriverService { get; set; }
         new ILoggingUtility LoggingUtility { get; set; }
     }
 }
