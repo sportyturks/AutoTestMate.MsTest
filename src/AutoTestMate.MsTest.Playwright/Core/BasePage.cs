@@ -8,27 +8,26 @@ using Castle.MicroKernel;
 namespace AutoTestMate.MsTest.Playwright.Core
 {
     [ExcludeFromCodeCoverage]
-    public abstract class BasePage
+    public abstract class PlaywrightBasePage
     {
         /// <summary>
         /// Constructor of Base Page
         /// </summary>
-        protected BasePage(string testMethod)
+        protected PlaywrightBasePage(string testMethod)
         {
             TestMethod = testMethod;
             PlaywrightTestManager = PlaywrightTestManager.Instance;
             PlaywrightTestMethodManager = PlaywrightTestManager.PlaywrightTestMethodManager;
             PlaywrightTestMethod = (PlaywrightTestMethod)PlaywrightTestMethodManager.TryGetValue(testMethod);
-            //Driver = PlaywrightTestMethod?.WebDriver;
+            PlaywrightDriver = PlaywrightTestMethod?.PlaywrightDriver;
             ConfigurationReader = PlaywrightTestMethod?.ConfigurationReader;
             LoggingUtility = PlaywrightTestMethodManager.LoggingUtility;
             
-            var timeout = ConfigurationReader.GetConfigurationValue(Configuration.TimeoutKey);
+            var timeout = ConfigurationReader?.GetConfigurationValue(Configuration.TimeoutKey);
             var timeoutValue = string.IsNullOrWhiteSpace(timeout) ? Configuration.DefaultTimeoutValue : Convert.ToInt64(timeout);
-            //Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(timeoutValue);
         }
 
-        //protected IWebDriver Driver { get; }
+        protected IPlaywrightDriver PlaywrightDriver { get; }
     
         protected IConfigurationReader ConfigurationReader { get; }
       

@@ -7,22 +7,22 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AutoTestMate.MsTest.Playwright.Core
 {
     [ExcludeFromCodeCoverage]
-    public abstract class BasePageContainer
+    public abstract class PlaywrightBasePageContainer
     {
         /// <summary>
         /// Constructor of Base Page
         /// </summary>
-        protected BasePageContainer(ITestMethodManager testMethodManager, TestContext testContext)
+        protected PlaywrightBasePageContainer(ITestMethodManager testMethodManager, TestContext testContext)
         {
-            var webTestMethodManager = (PlaywrightTestMethodManager)testMethodManager;
-            var webTestMethod = (PlaywrightTestMethod)webTestMethodManager.TryGetValue(testContext.TestName);
+            var playwrightTestMethodManager = (PlaywrightTestMethodManager)testMethodManager;
+            var playwrightTestMethod = (PlaywrightTestMethod)playwrightTestMethodManager.TryGetValue(testContext.TestName);
 
-            //Driver = webTestMethod?.WebDriver;
-            ConfigurationReader = webTestMethod?.ConfigurationReader;
-            LoggingUtility = webTestMethodManager.LoggingUtility;
+            PlaywrightDriver = playwrightTestMethod?.PlaywrightDriver;
+            ConfigurationReader = playwrightTestMethod?.ConfigurationReader;
+            LoggingUtility = playwrightTestMethod?.LoggingUtility;
         }
 
-        //public IWebDriver Driver { get; }
+        public IPlaywrightDriver PlaywrightDriver { get; }
 
         public IConfigurationReader ConfigurationReader { get; }
 

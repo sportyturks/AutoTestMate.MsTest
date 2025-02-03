@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using AutoTestMate.MsTest.Infrastructure.Core;
 using AutoTestMate.MsTest.Infrastructure.Core.MethodManager;
+using AutoTestMate.MsTest.Infrastructure.Helpers;
 using AutoTestMate.MsTest.Services.Core;
 using AutoTestMate.MsTest.Web.Constants;
 using AutoTestMate.MsTest.Web.Core.Attributes;
@@ -74,7 +75,7 @@ namespace AutoTestMate.MsTest.Web.Core
 			RetryInterceptorRegister.Initialize(Container);
 			
 			//TODO: Not working for some reason
-			//Container.Register(Classes.FromAssemblyInDirectory(new AssemblyFilter(FileHelper.GetCurrentExecutingDirectory()).BasedOn(typeof(BasePage)).LifestyleTransient());
+			Container.Register(Classes.FromAssemblyInDirectory(new AssemblyFilter(FileHelper.GetCurrentExecutingDirectory())).BasedOn(typeof(BasePage)).LifestyleTransient());
         }
         public override void OnTestMethodInitialise(string testMethod, TestContext testContext = null)
 		{
