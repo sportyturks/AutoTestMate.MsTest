@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using AutoTestMate.MsTest.Infrastructure.Core;
 using AutoTestMate.MsTest.Infrastructure.Core.MethodManager;
+using AutoTestMate.MsTest.Infrastructure.Helpers;
 using AutoTestMate.MsTest.Playwright.Constants;
 using AutoTestMate.MsTest.Playwright.Core.Attributes;
 using AutoTestMate.MsTest.Playwright.Core.Browser;
@@ -63,7 +64,7 @@ namespace AutoTestMate.MsTest.Playwright.Core
 			RetryInterceptorRegister.Initialize(Container);
 			
 			//TODO: Not working for some reason
-			//Container.Register(Classes.FromAssemblyInDirectory(new AssemblyFilter(FileHelper.GetCurrentExecutingDirectory()).BasedOn(typeof(BasePage)).LifestyleTransient());
+			Container.Register(Classes.FromAssemblyInDirectory(new AssemblyFilter(FileHelper.GetCurrentExecutingDirectory())).BasedOn(typeof(PlaywrightBasePage)).LifestyleTransient());
         }
         public override void OnTestMethodInitialise(string testMethod, TestContext testContext = null)
 		{
