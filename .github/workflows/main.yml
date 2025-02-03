@@ -46,6 +46,7 @@ jobs:
           src/AutoTestMate.MsTest.Infrastructure/bin/Release/
           src/AutoTestMate.MsTest.Services/bin/Release/
           src/AutoTestMate.MsTest.Web/bin/Release/
+          src/AutoTestMate.MsTest.Playwright/bin/Release/
         
   release:
     runs-on: ubuntu-latest    
