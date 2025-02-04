@@ -10,7 +10,7 @@ namespace AutoTestMate.MsTest.Playwright.Core;
 
 public class PlaywrightDriver : IPlaywrightDriver
 {
-    private readonly Task<IPage> _page;
+    private Task<IPage> _page;
     private IBrowser _browser;
 
     public PlaywrightDriver(IConfigurationReader configurationReader)
@@ -20,7 +20,7 @@ public class PlaywrightDriver : IPlaywrightDriver
     }
 
     public Task<IPage> Page => _page;
-    
+    public IPage CurrentPage => _page.Result;
     public IBrowser Browser => _browser!;
     public IPlaywright Playwright { get; private set;}
     public IConfigurationReader ConfigurationReader { get; }
@@ -32,12 +32,14 @@ public class PlaywrightDriver : IPlaywrightDriver
     public virtual async Task<IPage> StartPlaywright()
     {
         //Playwright
-        Playwright = await Microsoft.Playwright.Playwright.CreateAsync();
+        Playwright = await Microsoft.Playwright.Playwright.CreateAsync().ConfigureAwait(false);
         
         //Browser
-        _browser = await CreateBrowser();
+        _browser = await CreateBrowser().ConfigureAwait(false);
         
-        return await _browser.NewPageAsync();
+        _page = _browser.NewPageAsync(); 
+        
+        return await _page.ConfigureAwait(false);
     }
     
      public async Task<IBrowser> CreateBrowser()

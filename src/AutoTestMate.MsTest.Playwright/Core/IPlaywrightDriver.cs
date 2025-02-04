@@ -8,6 +8,7 @@ namespace AutoTestMate.MsTest.Playwright.Core;
 public interface IPlaywrightDriver : IDisposable
 {
     Task<IPage> Page { get; }
+    IPage CurrentPage { get; }
     IBrowser Browser { get; }
     IConfigurationReader ConfigurationReader { get; }
     IPlaywright Playwright { get; }

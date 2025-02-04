@@ -1,12 +1,13 @@
 using AutoTestMate.MsTest.Infrastructure.Attributes;
 using AutoTestMate.MsTest.Infrastructure.Core;
+using AutoTestMate.MsTest.Playwright.Core;
 using AutoTestMate.MsTest.Web.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutoTestMate.MsTest.Infrastructure.IntegrationTests
 {
     [TestClass]
-    public class ConfigurationReaderTests : WebTestBase
+    public class ConfigurationReaderTests : PlaywrightTestBase
     { 
         [TestMethod]
         public void GetAppConfigConfigurationValues()

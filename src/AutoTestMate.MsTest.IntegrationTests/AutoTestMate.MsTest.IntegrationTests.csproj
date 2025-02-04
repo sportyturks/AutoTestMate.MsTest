@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AutoTestMate.MsTest.Infrastructure\AutoTestMate.MsTest.Infrastructure.csproj" />
+    <ProjectReference Include="..\AutoTestMate.MsTest.Playwright\AutoTestMate.MsTest.Playwright.csproj" />
     <ProjectReference Include="..\AutoTestMate.MsTest.Web\AutoTestMate.MsTest.Web.csproj" />
   </ItemGroup>
 
