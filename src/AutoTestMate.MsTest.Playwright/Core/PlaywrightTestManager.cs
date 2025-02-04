@@ -64,7 +64,7 @@ namespace AutoTestMate.MsTest.Playwright.Core
 			RetryInterceptorRegister.Initialize(Container);
 			
 			//TODO: Not working for some reason
-			Container.Register(Classes.FromAssemblyInDirectory(new AssemblyFilter(FileHelper.GetCurrentExecutingDirectory())).BasedOn(typeof(PlaywrightBasePage)).LifestyleTransient());
+			//Container.Register(Classes.FromAssemblyInDirectory(new AssemblyFilter(FileHelper.GetCurrentExecutingDirectory())).BasedOn(typeof(PlaywrightBasePage)).LifestyleTransient());
         }
         public override void OnTestMethodInitialise(string testMethod, TestContext testContext = null)
 		{
