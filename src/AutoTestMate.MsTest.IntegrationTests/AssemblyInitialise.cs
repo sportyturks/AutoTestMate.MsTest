@@ -1,4 +1,5 @@
 using AutoTestMate.MsTest.Infrastructure.Core;
+using AutoTestMate.MsTest.Playwright.Core;
 using AutoTestMate.MsTest.Services.Core;
 using AutoTestMate.MsTest.Web.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,13 +12,13 @@ namespace AutoTestMate.MsTest.Infrastructure.IntegrationTests
         [AssemblyInitialize]
         public static void Initialise(TestContext testContext)
         {
-            WebTestManager.Instance.OnInitialiseAssemblyDependencies(testContext);
+            PlaywrightTestManager.Instance.OnInitialiseAssemblyDependencies(testContext);
         }
 
         [AssemblyCleanup]
         public static void Cleanup()
         {
-            WebTestManager.Instance.OnDisposeAssemblyDependencies();
+            PlaywrightTestManager.Instance.OnDisposeAssemblyDependencies();
         }
     }
 }
