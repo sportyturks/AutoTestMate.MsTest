@@ -74,7 +74,7 @@ namespace AutoTestMate.MsTest.Web.Core
 			
 			RetryInterceptorRegister.Initialize(Container);
 			
-			//TODO: Not working for some reason
+			//TODO: Not working for some reason, require investigations
 			//Container.Register(Classes.FromAssemblyInDirectory(new AssemblyFilter(FileHelper.GetCurrentExecutingDirectory())).BasedOn(typeof(BasePage)).LifestyleTransient());
         }
         public override void OnTestMethodInitialise(string testMethod, TestContext testContext = null)
