@@ -12,6 +12,7 @@ public class PlaywrightDriver : IPlaywrightDriver
 {
     private Task<IPage> _page;
     private IBrowser _browser;
+    private IBrowserContext _browserContext;
 
     public PlaywrightDriver(IConfigurationReader configurationReader)
     {
@@ -22,6 +23,8 @@ public class PlaywrightDriver : IPlaywrightDriver
     public Task<IPage> Page => _page;
     public IPage CurrentPage => _page.Result;
     public IBrowser Browser => _browser!;
+    
+    public IBrowserContext BrowserContext => _browserContext;
     public IPlaywright Playwright { get; private set;}
     public IConfigurationReader ConfigurationReader { get; }
 
@@ -88,8 +91,7 @@ public class PlaywrightDriver : IPlaywrightDriver
 
 	    public virtual async Task<IBrowser> CreateChromeWebDriver(long loginWaitTime)
 	    {
-		    var playwright = await Microsoft.Playwright.Playwright.CreateAsync();
-
+		    var playwright = await Microsoft.Playwright.Playwright.CreateAsync().ConfigureAwait(false);
 
 		    if (string.Equals(ConfigurationReader.GetConfigurationValue(Configuration.UseSeleniumGridKey).ToLower(),
 			        Infrastructure.Constants.Generic.TrueValue))
@@ -98,14 +100,22 @@ public class PlaywrightDriver : IPlaywrightDriver
 				    ConfigurationReader.GetConfigurationValue(Configuration
 					    .SeleniumGridUrlKey); // Change if Selenium Grid is remote
 
-			    var launchOptions = new BrowserTypeConnectOverCDPOptions()
+			    // var launchOptions = new BrowserTypeConnectOverCDPOptions()
+			    // {
+				   //  Timeout = 30000, // Wait for up to 60s for connection
+				   //  SlowMo = 100, // Adds delay between actions for debugging
+				   //  
+			    // };
+			    
+			    var launchOptions = new BrowserTypeConnectOptions
 			    {
-				    Timeout = 30000, // Wait for up to 60s for connection
-				    SlowMo = 100, // Adds delay between actions for debugging
+				    ExposeNetwork = "*.automation.delivery", // Expose all network requests
+				    Timeout = 30000, // Timeout for launching browser (ms)
+				    SlowMo = 100, // Adds delay between actions (ms)
+				    //Devtools = true, // Open DevTools automatically
 			    };
 
-			    var browser = await playwright.Chromium.ConnectOverCDPAsync(seleniumGridUrl, launchOptions);
-
+			    var browser = await playwright.Chromium.ConnectAsync(seleniumGridUrl, launchOptions).ConfigureAwait(false);
 			    var context = await browser.NewContextAsync(new BrowserNewContextOptions
 			    {
 				    ViewportSize = new ViewportSize { Width = 1920, Height = 1080 }, // Set screen size
@@ -113,8 +123,10 @@ public class PlaywrightDriver : IPlaywrightDriver
 				    Locale = "en-US", // Set browser language
 				    TimezoneId = "America/New_York", // Set timezone
 				    IgnoreHTTPSErrors = true // Ignore SSL errors
-			    });
+			    }).ConfigureAwait(false);
 			    
+			    _browserContext = context;
+			    			    
 			    return browser;
 		    }
 		    else
@@ -156,8 +168,9 @@ public class PlaywrightDriver : IPlaywrightDriver
 				    Permissions = new[] { "geolocation" }, // Grant permissions
 				    HasTouch = false, // Disable touch support
 				    ColorScheme = ColorScheme.Dark // Set browser color scheme to dark mode
-			    });
-
+			    }).ConfigureAwait(false);
+			    
+			    _browserContext = context;
 			    return browser;
 		    }
 	    }

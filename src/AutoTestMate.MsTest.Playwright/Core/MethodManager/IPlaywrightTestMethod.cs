@@ -1,4 +1,5 @@
-﻿using AutoTestMate.MsTest.Infrastructure.Core;
+﻿using System.Threading.Tasks;
+using AutoTestMate.MsTest.Infrastructure.Core;
 
 namespace AutoTestMate.MsTest.Playwright.Core.MethodManager
 {
@@ -6,6 +7,6 @@ namespace AutoTestMate.MsTest.Playwright.Core.MethodManager
     {
         IPlaywrightDriver PlaywrightDriver { get; set; }
         IFactory<IDriverCleanup> DriverCleanup { get; set; }
-        void StartWebDriver();
+        Task StartWebDriver();
     }
 }
