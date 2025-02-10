@@ -1,5 +1,6 @@
 ﻿using AutoTestMate.MsTest.Infrastructure.Core;
 using AutoTestMate.MsTest.Infrastructure.Core.MethodManager;
+using AutoTestMate.MsTest.Infrastructure.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AutoTestMate.MsTest.Playwright.Core.MethodManager
@@ -23,6 +24,8 @@ namespace AutoTestMate.MsTest.Playwright.Core.MethodManager
             var driver = PlaywrightTestManager.Instance.Container.Resolve<IPlaywrightDriver>();
 
             var playwrightTestMethod = new PlaywrightTestMethod(DriverCleanup, LoggingUtility, configurationReader, driver, testMethod);
+            
+            AsyncHelper.RunSync( ()=> playwrightTestMethod.StartWebDriver());
             
             TestMethods.AddOrUpdate(testMethod, playwrightTestMethod, (key, oldValue) => playwrightTestMethod);
             

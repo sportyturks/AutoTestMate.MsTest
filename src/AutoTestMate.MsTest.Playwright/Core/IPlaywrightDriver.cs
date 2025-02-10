@@ -10,6 +10,7 @@ public interface IPlaywrightDriver : IDisposable
     Task<IPage> Page { get; }
     IPage CurrentPage { get; }
     IBrowser Browser { get; }
+    IBrowserContext BrowserContext { get; }
     IConfigurationReader ConfigurationReader { get; }
     IPlaywright Playwright { get; }
     void Dispose();
