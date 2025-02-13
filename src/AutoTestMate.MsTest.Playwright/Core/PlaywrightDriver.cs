@@ -30,7 +30,10 @@ public sealed class PlaywrightDriver(ILoggingUtility loggingUtility, IConfigurat
 	    {
 		    await _page.CloseAsync().ConfigureAwait(false);
 		    await _browser.CloseAsync().ConfigureAwait(false);
-		    WaitHelper.Wait(DriverWaitTime);
+		    await _browser.DisposeAsync().ConfigureAwait(false);
+		    await _browserContext.CloseAsync().ConfigureAwait(false);
+		    await _browserContext.DisposeAsync().ConfigureAwait(false);
+		    //WaitHelper.Wait(DriverWaitTime);
 	    }
     }
     public async Task<IPage> StartPlaywright()
@@ -42,7 +45,7 @@ public sealed class PlaywrightDriver(ILoggingUtility loggingUtility, IConfigurat
         _page = await _browser.NewPageAsync().ConfigureAwait(false);
         
         //Playwright Driver seems to take too short to create and all
-        WaitHelper.Wait(DriverWaitTime);
+        //WaitHelper.Wait(DriverWaitTime);
         
         return _page;
     }
