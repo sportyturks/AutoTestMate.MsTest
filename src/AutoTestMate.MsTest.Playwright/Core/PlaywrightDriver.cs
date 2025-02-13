@@ -8,48 +8,38 @@ using Microsoft.Playwright;
 
 namespace AutoTestMate.MsTest.Playwright.Core;
 
-public class PlaywrightDriver : IPlaywrightDriver
+public sealed class PlaywrightDriver(IConfigurationReader configurationReader) : IPlaywrightDriver
 {
-    private Task<IPage> _page;
+    private IPage _page;
     private IBrowser _browser;
     private IBrowserContext _browserContext;
 
-    public PlaywrightDriver(IConfigurationReader configurationReader)
-    {
-        ConfigurationReader = configurationReader;
-        //_page = Task.Run(InitializePlaywright);
-    }
-
-    public Task<IPage> Page => _page;
-    public IPage CurrentPage => _page.Result;
+    public IPage Page => _page;
     public IBrowser Browser => _browser!;
-    
     public IBrowserContext BrowserContext => _browserContext;
     public IPlaywright Playwright { get; private set;}
-    public IConfigurationReader ConfigurationReader { get; }
+    public IConfigurationReader ConfigurationReader { get; } = configurationReader;
 
     public void Dispose()
     {
         _browser?.CloseAsync();
     }
-    public virtual async Task<IPage> StartPlaywright()
+    public async Task<IPage> StartPlaywright()
     {
-        //Playwright
         Playwright = await Microsoft.Playwright.Playwright.CreateAsync().ConfigureAwait(false);
         
-        //Browser
         _browser = await CreateBrowser().ConfigureAwait(false);
         
-        _page = _browser.NewPageAsync(); 
+        _page = await _browser.NewPageAsync().ConfigureAwait(false);
         
-        return await _page.ConfigureAwait(false);
+        return _page;
     }
     
      public async Task<IBrowser> CreateBrowser()
         {
 	        IBrowser browser;
-            var loginWaitTime = Convert.ToInt64(ConfigurationReader.GetConfigurationValue(Constants.Configuration.LoginWaitTimeKey));
-            var browserTypeValue = ConfigurationReader.GetConfigurationValue(Constants.Configuration.BrowserTypeKey);
+            var loginWaitTime = Convert.ToInt64(ConfigurationReader.GetConfigurationValue(Configuration.LoginWaitTimeKey));
+            var browserTypeValue = ConfigurationReader.GetConfigurationValue(Configuration.BrowserTypeKey);
             var browserType = !string.IsNullOrWhiteSpace(browserTypeValue) ? BrowserTypeMapper.ConvertBrowserValue(browserTypeValue) : BrowserTypes.Chrome;
 
             switch (browserType)
@@ -77,7 +67,7 @@ public class PlaywrightDriver : IPlaywrightDriver
             return browser;
         }
 
-	    public virtual async  Task<IBrowser> CreateEdgeWebDriver(long loginWaitTime)
+	    public async  Task<IBrowser> CreateEdgeWebDriver(long loginWaitTime)
 	    {
 		    var playwright = await Microsoft.Playwright.Playwright.CreateAsync();
 		    
@@ -89,7 +79,7 @@ public class PlaywrightDriver : IPlaywrightDriver
 		    return browser;
 	    }
 
-	    public virtual async Task<IBrowser> CreateChromeWebDriver(long loginWaitTime)
+	    public async Task<IBrowser> CreateChromeWebDriver(long loginWaitTime)
 	    {
 		    var playwright = await Microsoft.Playwright.Playwright.CreateAsync().ConfigureAwait(false);
 
@@ -99,14 +89,12 @@ public class PlaywrightDriver : IPlaywrightDriver
 			    var seleniumGridUrl =
 				    ConfigurationReader.GetConfigurationValue(Configuration
 					    .SeleniumGridUrlKey); // Change if Selenium Grid is remote
-
-			    // var launchOptions = new BrowserTypeConnectOverCDPOptions()
-			    // {
-				   //  Timeout = 30000, // Wait for up to 60s for connection
-				   //  SlowMo = 100, // Adds delay between actions for debugging
-				   //  
-			    // };
 			    
+			    var headless = string.Equals(ConfigurationReader.GetConfigurationValue(Configuration.HeadlessKey).ToLower(),
+				    Infrastructure.Constants.Generic.FalseValue) ? "?headless=false" : string.Empty;
+			    
+			    seleniumGridUrl += headless;
+
 			    var launchOptions = new BrowserTypeConnectOptions
 			    {
 				    ExposeNetwork = "*.automation.delivery", // Expose all network requests
@@ -122,7 +110,8 @@ public class PlaywrightDriver : IPlaywrightDriver
 				    UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Custom-Agent", // Custom User-Agent
 				    Locale = "en-US", // Set browser language
 				    TimezoneId = "America/New_York", // Set timezone
-				    IgnoreHTTPSErrors = true // Ignore SSL errors
+				    IgnoreHTTPSErrors = true // Ignore SSL errors,
+				    
 			    }).ConfigureAwait(false);
 			    
 			    _browserContext = context;
@@ -140,7 +129,7 @@ public class PlaywrightDriver : IPlaywrightDriver
 				    //Devtools = true, // Open DevTools automatically
 				    IgnoreDefaultArgs = ["true"], // Use default Playwright args
 				    //IgnoreHTTPSErrors = true, // Ignore HTTPS certificate errors
-				    Proxy = new Proxy { Server = "http://proxyserver.com:8080" }, // Set Proxy
+				    Proxy = new Proxy { Server = "https://proxyserver.com:8080" }, // Set Proxy
 				    Args =
 				    [
 					    "--start-maximized", // Start browser maximized
@@ -165,7 +154,7 @@ public class PlaywrightDriver : IPlaywrightDriver
 				    Locale = "en-US", // Set browser locale
 				    TimezoneId = "America/New_York", // Set timezone
 				    //Geolocation = new Geolocation { Latitude = 40.7128, Longitude = -74.0060 }, // Set geolocation (New York)
-				    Permissions = new[] { "geolocation" }, // Grant permissions
+				    Permissions = ["geolocation"], // Grant permissions
 				    HasTouch = false, // Disable touch support
 				    ColorScheme = ColorScheme.Dark // Set browser color scheme to dark mode
 			    }).ConfigureAwait(false);
@@ -176,7 +165,7 @@ public class PlaywrightDriver : IPlaywrightDriver
 	    }
 	    
 
-	    public virtual async Task<IBrowser>  CreateInternetExplorerWebDriver(long loginWaitTime)
+	    public async Task<IBrowser>  CreateInternetExplorerWebDriver(long loginWaitTime)
 	    {
 		    var playwright = await Microsoft.Playwright.Playwright.CreateAsync();
 		    
@@ -188,7 +177,7 @@ public class PlaywrightDriver : IPlaywrightDriver
 		    return browser;
 	    }
 
-	    public virtual async Task<IBrowser>  CreateFirefoxWebDriver(long loginWaitTime)
+	    public async Task<IBrowser>  CreateFirefoxWebDriver(long loginWaitTime)
 	    {
 		    var playwright = await Microsoft.Playwright.Playwright.CreateAsync();
 		    
