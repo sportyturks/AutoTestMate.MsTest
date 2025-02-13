@@ -19,9 +19,13 @@ public sealed class PlaywrightDriver(IConfigurationReader configurationReader) :
     public IBrowserContext BrowserContext => _browserContext;
     public IPlaywright Playwright { get; private set;}
     public IConfigurationReader ConfigurationReader { get; } = configurationReader;
-    public void Dispose()
+    public async Task Dispose()
     {
-        _browser?.CloseAsync();
+	    if (_browser != null)
+	    {
+		    await _page.CloseAsync().ConfigureAwait(false);
+		    await _browser.CloseAsync().ConfigureAwait(false);
+	    }
     }
     public async Task<IPage> StartPlaywright()
     {

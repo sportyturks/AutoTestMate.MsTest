@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using AutoTestMate.MsTest.Infrastructure.Core;
 using AutoTestMate.MsTest.Infrastructure.Core.MethodManager;
+using AutoTestMate.MsTest.Infrastructure.Helpers;
 
 namespace AutoTestMate.MsTest.Playwright.Core.MethodManager
 {
@@ -28,7 +29,7 @@ namespace AutoTestMate.MsTest.Playwright.Core.MethodManager
         {
             try
             {
-                PlaywrightDriver?.Dispose();
+                AsyncHelper.RunSync(() => PlaywrightDriver?.Dispose());
             }
             catch (System.Exception exp)
             {
