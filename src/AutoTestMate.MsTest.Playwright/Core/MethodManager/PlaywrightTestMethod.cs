@@ -14,15 +14,12 @@ namespace AutoTestMate.MsTest.Playwright.Core.MethodManager
         string testMethod)
         : TestMethodBase(loggingUtility, configurationReader, testMethod), IPlaywrightTestMethod
     {
-        public const int DriverWaitTime = 1500;
         public IPlaywrightDriver  PlaywrightDriver { get; set; } = playwrightDriver;
         public IFactory<IDriverCleanup> DriverCleanup { get; set; } = driverCleanup;
 
         public async Task StartWebDriver()
         {
             await PlaywrightDriver.StartPlaywright().ConfigureAwait(false);
-            //Playwright Driver seems to take too short to create and all
-            Thread.Sleep(DriverWaitTime);
             
             IsInitialised = true;
         }
@@ -32,7 +29,6 @@ namespace AutoTestMate.MsTest.Playwright.Core.MethodManager
             try
             {
                 AsyncHelper.RunSync(() => PlaywrightDriver?.Dispose());
-                Thread.Sleep(DriverWaitTime);
             }
             catch (System.Exception exp)
             {

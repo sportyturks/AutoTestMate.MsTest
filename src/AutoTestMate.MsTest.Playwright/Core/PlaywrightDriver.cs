@@ -1,6 +1,8 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoTestMate.MsTest.Infrastructure.Core;
+using AutoTestMate.MsTest.Infrastructure.Helpers;
 using AutoTestMate.MsTest.Playwright.Constants;
 using AutoTestMate.MsTest.Playwright.Core.Browser;
 using AutoTestMate.MsTest.Playwright.Enums;
@@ -13,6 +15,7 @@ public sealed class PlaywrightDriver(ILoggingUtility loggingUtility, IConfigurat
     private IPage _page;
     private IBrowser _browser;
     private IBrowserContext _browserContext;
+    public const int DriverWaitTime = 1500;
 
     public IPage Page => _page;
     public IBrowser Browser => _browser!;
@@ -27,6 +30,7 @@ public sealed class PlaywrightDriver(ILoggingUtility loggingUtility, IConfigurat
 	    {
 		    await _page.CloseAsync().ConfigureAwait(false);
 		    await _browser.CloseAsync().ConfigureAwait(false);
+		    WaitHelper.Wait(DriverWaitTime);
 	    }
     }
     public async Task<IPage> StartPlaywright()
@@ -36,6 +40,9 @@ public sealed class PlaywrightDriver(ILoggingUtility loggingUtility, IConfigurat
         _browser = await CreateBrowser().ConfigureAwait(false);
         
         _page = await _browser.NewPageAsync().ConfigureAwait(false);
+        
+        //Playwright Driver seems to take too short to create and all
+        WaitHelper.Wait(DriverWaitTime);
         
         return _page;
     }
