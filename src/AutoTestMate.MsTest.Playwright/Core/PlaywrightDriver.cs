@@ -19,7 +19,6 @@ public sealed class PlaywrightDriver(IConfigurationReader configurationReader) :
     public IBrowserContext BrowserContext => _browserContext;
     public IPlaywright Playwright { get; private set;}
     public IConfigurationReader ConfigurationReader { get; } = configurationReader;
-
     public void Dispose()
     {
         _browser?.CloseAsync();
@@ -34,8 +33,7 @@ public sealed class PlaywrightDriver(IConfigurationReader configurationReader) :
         
         return _page;
     }
-    
-     public async Task<IBrowser> CreateBrowser()
+    public async Task<IBrowser> CreateBrowser()
         {
 	        IBrowser browser;
             var loginWaitTime = Convert.ToInt64(ConfigurationReader.GetConfigurationValue(Configuration.LoginWaitTimeKey));
@@ -89,12 +87,14 @@ public sealed class PlaywrightDriver(IConfigurationReader configurationReader) :
 			    var seleniumGridUrl =
 				    ConfigurationReader.GetConfigurationValue(Configuration
 					    .SeleniumGridUrlKey); // Change if Selenium Grid is remote
+
+			    var screenResolution = "screenResolution=1920x1080x24";
 			    
 			    var headless = string.Equals(ConfigurationReader.GetConfigurationValue(Configuration.HeadlessKey).ToLower(),
-				    Infrastructure.Constants.Generic.FalseValue) ? "?headless=false" : string.Empty;
+				    Infrastructure.Constants.Generic.FalseValue) ? "headless=false" : string.Empty;
 			    
-			    seleniumGridUrl += headless;
-
+			    seleniumGridUrl += $"?{screenResolution}&{headless}";
+			    
 			    var launchOptions = new BrowserTypeConnectOptions
 			    {
 				    ExposeNetwork = "*.automation.delivery", // Expose all network requests
@@ -163,8 +163,6 @@ public sealed class PlaywrightDriver(IConfigurationReader configurationReader) :
 			    return browser;
 		    }
 	    }
-	    
-
 	    public async Task<IBrowser>  CreateInternetExplorerWebDriver(long loginWaitTime)
 	    {
 		    var playwright = await Microsoft.Playwright.Playwright.CreateAsync();
