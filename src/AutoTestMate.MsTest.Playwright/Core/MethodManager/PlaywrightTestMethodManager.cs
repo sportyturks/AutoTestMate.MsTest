@@ -36,13 +36,13 @@ namespace AutoTestMate.MsTest.Playwright.Core.MethodManager
         {
             TestMethods.TryGetValue(testMethod, out var testMethodCore);
 
-            var webTestMethod = (PlaywrightTestMethod) testMethodCore;
+            var playwrightTestMethod = (PlaywrightTestMethod) testMethodCore;
 
-            if (webTestMethod == null) return;
+            if (playwrightTestMethod == null) return;
 
-            webTestMethod.Dispose();
+            playwrightTestMethod.Dispose();
 
-            TestMethods.AddOrUpdate(testMethod, webTestMethod, (key, oldValue) => webTestMethod);
+            TestMethods.AddOrUpdate(testMethod, playwrightTestMethod, (key, oldValue) => playwrightTestMethod);
 
             TestMethods.TryRemove(testMethod, out _);
         }

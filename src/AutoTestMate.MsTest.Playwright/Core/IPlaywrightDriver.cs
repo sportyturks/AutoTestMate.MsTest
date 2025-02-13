@@ -5,14 +5,14 @@ using Microsoft.Playwright;
 
 namespace AutoTestMate.MsTest.Playwright.Core;
 
-public interface IPlaywrightDriver : IDisposable
+public interface IPlaywrightDriver 
 {
     IPage Page { get; }
     IBrowser Browser { get; }
     IBrowserContext BrowserContext { get; }
     IConfigurationReader ConfigurationReader { get; }
     IPlaywright Playwright { get; }
-    void Dispose();
+    Task Dispose();
     Task<IPage> StartPlaywright();
     Task<IBrowser> CreateBrowser();
     Task<IBrowser> CreateEdgeWebDriver(long loginWaitTime);
