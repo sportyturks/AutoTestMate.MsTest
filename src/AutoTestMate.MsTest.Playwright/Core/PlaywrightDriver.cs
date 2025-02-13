@@ -8,7 +8,7 @@ using Microsoft.Playwright;
 
 namespace AutoTestMate.MsTest.Playwright.Core;
 
-public sealed class PlaywrightDriver(IConfigurationReader configurationReader) : IPlaywrightDriver
+public sealed class PlaywrightDriver(ILoggingUtility loggingUtility, IConfigurationReader configurationReader) : IPlaywrightDriver
 {
     private IPage _page;
     private IBrowser _browser;
@@ -19,6 +19,8 @@ public sealed class PlaywrightDriver(IConfigurationReader configurationReader) :
     public IBrowserContext BrowserContext => _browserContext;
     public IPlaywright Playwright { get; private set;}
     public IConfigurationReader ConfigurationReader { get; } = configurationReader;
+    
+    public ILoggingUtility LoggingUtility { get; } = loggingUtility;
     public async Task Dispose()
     {
 	    if (_browser != null)
