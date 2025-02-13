@@ -21,7 +21,8 @@ namespace AutoTestMate.MsTest.Playwright.Core.MethodManager
 
             IConfigurationReader configurationReader = new ConfigurationReader(TestContext, AppConfiguration);
 
-            var driver = PlaywrightTestManager.Instance.Container.Resolve<IPlaywrightDriver>();
+            //var driver = PlaywrightTestManager.Instance.Container.Resolve<IPlaywrightDriver>();
+            var driver = new PlaywrightDriver(LoggingUtility, configurationReader);
 
             var playwrightTestMethod = new PlaywrightTestMethod(DriverCleanup, LoggingUtility, configurationReader, driver, testMethod);
             
