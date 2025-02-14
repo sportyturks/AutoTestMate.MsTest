@@ -26,15 +26,24 @@ public sealed class PlaywrightDriver(ILoggingUtility loggingUtility, IConfigurat
     public ILoggingUtility LoggingUtility { get; } = loggingUtility;
     public async Task Dispose()
     {
-	    if (_browser != null)
+	    if (_page != null)
 	    {
 		    await _page.CloseAsync().ConfigureAwait(false);
+	    }
+
+	    if (_browser != null)
+	    {
 		    await _browser.CloseAsync().ConfigureAwait(false);
 		    await _browser.DisposeAsync().ConfigureAwait(false);
-		    await _browserContext.CloseAsync().ConfigureAwait(false);
-		    await _browserContext.DisposeAsync().ConfigureAwait(false);
-		    //WaitHelper.Wait(DriverWaitTime);
 	    }
+
+	    if (_browserContext != null)
+	    { 
+		    await _browserContext.CloseAsync().ConfigureAwait(false); 
+		    await _browserContext.DisposeAsync().ConfigureAwait(false);
+	    }
+	    
+	    //WaitHelper.Wait(DriverWaitTime);
     }
     public async Task<IPage> StartPlaywright()
     {

@@ -21,7 +21,7 @@ namespace AutoTestMate.MsTest.Playwright.Core.MethodManager
         {
             await PlaywrightDriver.StartPlaywright().ConfigureAwait(false);
             
-            IsInitialised = true;
+            //IsInitialised = true;
         }
 
         public override void Dispose()
